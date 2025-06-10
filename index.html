@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Favorite Colors List</title>
+      <link rel="stylesheet" href="style.css">
+
+      <link rel="icon" href="assets/android-icon-144x144.png">
+</head>
+
+<body>
+      <div class="display-container">
+            <div class="fav-color-list-container">
+                  <div class="top-area">
+                        <div class="options">
+                              <button class="theme-btn radius">
+                                    <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
+                                    <span id="theme-text">Dark</span>
+                              </button>
+                              <button class="menu" title="Menu">
+                                    <ion-icon id="menu-icon" name="ellipsis-vertical"></ion-icon>
+
+                                    <div class="menu-options-box" title="">
+                                          <div class="all-options">
+                                                <div class="layout-change-options">
+                                                      <div class="option" data-layout="list" id="list-view">
+                                                            <ion-icon  class="checked-icon visible-checked-icon" name="checkmark-outline"></ion-icon>
+                                                            <ion-icon class="view-icon" name="list-outline"></ion-icon>
+                                                            <span>List view</span>
+                                                      </div>
+                                                      <div class="option" data-layout="grid" id="grid-view">
+                                                            <ion-icon class="checked-icon" name="checkmark-outline"></ion-icon>
+                                                            <ion-icon class="view-icon" name="grid-outline"></ion-icon>
+                                                            <span>Grid view</span>
+                                                      </div>
+                                                </div>
+                                                <div class="delete-color-options">
+                                                      <div class="option">
+                                                            <ion-icon name="trash-outline" class="delet-all-colors-icon"></ion-icon>
+                                                            <span>Delete all</span>
+                                                      </div>
+                                                </div>
+                                                <div class="screen-size-options">
+                                                      <div role="button" class="option">
+                                                            <ion-icon class="screen-size-icon"
+                                                            name="expand-outline"></ion-icon>
+                                                            <span>Full screen</span>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </button>
+                        </div>
+                        <div class="heading-area">
+                              <h1 id="heading">Favorite <span id="heading-clr-text">Colors</span>
+                                    <!-- <span class="blue-text">C</span><span class="red-text">o</span><span class="yellow-text">l</span><span class="blue-text">o</span><span class="green-text">r</span><span class="red-text">s</span> -->
+                              </h1>
+                        </div>
+                  </div>
+                  <div class="main-content">
+                        <div class="input-area">
+                              <div class="input-holder">
+                                    <input type="text" class="radius" id="get-color-input" placeholder="Enter color(e.g. red, #00ff00)" autofocus maxlength="25" minlength="3">
+                                    <div class="error-message-div ">
+                                          <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                          <span id="error-message">This color is already saved</span>
+                                    </div>
+                              </div>
+                              <button class="radius" id="add-color-btn">Add Color</button>
+                        </div>
+                        <div class="color-counter">
+                              <p id="total-clrs-text">Total colors: <span id="color-counting">0</span></p>
+                        </div>
+                        <div class="saved-colors-list saved-color-grid-vie">
+                              <!-- <div class="saved-clr" style="background-color: aqua;">
+                                    <span class="color-name">aqua</span>
+                                    <button><ion-icon name="trash-outline"></ion-icon></button>
+                              </div> -->
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <!-- choosed color popup container -->
+      <div class="choosed-color-container">
+            <div class="choosed-color-box">
+                  <div class="content">
+                        <div class="top-area">
+                              <input readonly type="text" id="color-code-box" value="rgba(132, 223, 213, .745)">
+                              <button class="cross-btn">
+                                    <ion-icon name="close-outline"></ion-icon>
+                              </button>
+                        </div>
+                        <div id="display-color-box"></div>
+                        <div class="buttons-area">
+                              <div class="default-btns editable-buttons">
+                                    <button class="btn" id="edit-clr-btn">Edit color</button>
+                                    <button class="btn" id="copy-clr-btn">Copy color</button>
+                              </div>
+                              <div class="hide-editing-btns editing-btns editable-buttons">
+                                    <button class="btn" id="back-btn">Back</button>
+                                    <button class="btn" id="save-btn">Save</button>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <div class="pop-up-container">
+            <div class="pop-up">
+                  <div class="title-box">
+                        <div class="warning-icon-box">
+                              <ion-icon name="alert-circle-outline" class="warning-icon"></ion-icon>
+                        </div>
+                        <p id="title">Are you sure you want to Delete All Colors</p>
+                  </div>
+                  <div class="pop-up-buttons">
+                        <button class="btn" id="no-dlt-btn" data-work="no-delete">NO</button>
+                        <button class="btn" id="yes-dlt-btn" data-work="yes-delete">YES</button>
+                  </div>
+            </div>
+      </div>
+
+      <div class="connection-lost-container">
+            <div class="error-message-content">
+                  <div class="error-icon"></div>
+                  <div class="error-message">
+                        <span>Oops!</span>
+                        <span>No Internet Connection</span>
+                  </div>
+            </div>
+      </div>
+
+      <script src="script.js" defer></script>
+
+      <!-- ion-icon icons -->
+      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+      <!-- Tippy.js CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+
+      <!-- Tippy.js JS -->
+      <script src="https://unpkg.com/@popperjs/core@2"></script>
+      <script src="https://unpkg.com/tippy.js@6"></script>
+
+      <!-- to check dark color -->
+      <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
+
+</body>
+
+</html>
