@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas - ShadeSphare</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="canvas.css">
+    <link rel="icon" href="assets/android-icon-144x144.png">
+</head>
+<body>
+    <!-- logo -->
+    <div class="logo">
+        <img src="assets/android-icon-144x144.png" alt="">
+        <p>ShadeSphare</p>
+    </div>
+
+    <div class="full-app-wrapper">
+        <div class="app-wrapper">
+            <!-- <div class="top-area-options options">
+                <button class="menu" title="Open Sidebar">
+                    <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
+                </button>
+                <button class="theme-btn radius">
+                    <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
+                    <span id="theme-text">Dark</span>
+                </button>
+            </div> -->
+
+            <!-- menubar / sidebar  -->
+            <div class="menu-bar">
+                <div class="menu-options-box" title="">
+                    <div class="all-options">
+                        <div class="sidebar-buttons-area">
+                            <button id="menu-close-btn" title="Close Sidebar">
+                                <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
+                            </button>
+                            <button id="lock-navbar-btn" title="Lock sidebar">
+                                <ion-icon id="nav-lock-icon" name="lock-open-outline"></ion-icon>
+                            </button>
+                        </div>
+
+                        <div class="option-heading">
+                            <h5>Layout</h5>
+                        </div>
+                        <div class="layout-change-options">
+                            <div class="layout-toggle-container" role="radiogroup"
+                                aria-label="Layout Type" tabindex="0">
+                                <div class="layout-toggle-option" data-layout="list" id="list-view"
+                                    role="radio" aria-checked="true">
+                                    <ion-icon class="view-icon" name="list-outline"
+                                        aria-hidden="true"></ion-icon>
+                                    <span>List</span>
+                                </div>
+                                <div class="layout-toggle-option" data-layout="grid" id="grid-view"
+                                    role="radio" aria-checked="false">
+                                    <ion-icon class="view-icon" name="grid-outline"
+                                        aria-hidden="true"></ion-icon>
+                                    <span>Grid</span>
+                                </div>
+                                <div class="layout-toggle-slider" aria-hidden="true"></div>
+                            </div>
+                        </div>
+
+                        <div class="resize-option">
+                            <div tabindex="0" onkeydown="if(event.key == 'Enter') this.click()"
+                                class="option" id="resize-color-list-btn">
+                                <ion-icon class="sidebar-option-icon" name="resize-outline"></ion-icon>
+                                <span>Resize</span>
+                            </div>
+                        </div>
+                        <div class="screen-size-options">
+                            <div class="option" tabindex="0"
+                                onkeydown="if(event.key == 'Enter') this.click()">
+                                <ion-icon class="screen-size-icon sidebar-option-icon"
+                                    name="expand-outline"></ion-icon>
+                                <span>Full screen</span>
+                            </div>
+                        </div>
+
+                        <div class="features-options">
+                            <div class="option-heading">
+                                <h5>Features</h5>
+                            </div>
+                            <div class="theme-preview-options">
+                                <a href="theme-generator.html" class="option">
+                                    <ion-icon class="sidebar-option-icon"
+                                        name="color-palette-outline"></ion-icon>
+                                    <span>Theme Preview</span>
+                                </a>
+                            </div>
+                            <div class="canvas-option">
+                                <a href="canvas.html" class="option active">
+                                    <ion-icon class="sidebar-option-icon"
+                                        name="layers-outline"></ion-icon>
+                                    <span>Canvas</span>
+                                </a>
+                            </div>
+                            <div class="effects hover-on" id="hover-effect-btn">
+                                <div id="hover-effect-option" class="all-options-hover-effect option"
+                                    tabindex="0" onkeydown="if(event.key == 'Enter') this.click()">
+                                    <i class="ph ph-cursor sidebar-option-icon"></i>
+                                    <div role="button" class="optio">Hover Effect</div>
+                                </div>
+                            </div>
+                            <div class="features">
+                                <div class="quick-preview-mode-btn option" id="quick-preview-mode-btn"
+                                    tabindex="0" onkeydown="if(event.key == 'Enter') this.click()">
+                                    <ion-icon class="sidebar-option-icon" id="quick-preview-icon"
+                                        name="eye-off-outline"></ion-icon>
+                                    <div>Quick preview</div>
+                                </div>
+                            </div>
+                            <div class="option-heading">
+                                <h5>Others</h5>
+                            </div>
+                            <div class="gradient-color-options">
+                                <div class="option" id="gradient-clr-option" tabindex="0"
+                                    onkeydown="if(event.key == 'Enter') this.click()">
+                                    <ion-icon name="color-filter-outline"
+                                        class="sidebar-option-icon"></ion-icon>
+                                    <span>Gradient Colors</span>
+                                </div>
+                            </div>
+                            <div class="delete-color-options">
+                                <div class="option" tabindex="0"
+                                    onkeydown="if(event.key == 'Enter') this.click()">
+                                    <ion-icon name="trash"
+                                        class="delet-all-colors-icon sidebar-option-icon"></ion-icon>
+                                    <span>Delete all</span>
+                                </div>
+                            </div>
+                            <div class="trash-color-options">
+                                <div class="option" id="trash-color-option" tabindex="0"
+                                    onkeydown="if(event.key == 'Enter') this.click()">
+                                    <ion-icon class="sidebar-option-icon" name="trash"></ion-icon>
+                                    <span>Trash Bin</span>
+                                </div>
+                            </div>
+                            <div class="shortcut-options">
+                                <div class="option" id="shortcut-option" tabindex="0"
+                                    onkeydown="if(event.key == 'Enter') this.click()">
+                                    <i class="ph ph-keyboard sidebar-option-icon"></i>
+                                    <span>Shortcuts</span>
+                                </div>
+                            </div>
+                            <div class="setting-option">
+                                <div class="option" id="settings" tabindex="0"
+                                    onkeydown="if(event.key == 'Enter') this.click()">
+                                    <ion-icon class="sidebar-option-icon"
+                                        name="settings-outline"></ion-icon>
+                                    <span>Settings</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-footer">
+                        <a href="help.html" target="_blank" id="open-help-link">
+                            <span>Help</span>
+                            <ion-icon name="help-circle-outline"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="display-container">
+                <div class="canvas-container">
+                    <div class="canvas-header">
+                        <div class="canvas-title-section">
+                            <h1>Design Canvas</h1>
+                            <div class="canvas-actions">
+                                <button id="undo-btn" class="canvas-header-btn" title="Undo">
+                                    <ion-icon name="arrow-undo-outline"></ion-icon>
+                                </button>
+                                <button id="redo-btn" class="canvas-header-btn" title="Redo">
+                                    <ion-icon name="arrow-redo-outline"></ion-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="canvas-view-controls">
+                            <button id="zoom-out-btn" class="canvas-view-btn" title="Zoom Out">
+                                <ion-icon name="remove-outline"></ion-icon>
+                            </button>
+                            <span id="zoom-level">100%</span>
+                            <button id="zoom-in-btn" class="canvas-view-btn" title="Zoom In">
+                                <ion-icon name="add-outline"></ion-icon>
+                            </button>
+                            <button id="reset-view-btn" class="canvas-view-btn" title="Reset View">
+                                <ion-icon name="eye-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-wrapper">
+                        <div id="design-canvas" class="design-canvas">
+                            <!-- Canvas elements will be added here dynamically -->
+                            <div class="canvas-placeholder">
+                                <ion-icon name="layers-outline"></ion-icon>
+                                <p>Click on tools to add elements to canvas</p>
+                                <p class="placeholder-subtext">Select the Text, Rectangle, or Circle tool to get started</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Move toolbar to bottom like Figma -->
+                    <div class="canvas-toolbar-bottom">
+                        <div class="toolbar-section">
+                            <button id="select-tool" class="toolbar-btn active" title="Select Tool">
+                                <ion-icon name="hand-outline"></ion-icon>
+                            </button>
+                            <button id="add-text-btn" class="toolbar-btn" title="Text">
+                                <ion-icon name="text-outline"></ion-icon>
+                            </button>
+                            <button id="add-rectangle-btn" class="toolbar-btn" title="Rectangle">
+                                <ion-icon name="square-outline"></ion-icon>
+                            </button>
+                            <button id="add-circle-btn" class="toolbar-btn" title="Circle">
+                                <ion-icon name="ellipse-outline"></ion-icon>
+                            </button>
+                            <button id="add-image-btn" class="toolbar-btn" title="Image">
+                                <ion-icon name="image-outline"></ion-icon>
+                            </button>
+                            <button id="add-line-btn" class="toolbar-btn" title="Line">
+                                <ion-icon name="remove-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <div class="toolbar-section">
+                            <button id="delete-element-btn" class="toolbar-btn" title="Delete">
+                                <ion-icon name="trash-outline"></ion-icon>
+                            </button>
+                            <button id="duplicate-element-btn" class="toolbar-btn" title="Duplicate">
+                                <ion-icon name="copy-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-layers-panel">
+                        <div class="layers-header">
+                            <h3>Layers</h3>
+                            <button id="toggle-layers-panel" class="panel-toggle-btn">
+                                <ion-icon name="chevron-back-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <div class="layers-content">
+                            <div class="layer-list" id="layer-list">
+                                <!-- Layers will be added here dynamically -->
+                                <div class="empty-layers">No layers yet</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-properties-panel">
+                        <div class="properties-header">
+                            <h3>Properties</h3>
+                            <button id="toggle-properties-panel" class="panel-toggle-btn">
+                                <ion-icon name="chevron-forward-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <div class="properties-content">
+                            <div class="property-group">
+                                <label>Position</label>
+                                <div class="position-inputs">
+                                    <input type="number" id="element-x" placeholder="X">
+                                    <input type="number" id="element-y" placeholder="Y">
+                                </div>
+                            </div>
+                            <div class="property-group">
+                                <label>Size</label>
+                                <div class="size-inputs">
+                                    <input type="number" id="element-width" placeholder="Width">
+                                    <input type="number" id="element-height" placeholder="Height">
+                                </div>
+                            </div>
+                            <div class="property-group">
+                                <label>Background</label>
+                                <input type="color" id="element-bg-color" value="#3498db">
+                                <input type="text" id="element-bg-color-text" placeholder="#3498db">
+                            </div>
+                            <div class="property-group text-properties">
+                                <label>Text Content</label>
+                                <textarea id="element-text" placeholder="Text content"></textarea>
+                            </div>
+                            <div class="property-group text-properties">
+                                <label>Font Size</label>
+                                <input type="number" id="element-font-size" placeholder="16" value="16">
+                            </div>
+                            <div class="property-group">
+                                <label>Border</label>
+                                <input type="number" id="element-border-width" placeholder="Border width" value="0">
+                                <input type="color" id="element-border-color" value="#000000">
+                            </div>
+                            <div class="property-group">
+                                <label>Opacity</label>
+                                <input type="range" id="element-opacity" min="0" max="100" value="100">
+                                <span id="opacity-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+    <script src="canvas.js" defer></script>
+
+    <!-- ion-icon icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!-- Tippy.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+
+    <!-- Tippy.js JS -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+</body>
+</html>

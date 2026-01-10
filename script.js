@@ -1,9 +1,44 @@
+let AppWrapper = document.querySelector('.app-wrapper')
+let logo = document.querySelector(".logo");
+
+let isMergeModeOn = false;
+
+let sharpSound = document.getElementById('sharp-sound')
+let popupSound = document.getElementById('popup-sound')
+let menuSound = document.getElementById('menu-sound')
+let alertSound = document.getElementById('alert-sound')
+let lightSwitchSound = document.getElementById('light-switch-sound')
+let popSound = document.getElementById('pop-sound')
+let swooshSound = document.getElementById('swoosh-sound')
+let toggleSwitchSound = document.getElementById('toggle-switch-sound')
+let mouseClickSound = document.getElementById('mouse-click-sound')
+let lockSound = document.getElementById('lock-sound')
+let typingClickSound = document.getElementById('typing-click-sound')
+
 // Handle splash screen
 const splashScreen = document.querySelector('.splash-screen');
 let displayContainer = document.querySelector(".display-container");
 
 let isSidebarLocked = localStorage.getItem("isSidebarLocked");
 let menuIsLocked = false;
+
+let bubblingAnimation = "bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1)";
+
+// splashScreen.addEventListener("contextmenu", (event) => {
+//       event.preventDefault();
+// });
+
+// splashScreen.addEventListener("keydown", (event) => {
+//       event.preventDefault();
+// });
+
+let cursorGlow = document.querySelector('.cursor-glow');
+document.addEventListener('mousemove', (event) => {
+      cursorGlow.style.opacity = 1;
+      cursorGlow.style.top = `${event.clientY}px`;
+      cursorGlow.style.left = `${event.clientX}px`;
+})
+
 
 function checkSidebarIsLocked() {
 
@@ -23,33 +58,76 @@ function checkSidebarIsLocked() {
 
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-      const alreadyVisited = sessionStorage.getItem('visited');
+function restoreContainerSize() {
+      const screenSize = localStorage.getItem("screen-size") || "";
+      if (screenSize === "full") return; // Don't restore size if in fullscreen
+      
+      const savedWidth = localStorage.getItem("favColorBoxW");
+      const savedHeight = localStorage.getItem("favColorBoxH");
+      
+      // Only restore if both values exist and are not empty strings
+      if (savedWidth && savedHeight && savedWidth !== "" && savedHeight !== "") {
+            favColorListContainer.style.width = savedWidth + "px";
+            favColorListContainer.style.height = savedHeight + "px";
+      }
+}
 
-      // Strict control
-      displayContainer.style.display = "none";
-      splashScreen.style.display = 'none';
+let muteSoundBtn = document.getElementById('mute-sound-btn')
+let muteSoundBtnThumb = muteSoundBtn.querySelector(".thumb");
 
-      if (!alreadyVisited) {
-            splashScreen.style.display = 'flex';
-            displayContainer.style.display = "none";
-            // Show splash screen for 3 seconds
-            setTimeout(() => {
-                  splashScreen.classList.add('fade-out');
-                  setTimeout(() => {
-                        splashScreen.style.display = 'none';
-                        displayContainer.style.display = "flex";
-                        checkSidebarIsLocked();
-                  }, 500);
-            }, 3000);
+let soundStatus = localStorage.getItem("soundStatus") || "mute";
 
-            // Mark as visited in sessionStorage
-            sessionStorage.setItem('visited', 'true');
-      } else {
-            // Directly hide splash screen if already visited in session
-            splashScreen.style.display = 'none';
-            displayContainer.style.display = "flex";
-            checkSidebarIsLocked();
+// Set initial state - default muted with proper styling
+if(soundStatus === "mute") {
+      muteSoundBtnThumb.classList.add("switch-on");
+      muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
+}
+else if(soundStatus !== "mute" && soundStatus !== "" && soundStatus !== "unmute" && !soundStatus) {
+      localStorage.setItem("soundStatus", "mute");
+      muteSoundBtnThumb.classList.add('switch-on');
+      muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
+}
+else if(soundStatus === "unmute") {
+      muteSoundBtnThumb.classList.remove('switch-on');
+      muteSoundBtn.style.backgroundColor = ""; // Default background when unmuted
+}
+
+// Sound toggle functionality
+muteSoundBtn.addEventListener("click", () => {
+      soundStatus = localStorage.getItem("soundStatus");
+      
+      if(soundStatus === "mute") {
+            // Unmute sounds
+            localStorage.setItem("soundStatus", "unmute");
+            muteSoundBtnThumb.classList.remove("switch-on");
+            muteSoundBtn.style.backgroundColor = "";
+            
+            // Play test sound
+            playSound(toggleSwitchSound);
+            
+            // Show feedback
+            if (typeof throwMessage === 'function') {
+                  throwMessage("Sound Effects Enabled", "#00ff00", "volume-high-outline");
+            }
+      }
+      else {
+            // Mute sounds
+            localStorage.setItem("soundStatus", "mute");
+            muteSoundBtnThumb.classList.add("switch-on");
+            muteSoundBtn.style.backgroundColor = "#1070d1";
+            
+            // Show feedback
+            if (typeof throwMessage === 'function') {
+                  throwMessage("Sound Effects Disabled", "#ff6b35", "volume-mute-outline");
+            }
+      }
+});
+
+// Keyboard shortcut for sound toggle
+window.addEventListener("keyup", (event) => {
+      if (event.shiftKey && event.altKey && event.key.toLowerCase() === "q") {
+            event.preventDefault();
+            muteSoundBtn.click(); // Trigger the same logic
       }
 });
 
@@ -64,10 +142,111 @@ let allOptions = document.querySelector(".all-options");
 let fullScreenBtn = document.querySelector(".screen-size-options .option");
 let savedColorCounting = document.querySelector("#color-counting");
 let allColorsCounting = document.querySelectorAll(".saved-clr");
+let searchBar = document.querySelector("#search-bar");
+let searchSuggestions = document.querySelector("#search-suggestions");
 let themeBtn = document.querySelector(".theme-btn");
 
 let themeIcon = document.querySelector("#theme-icon");
 let themeText = document.querySelector("#theme-text");
+
+// function to set tooltip
+function setTooltip(selector, text) {
+      if(window.innerWidth > 992) {
+            tippy(selector, {
+                  content: text,
+                  allowHTML: true,
+                  trigger: 'mouseenter focus'
+            })
+      }
+}
+
+// Calling functions to set tooltip
+setTooltip('#clr-picker', "Pick Color");
+setTooltip('#preview-box-color-picker', "Pick Color");
+
+// Search functionality
+function handleSearch(event) {
+      //     const searchText = event.target.value.toLowerCase();
+    const searchText = event.target.value.toUpperCase();
+    const allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
+    const filteredColors = allColors.filter(color => 
+      //   color.toLowerCase().includes(searchText)
+        color.toUpperCase().includes(searchText)
+    );
+
+    if (searchText && filteredColors.length > 0) {
+        searchSuggestions.style.display = "block";
+        searchSuggestions.innerHTML = filteredColors
+            .map((color, index) => `
+                <div class="search-suggestion-item" data-index="${index}" data-color="${color}">
+                    <div class="color-preview" style="background-color: ${color}"></div>
+                    <span class="suggestion-color-name">${color}</span>
+                </div>
+            `)
+            .join("");
+    } else {
+        searchSuggestions.style.display = "none";
+    }
+}
+
+function handleSuggestionClick(event) {
+    const item = event.target.closest('.search-suggestion-item');
+    if (item) {
+        const color = item.dataset.color;
+        searchBar.value = '';
+        searchSuggestions.style.display = "none";
+        highlightSavedColor(color);
+    }
+}
+
+function handleSearchKeydown(event) {
+    const items = searchSuggestions.querySelectorAll('.search-suggestion-item');
+    const activeItem = searchSuggestions.querySelector('.search-suggestion-item.active');
+    let activeIndex = Array.from(items).indexOf(activeItem);
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        
+        if (event.key === 'ArrowDown') {
+            activeIndex = activeIndex < items.length - 1 ? activeIndex + 1 : 0;
+        } else {
+            activeIndex = activeIndex > 0 ? activeIndex - 1 : items.length - 1;
+        }
+
+        items.forEach(item => item.classList.remove('active'));
+        items[activeIndex].classList.add('active');
+        items[activeIndex].scrollIntoView({ block: 'nearest' });
+    }
+    
+    if (event.key === 'Enter' && activeItem) {
+        const color = activeItem.dataset.color;
+        searchBar.value = '';
+        searchSuggestions.style.display = "none";
+        highlightSavedColor(color);
+    }
+
+    if (event.key === 'Escape') {
+        searchBar.value = '';
+        searchSuggestions.style.display = "none";
+    }
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', (event) => {
+      if (!event.target.closest('#search-color-box')) {
+            searchSuggestions.style.display = "none";
+      }
+});
+
+searchBar.addEventListener('input', handleSearch);
+searchBar.addEventListener('keydown', handleSearchKeydown);
+searchSuggestions.addEventListener('click', handleSuggestionClick);
+
+window.addEventListener("keyup", (event) => {
+      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "e") {
+            searchBar.focus();
+      }
+})
 
 let theme = localStorage.getItem("theme") || "";
 if (theme === "") {
@@ -84,6 +263,7 @@ if (theme === "dark") {
 
 themeBtn.addEventListener("click", () => {
       let currentTheme = localStorage.getItem("theme");
+      playSound(toggleSwitchSound)
       if (currentTheme === "light") {
             enableDarkMode();
       }
@@ -106,46 +286,106 @@ function disableDarkMode() {
       themeText.innerText = "Dark";
 }
 
+// Modern Layout Toggle Elements
+const layoutToggleContainer = document.querySelector(".layout-toggle-container");
 let listView = document.getElementById("list-view");
 let gridView = document.getElementById("grid-view");
+let layoutToggleSlider = document.querySelector(".layout-toggle-slider");
+let layoutOptions = document.querySelectorAll(".layout-toggle-option");
 
+// Initialize layout
 let getLayoutType = localStorage.getItem("layout-type") || "";
 
-if (getLayoutType == "") {
-      localStorage.setItem("layout-type", "list");
+if (getLayoutType === "") {
+      setLayoutType("list");
 }
 
-if (getLayoutType === "list") {
+// Apply initial layout state
+setSelectedLayoutOption();
+
+// Modern Toggle Event Listeners
+function initializeLayoutToggle() {
+      // Click events for both options
+      listView.addEventListener("click", () => toggleLayoutOption("list"));
+      gridView.addEventListener("click", () => toggleLayoutOption("grid"));
+      
+      // Keyboard accessibility for the container
+      layoutToggleContainer.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  // Toggle to opposite of current selection
+                  const currentType = localStorage.getItem("layout-type") || "list";
+                  const newType = currentType === "list" ? "grid" : "list";
+                  toggleLayoutOption(newType);
+            }
+            
+            // Arrow key navigation
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                  event.preventDefault();
+                  const currentType = localStorage.getItem("layout-type") || "list";
+                  const newType = currentType === "list" ? "grid" : "list";
+                  toggleLayoutOption(newType);
+            }
+      });
+}
+
+// Initialize the toggle functionality
+initializeLayoutToggle();
+
+function toggleLayoutOption(layoutType) {
+      // Check if Auto Grid View is enabled - if so, disable toggle
+      if (localStorage.getItem("autoGridView") === "enable") {
+            layoutToggleContainer.classList.add("disabled");
+            throwMessage("First, turn off Auto Grid View")
+            return;
+      }
+      
+      // Turn off Auto Grid View when manually changing layout
+      if (localStorage.getItem("autoGridView") === "enable") {
+            setAutoGridView("disable");
+      }
+      
+      // Update layout type
+      setLayoutType(layoutType);
       setSelectedLayoutOption();
 }
-else if (getLayoutType === "grid") {
-      setSelectedLayoutOption();
+
+function setLayoutType(type) {
+      localStorage.setItem("layout-type", type);
 }
 
 function setSelectedLayoutOption() {
-      // document.querySelectorAll(".layout-change-options .option").forEach(option => {
-      //       option.querySelector(".checked-icon").classList.remove("visible-checked-icon");
-      // });
-      let type = localStorage.getItem("layout-type");
-
-      if (type == "list") {
-            // listView.querySelector(".checked-icon").classList.add("visible-checked-icon");
-            listView.classList.add("selected-nav-option");
+      const type = localStorage.getItem("layout-type") || "list";
+      
+      // Remove all active states first
+      listView.classList.remove("active");
+      gridView.classList.remove("active");
+      listView.setAttribute("aria-checked", "false");
+      gridView.setAttribute("aria-checked", "false");
+      layoutToggleContainer.classList.remove("grid-active");
+      
+      if (type === "list") {
+            // Set list view as active
+            listView.classList.add("active");
+            listView.setAttribute("aria-checked", "true");
             savedColorList.classList.remove("saved-color-grid-view");
-            localStorage.setItem("layout-type", "list");
-            gridView.classList.remove("selected-nav-option");
-      }
-      else if (type === "grid") {
-            // gridView.querySelector(".checked-icon").classList.add("visible-checked-icon");
-            listView.classList.remove("selected-nav-option");
-            gridView.classList.add("selected-nav-option");
+            
+            // Move slider to list position (left)
+            layoutToggleContainer.classList.remove("grid-active");
+            
+      } else if (type === "grid") {
+            // Set grid view as active
+            gridView.classList.add("active");
+            gridView.setAttribute("aria-checked", "true");
             savedColorList.classList.add("saved-color-grid-view");
-            localStorage.setItem("layout-type", "grid");
+            
+            // Move slider to grid position (right)
+            layoutToggleContainer.classList.add("grid-active");
       }
 }
 
 colorPicker.addEventListener("input", (event) => {
-      addColorInput.value = colorPicker.value;
+      addColorInput.value = colorPicker.value.toUpperCase();
 })
 
 window.addEventListener("keyup", (event) => {
@@ -153,14 +393,9 @@ window.addEventListener("keyup", (event) => {
             event.preventDefault();
 
             let currentLayout = localStorage.getItem("layout-type") || "list";
-
-            if (currentLayout === "grid") {
-                  localStorage.setItem("layout-type", "list");
-            } else {
-                  localStorage.setItem("layout-type", "grid");
-            }
-
-            setSelectedLayoutOption();
+            let newLayout = currentLayout === "grid" ? "list" : "grid";
+            
+            toggleLayoutOption(newLayout);
       }
 });
 
@@ -173,10 +408,12 @@ sidebarOptions.addEventListener("scroll", () => {
       sidebarBtnArea.style.transition = "background .3s ease, box-shadow .3s ease";
       if (sidebarOptions.scrollTop >= 20) {
             sidebarBtnArea.style.backgroundColor = "#000000";
+            // sidebarBtnArea.style.backdropFilter = "blur(10px)";
             sidebarBtnArea.style.boxShadow = "0 0 40px rgba(0, 0, 0, 1)"
       }
       else {
             sidebarBtnArea.style.backgroundColor = "transparent";
+            // sidebarBtnArea.style.backdropFilter = "blur(0)";
             sidebarBtnArea.style.boxShadow = "none"
       }
 })
@@ -197,7 +434,7 @@ window.addEventListener("keyup", (event) => {
 window.addEventListener("keyup", (event) => {
       if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "x") {
             event.preventDefault();
-            if (localStorage.getItem("screen-size") == "full") return throwMessage("Exit Fullscreen First")
+            // if (localStorage.getItem("screen-size") == "full") return throwMessage("Exit Fullscreen First")
 
             if (menuOptionsBox.classList.contains("open")) {
                   menuIsLocked ? unlockNavbar() : lockNavbar();
@@ -210,6 +447,7 @@ window.addEventListener("keyup", (event) => {
 
 menu.addEventListener("click", (event) => {
       // showHideMenuOptions();
+      playSound(mouseClickSound)
       showMenuBar();
       event.stopPropagation();
 });
@@ -222,6 +460,7 @@ menu.addEventListener("dblclick", (event) => {
 menuCloseBtn.addEventListener("click", (event) => {
       event.stopPropagation();
       // showHideMenuOptions();
+      playSound(mouseClickSound)
       hideMenuBar();
 });
 
@@ -280,6 +519,16 @@ function hideMenuBar() {
       }, 500);
 }
 
+function arrangeDispalycontainerSize() {
+      displayContainer.style.width = "calc(100% - 220px)"
+      displayContainer.style.marginLeft = "220px";
+}
+
+function disarrangeDispalycontainerSize() {
+      displayContainer.style.width = "";
+      displayContainer.style.marginLeft = "";
+}
+
 let navLockBtn = document.getElementById("lock-navbar-btn");
 let navLockIcon = document.getElementById("nav-lock-icon");
 
@@ -287,8 +536,10 @@ navLockBtn.addEventListener("click", () => {
 
       const screenSize = localStorage.getItem("screen-size") || "";
       if (screenSize === "full") {
-            return throwMessage("Exit Fullscreen First", "white");
+            // return throwMessage("Exit Fullscreen First", "white");
+            // arrangeDispalycontainerSize();
       }
+      playSound(lockSound)
 
       if (menuIsLocked) {
             unlockNavbar();
@@ -298,23 +549,37 @@ navLockBtn.addEventListener("click", () => {
       }
 })
 
-function lockNavbar() {
-      localStorage.setItem("isSidebarLocked", "yes");
+let mainOptions = document.querySelector('.top-area-options')
 
+function lockNavbar() {
+      
+      localStorage.setItem("isSidebarLocked", "yes");
+      
       navLockIcon.setAttribute("name", "lock-closed");
       navLockBtn.setAttribute("title", "Unlock sidebar");
       menuCloseBtn.style.visibility = "hidden";
-      themeBtn.style.transform = "translateX(170px)";
+      // themeBtn.style.transform = "translateX(170px)";
+
+      menu.style.display = "none";
+      mainOptions.style.zIndex = "200";
+      
+      (localStorage.getItem("screen-size") == "full") ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
       menuIsLocked = !menuIsLocked;
 }
 
 function unlockNavbar() {
+      
       localStorage.setItem("isSidebarLocked", "no");
-
+      
       navLockIcon.setAttribute("name", "lock-open-outline");
       navLockBtn.setAttribute("title", "Lock sidebar");
       menuCloseBtn.style.visibility = "visible";
-      themeBtn.style.transform = "translateX(0px)";
+      // themeBtn.style.transform = "translateX(0px)";
+      
+      menu.style.display = "";
+      mainOptions.style.zIndex = "";
+
+      disarrangeDispalycontainerSize();
       menuIsLocked = !menuIsLocked;
 }
 
@@ -322,7 +587,7 @@ menuOptionsBox.addEventListener("click", (event) => {
       event.stopPropagation();
 });
 
-document.addEventListener("click", (event) => {
+displayContainer.addEventListener("click", (event) => {
       if (event.target == displayContainer || event.target != allOptions) {
             // showHideMenuOptions(); // hide options
             hideMenuBar();
@@ -349,22 +614,29 @@ else if (screenSize === "normal") {
 window.addEventListener("keyup", (event) => {
       if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "f") {
             event.preventDefault();
-            if (menuIsLocked) {
-                  throwMessage("Unlock Sidebar First");
+            if(resizerIsOn) {
+                  OffResizer();
             }
-            else {
-                  (localStorage.getItem("screen-size") == "full") ? removeFullScreen() : setFullScreen();
-            }
+            
+            // if (menuIsLocked) {
+            //       throwMessage("Unlock Sidebar First");
+            // }
+            // else {
+            // }
+            (localStorage.getItem("screen-size") == "full") ? removeFullScreen() : setFullScreen();
       }
 })
 
 fullScreenBtn.addEventListener("click", () => {
       screenSize = localStorage.getItem("screen-size");
 
+      // disarrangeDispalycontainerSize();
       // Full screen not allowd while sidebar is locked
       if (menuIsLocked) {
-            return throwMessage("Unlock Sidebar First", "white");
+            // return throwMessage("Unlock Sidebar First", "white");
+            // arrangeDispalycontainerSize();
       }
+      
       if (resizerIsOn) {
             // return throwMessage("Turn off Resize First", "white");
             OffResizer();
@@ -373,12 +645,12 @@ fullScreenBtn.addEventListener("click", () => {
       if (screenSize === "normal") {
             setFullScreen();
             // showHideMenuOptions();
-            hideMenuBar();
+            // hideMenuBar();
       }
       else if (screenSize === "full") {
             removeFullScreen();
             // showHideMenuOptions();
-            hideMenuBar();
+            // hideMenuBar();
       }
 });
 
@@ -389,6 +661,7 @@ function setFullScreen() {
       localStorage.setItem("screen-size", "full");
 
       hideMenuBar();
+      (menuIsLocked) ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
 }
 
 function removeFullScreen() {
@@ -396,6 +669,9 @@ function removeFullScreen() {
       fullScreenIcon.setAttribute("name", "expand-outline");
       screenSizeText.innerText = "Full screen";
       localStorage.setItem("screen-size", "normal");
+      
+      disarrangeDispalycontainerSize();
+      // restoreContainerSize(); // Restore saved size when exiting fullscreen
 }
 
 function enableDisableBtn() {
@@ -414,9 +690,24 @@ function enableDisableBtn() {
 // Delete all colors
 let resposnse;
 deleteAllColor.addEventListener("click", () => {
-      popUpContainer.style.display = "flex";
+      const saved = JSON.parse(localStorage.getItem("saveColor")) || [];
+      const trash = JSON.parse(localStorage.getItem("trashColors")) || [];
+      const existingCount = trash.length;
+      const spaceLeft = orgTrashColorLimit - existingCount;
+      const toTrashCount = Math.max(0, Math.min(spaceLeft, saved.length));
+      const toDeleteCount = Math.max(0, saved.length - toTrashCount);
 
-      showHideMenuOptions(); // hide
+      deleteAllPlan = {
+            toTrashColors: saved.slice(0, toTrashCount),
+            toDeleteCount,
+            total: saved.length
+      };
+
+      if (deletePopupTitle) {
+            deletePopupTitle.textContent = `Out of ${saved.length} colors, ${toTrashCount} will be moved to Trash, and ${toDeleteCount} will be permanently deleted.`;
+      }
+
+      popUpContainer.style.display = "flex";
 });
 
 window.addEventListener("load", enableDisableBtn);
@@ -483,6 +774,11 @@ contextSeletAllOption.addEventListener("click", () => {
 
 contextEditOption.addEventListener("click", () => {
       openColorEditor(choosedCurrentColorBox);
+      enableDisableEditingMode("enable");
+      showColorPreviewBox();
+      setTimeout(() => {
+            colorNameInput.focus();
+      }, 100);
 })
 
 function selectAllColors() {
@@ -498,6 +794,7 @@ function selectAllColors() {
             }
       });
 
+      updateColorCounter(); // count update karna ho to
       updateSelectionCount(); // count update karna ho to
 }
 
@@ -577,6 +874,7 @@ deleteSelectedBtn.addEventListener("click", () => {
       updateSelectionCount();
       exitSelectionMode();
       isTrashFull();
+      updateColorCounter();
 });
 
 // Cancel selection
@@ -646,19 +944,37 @@ document.addEventListener("click", () => {
 let clickCount = 0;
 let clickTimer = null;
 
+function moveCenter(box) {
+      const boxRect = box.getBoundingClientRect();
+
+      // Viewport (Screen) ka center nikalein
+      const viewportCenterX = window.innerWidth / 2;
+      const viewportCenterY = window.innerHeight / 2;
+
+      // Element ka maujooda center nikalein
+      const elementCenterX = boxRect.left + boxRect.width / 2;
+      const elementCenterY = boxRect.top + boxRect.height / 2;
+
+      // Kitna move karna hai (Distance)
+      const moveX = viewportCenterX - elementCenterX;
+      const moveY = viewportCenterY - elementCenterY;
+
+      // Apply transform
+      box.style.transition = "transform 0.3s ease"; // Smooth animation
+      box.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.3)`;
+}
+
 savedColorList.addEventListener("mouseup", (event) => {
-      savedColorList.addEventListener("contextmenu", (event) => {
-            event.preventDefault();
-            return;
-      });
-
+      
       const box = event.target.closest(".saved-clr");
-
+      // moveCenterbox);
+      
       if (event.target.closest(".delete-clr-btn")) return;
       if (seletionModOn && box) {
+      
             box.classList.toggle("selected");
 
-            const colorId = box.dataset.id; // har .saved-clr element pe ek unique data-id hona chahiye
+            const colorId = box.dataset.id;
 
             if (box.classList.contains("selected")) {
                   if (!selectedColors.includes(colorId)) {
@@ -683,6 +999,7 @@ savedColorList.addEventListener("mouseup", (event) => {
                   // Single click
                   const textToCopy = box.querySelector(".color-name").innerText;
                   copyText(textToCopy);
+                  playSound(menuSound);
 
                   clickCount = 0;
                   clickTimer = null;
@@ -701,11 +1018,17 @@ savedColorList.addEventListener("mouseup", (event) => {
 })
 
 let currentEditingBox = null;
+let currentChoosedBox = null;
 
 function openColorEditor(box) {
+      
+      currentChoosedBox = box;
       setTimeout(() => {
             choosedColorContainer.style.display = "flex";
+            playSound(popupSound)
       }, 100);
+
+      // moveCenter(box);
 
       let colorName = box.querySelector(".color-name").innerText;
       let bgColor = colorName;
@@ -723,8 +1046,12 @@ function openColorEditor(box) {
 closeClrBoxBtn.addEventListener("click", () => closeColorEditor());
 
 function closeColorEditor() {
-      choosedColorContainer.style.display = "none";
+      choosedColorBox.style.animation = "smoothHide .2s ease";
       disableEditing();
+      setTimeout(() => {
+            choosedColorContainer.style.display = "none";
+            choosedColorBox.style.animation = "";
+      }, 180);
 }
 
 
@@ -749,32 +1076,40 @@ function copyText(text) {
 }
 
 function showSuccessMessage(text) {
+      const popupWrapper = document.createElement('div');
+      const popup$gradientBorder = document.createElement('div');
       const copyTextPopup = document.createElement("div");
       const icon = document.createElement("ion-icon");
       const textBox = document.createElement("span");
 
+      popupWrapper.classList.add('success-message-layout-wrapper');
+      popup$gradientBorder.classList.add('gradient-border');
       copyTextPopup.classList.add("success-message-layout");
       icon.setAttribute("name", "checkmark-circle");
       textBox.textContent = text;
 
       copyTextPopup.appendChild(icon);
       copyTextPopup.appendChild(textBox);
-      document.body.appendChild(copyTextPopup);
+      popupWrapper.appendChild(popup$gradientBorder);
+      popupWrapper.appendChild(copyTextPopup)
+      document.body.appendChild(popupWrapper);
 
       // Slide down animation
-      copyTextPopup.style.animation = "slideDown 0.3s ease forwards";
+      popupWrapper.style.animation = "slideDown 0.3s ease forwards";
+      popup$gradientBorder.classList.add('rotation-glow');
 
       setTimeout(() => {
             // Slide up animation
-            copyTextPopup.style.animation = "slideUp 0.3s ease forwards";
+            popupWrapper.style.animation = "slideUp 0.3s ease forwards";
 
             // Remove after animation ends
-            copyTextPopup.addEventListener("animationend", () => {
-                  copyTextPopup.remove();
+            popupWrapper.addEventListener("animationend", (e) => {
+                  if(e.animationName === "slideUp") {
+                        popupWrapper.remove();
+                  }
             });
-      }, 1500); // visible for 1.5s
+      }, 2500); // visible for 1s 5ms
 }
-
 
 function fallbackCopy(text) {
       const textarea = document.createElement('textarea');
@@ -795,34 +1130,63 @@ let editingButtons = document.querySelector(".editing-btns");
 let editBtn = document.querySelector("#edit-clr-btn");
 let backBtn = document.querySelector("#back-btn");
 let saveBtn = document.querySelector("#save-btn");
+let save_clr = document.querySelector('#save');
+let save_as_copy = document.querySelector('#save-as-copy');
 let previewBox = document.getElementById("color-preview-box");
+let previewBoxColorPicker = document.getElementById("preview-box-color-picker");
 
 let orgColorCode = "";
 editBtn.addEventListener("click", () => {
       enableDisableEditingMode("enable");
       showColorPreviewBox();
-      previewBox.style.backgroundColor = "transparent";
-      orgColorCode = colorNameInput.value;
-});
-
-colorNameInput.addEventListener("input", () => {
-      let typedColor = colorNameInput.value;
-      previewBox.style.backgroundColor = typedColor;
-})
-
-saveBtn.addEventListener("click", (event) => {
-      colorSavingProcess();
+      // previewBox.style.backgroundColor = "transparent";
+      // orgColorCode = colorNameInput.value;
 });
 
 colorNameInput.addEventListener("keydown", (event) => {
-      if (event.key == "Enter") colorSavingProcess();
-      else return;
+      if (event.key == "Enter") {
+            colorSavingProcess();
+      }
 })
 
-function colorSavingProcess() {
-      let newColor = colorNameInput.value.trim().toLowerCase();
+colorNameInput.addEventListener("input", () => {
+      playSound(typingClickSound)
+      colorNameInput.value = colorNameInput.value.toUpperCase();
+      let typedColor = colorNameInput.value.toUpperCase();
+      previewBox.style.backgroundColor = typedColor;
+})
 
-      if (newColor === orgColorCode.toLowerCase()) {
+previewBoxColorPicker.addEventListener("input", () => {
+      colorNameInput.value = previewBoxColorPicker.value.toUpperCase();
+      previewBox.style.backgroundColor = previewBoxColorPicker.value;
+})
+
+saveBtn.addEventListener("click", (event) => {
+      return;
+      colorSavingProcess('save');
+      // let newColor = colorNameInput.value.trim().toUpperCase();
+      // colorListCreator(newColor);
+});
+
+save_clr.addEventListener('click', () => {
+      colorSavingProcess('save');
+})
+
+save_as_copy.addEventListener('click', () => {
+      let newColor = colorNameInput.value.trim().toUpperCase();
+      // if(isColorSaved(newColor)) {
+      //       throwMessage('Color Already Saved');
+      //       return;
+      // }
+      colorSavingProcess('save as copy');
+})
+
+function colorSavingProcess(method) {
+      // let newColor = colorNameInput.value.trim().toLowerCase();
+      let newColor = colorNameInput.value.trim().toUpperCase();
+
+      // if (newColor === orgColorCode.toLowerCase()) {
+      if (newColor === orgColorCode.toUpperCase()) {
             enableDisableEditingMode("disable");
             return;
       }
@@ -840,30 +1204,43 @@ function colorSavingProcess() {
       let allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
 
       // check if color already exists
-      if (allColors.some(color => color.toLowerCase() === newColor)) {
+      // if (allColors.some(color => color.toLowerCase() === newColor)) {
+      if (allColors.some(color => color.toUpperCase() === newColor)) {
             throwMessage("Color Already Saved", "#00ff00", "checkmark-circle-outline")
             return;
       }
-
-      // Replace in storage
-      let index = allColors.findIndex(color => color.toLowerCase() === orgColorCode.toLowerCase());
-      if (index !== -1) {
-            allColors[index] = newColor;
-            localStorage.setItem("saveColor", JSON.stringify(allColors));
+      
+      if(isColorAvailableInTrash(newColor)) {
+            throwMessage("Color is Available in Trash", "#00ff00", "checkmark-circle-outline")
+            return;
       }
 
-      // Replace in DOM
-      if (currentEditingBox) {
-            let span = currentEditingBox.querySelector(".color-name");
-            span.textContent = newColor;
-            span.style.color = getContrastColor(newColor);
-            currentEditingBox.style.backgroundColor = newColor;
+      if(method === 'save as copy') {
+            colorListCreator(newColor);
+      }
+      else {
+            // Replace in storage
+            // let index = allColors.findIndex(color => color.toLowerCase() === orgColorCode.toLowerCase());
+            let index = allColors.findIndex(color => color.toUpperCase() === orgColorCode.toUpperCase());
+            if (index !== -1) {
+                  allColors[index] = newColor;
+                  localStorage.setItem("saveColor", JSON.stringify(allColors));
+            }
 
-            // 👇 Highlight animation
-            currentEditingBox.classList.add("highlight-outline");
-            setTimeout(() => {
-                  currentEditingBox.classList.remove("highlight-outline");
-            }, 1200);
+            // Replace in DOM
+            if (currentEditingBox) {
+                  let span = currentEditingBox.querySelector(".color-name");
+                  span.textContent = newColor;
+                  span.setAttribute("title", newColor);
+                  span.style.color = getContrastColor(newColor);
+                  currentEditingBox.style.backgroundColor = newColor;
+
+                  // Highlight animation
+                  currentEditingBox.classList.add("highlight-outline");
+                  setTimeout(() => {
+                        currentEditingBox.classList.remove("highlight-outline");
+                  }, 1200);
+            }
       }
 
       orgColorCode = newColor;
@@ -898,6 +1275,9 @@ function enableDisableEditingMode(mode) {
 
 function showColorPreviewBox() {
       previewBox.style.display = "flex";
+      previewBox.style.backgroundColor = "transparent";
+      orgColorCode = colorNameInput.value;
+
 }
 
 function hideColorPreviewBox() {
@@ -919,15 +1299,40 @@ let allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
 
 let addColorBtn = document.querySelector("#add-color-btn");
 let addColorInput = document.querySelector("#get-color-input");
+let input$gradientBorder = document.getElementById('gradient-border');
 let errorMessage = document.querySelector(".error-message-div");
+
+function showGradientBorder() {
+      input$gradientBorder.classList.add("rotation-glow");
+}
+
+function hideGradientBorder() {
+      input$gradientBorder.classList.remove("rotation-glow");
+}
+
+addColorInput.addEventListener("focus", showGradientBorder);
+addColorInput.addEventListener("blur", hideGradientBorder);
 
 // update color counter
 savedColorCounting.textContent = allColors.length;
 
 addColorInput.addEventListener("input", () => {
-      addColorInput.value = addColorInput.value.toLowerCase();
-      isColorSaved(addColorInput.value);
+      playSound(typingClickSound)
 
+      
+      // addColorInput.value = addColorInput.value.toLowerCase();
+      addColorInput.value = addColorInput.value.toUpperCase();
+      
+      let res = isColorSaved(addColorInput.value);
+
+      if(res === 'saved color') {
+            showErrorMessage('saved color');
+      }
+      else if(isColorAvailableInTrash(addColorInput.value)) {
+            showErrorMessage('in trash');
+      }
+      else hideErrorMessage();
+      
       const quickPreviewMode = localStorage.getItem("quickPreviewMode") || "off";
       if (quickPreviewMode === "on") {
             highlightSavedColor(addColorInput.value);
@@ -937,7 +1342,9 @@ addColorInput.addEventListener("input", () => {
 // Add color using Enter key
 addColorInput.addEventListener("keydown", async (event) => {
       if (event.key === "Enter") {
-            const newColor = addColorInput.value.trim().toLowerCase();
+            playSound(lockSound)
+            // const newColor = addColorInput.value.trim().toLowerCase();
+            const newColor = addColorInput.value.trim().toUpperCase();
 
             // Trash check
             if (isColorAvailableInTrash(newColor)) {
@@ -965,12 +1372,45 @@ addColorInput.addEventListener("keydown", async (event) => {
 
       if (event.key == " ") {
             event.preventDefault();
+            // throwMessage("Space Not Allowd");
       }
+});
+
+let bubblingElements = document.querySelectorAll('.bubbling');
+
+bubblingElements.forEach(element => {
+      element.addEventListener('click', () => {
+            // element.classList.add('bubbling');
+            element.style.animation = bubblingAnimation;
+      })
+
+      element.addEventListener('animationend', (e) => {
+            // element.classList.remove('bubbling');
+            if(e.animationName === "bubbling") {
+                  element.style.animation = "";
+            }
+      })
 });
 
 // Add color using Add button click
 addColorBtn.addEventListener("click", async () => {
-      const newColor = addColorInput.value.trim().toLowerCase();
+
+      playSound(lockSound)
+
+      // addColorBtn.style.animation = "bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1)";
+      
+
+      // addColorBtn.addEventListener("animationend", () => {
+      //       addColorBtn.style.animation = "";
+      // })
+
+      // const newColor = addColorInput.value.trim().toLowerCase();
+      const newColor = addColorInput.value.trim().toUpperCase();
+
+      // if(newColor.includes(" ")) {
+      //       throwMessage('Space Not Allowd');
+      //       return;
+      // }
 
       // Trash check
       if (isColorAvailableInTrash(newColor)) {
@@ -998,7 +1438,8 @@ function highlightSavedColor(colorValue) {
 
       for (let box of savedColors) {
             const nameSpan = box.querySelector(".color-name");
-            if (nameSpan?.textContent.toLowerCase() === colorValue.toLowerCase()) {
+            // if (nameSpan?.textContent.toLowerCase() === colorValue.toLowerCase()) {
+            if (nameSpan?.textContent.toUpperCase() === colorValue.toUpperCase()) {
 
                   // Scroll into view
                   box.scrollIntoView({
@@ -1007,9 +1448,9 @@ function highlightSavedColor(colorValue) {
                   });
 
                   let colorList = allColorsCounting;
-                  setTimeout(() => {
-                        colorList.scrollBy(0, -10);
-                  }, 400);
+                  // setTimeout(() => {
+                  //       colorList.scrollBy(0, -10);
+                  // }, 400);
 
                   // Highlight
                   box.classList.add("highlight-outline");
@@ -1036,9 +1477,10 @@ function isColorSaved(checkingColor) {
 
 
       for (const color of allColors) {
-            if (color.toLowerCase() === checkingColor.toLowerCase()) {
+            // if (color.toLowerCase() === checkingColor.toLowerCase()) {
+            if (color.toUpperCase() === checkingColor.toUpperCase()) {
                   showErrorMessage("saved color");
-                  return;
+                  return 'saved color';
             }
             else {
                   hideErrorMessage();
@@ -1048,25 +1490,48 @@ function isColorSaved(checkingColor) {
 }
 
 function showErrorMessage(reason) {
+      addColorInput.style.transform = 'translateY(-8px)'
+      
       let errorIcon = errorMessage.querySelector("ion-icon");
       let errorText = errorMessage.querySelector("span");
 
       errorMessage.style.display = "flex";
 
+      playSound(popSound)
+
       if (reason == "saved color") {
-            errorText.textContent = "This color is already saved";
-            errorIcon.setAttribute("name", "checkmark-circle-outline");
+            // errorText.textContent = "This color is already saved";
+            errorText.innerHTML = "<label for='get-color-input'>Already saved<label>";
+            errorIcon.setAttribute("name", "checkmark-circle");
             errorMessage.style.color = "green";
       }
+      else if (reason == "in trash") {
+            // errorText.textContent = "This color is already saved";
+            errorText.innerHTML = "<label for='get-color-input'>Available in trash<label>";
+            errorIcon.setAttribute("name", "alert-circle");
+            errorMessage.style.color = "#0051B0";
+      }
       else if (reason == "not color") {
-            errorText.textContent = "This is not a color";
-            errorIcon.setAttribute("name", "close-circle-outline");
+            // errorText.textContent = "This is not a color";
+            errorText.textContent = "Not a color";
+            errorIcon.setAttribute("name", "close-circle");
             errorMessage.style.color = " #ff0000";
+            let el = document.getElementById('input-area-wrapper');
+
+            el.classList.add('magic-vibrate-2');
+
+            el.addEventListener('animationend', (e) => {
+                  if (e.animationName === 'magic-vibrate-2') {
+                        el.classList.remove('magic-vibrate-2');
+                  }
+            });
       }
 }
 
 function hideErrorMessage() {
       errorMessage.style.display = "none";
+      addColorInput.style.transform = '' // return to default
+
 }
 
 function isColorValid(color) {
@@ -1080,7 +1545,7 @@ function isColorValid(color) {
 }
 
 function colorListCreator(color) {
-      if (isColorValid(color) == false) {
+      if (!isColorValid(color)) {
             showErrorMessage("not color");
             return;
       }
@@ -1094,24 +1559,51 @@ function colorListCreator(color) {
 }
 
 function createColorBox(color) {
+      color = color.toUpperCase();
       let colorBox = document.createElement("div");
       colorBox.setAttribute("class", "saved-clr");
+      // colorBox.style.animation = bubblingAnimation;
+
+      // New added
+      // let colorBoxWrapper = document.createElement('div');
+      // colorBoxWrapper.classList.add('bubbling', 'saved-clr-wrapper');
+
       colorBox.style.backgroundColor = color;
       colorBox.setAttribute("tabindex", "0");
       colorBox.setAttribute("data-id", `${color}`);
+      
+      colorBox.addEventListener("keydown", (event) => {
+            if(event.key == "Enter") {
+                  copyText(color)
+            }
+      });
 
       let colorCode = getContrastColor(color);
 
       colorBox.innerHTML = `
-      <span class="color-name" style="color:${colorCode};">${color}</span>
-      <button class="delete-clr-btn"><ion-icon name="trash-outline"></ion-icon></button>
+            <span title="${color}" class="color-name" style="color:${colorCode};">${color}</span>
+            <button class="delete-clr-btn"><ion-icon name="trash-outline"></ion-icon></button>
       `;
 
+      // New added hover bubbling
+      // colorBoxWrapper.addEventListener('click', () => {
+      //       colorBoxWrapper.style.animation = bubblingAnimation;
+      // })
+      // colorBoxWrapper.addEventListener('animationend', (e) => {
+      //       if(e.animationName === "bubbling") {
+      //             colorBoxWrapper.style.animation = "";
+      //       }
+      // })
+
+      // setTooltip(`#${color}`, color);
+
+      // colorBoxWrapper.appendChild(colorBox)
       savedColorList.prepend(colorBox);
       savedColorList.scrollTop = 0;
 }
 
 function saveColorInStorage(getColor) {
+      getColor = getColor.toUpperCase();
       allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
       allColors.push(getColor);
       localStorage.setItem("saveColor", JSON.stringify(allColors));
@@ -1182,6 +1674,8 @@ savedColorList.addEventListener("click", (event) => {
 
             saveToTrash(colorName);
 
+            playSound(swooshSound)
+            
             showSuccessMessage("Move to Trash Bin");
 
             // Remove from localStorage
@@ -1205,46 +1699,58 @@ function removeFromDOM(colorBox) {
       setTimeout(() => {
             colorBox.remove();
       }, 300);
-}
+}``
 
 function deleteColorFromStorage(colorName) {
+      colorName = colorName.toUpperCase();
       allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
-      allColors = allColors.filter(color => color.toLowerCase() !== colorName.toLowerCase());
+      // allColors = allColors.filter(color => color.toLowerCase() !== colorName.toLowerCase());
+      allColors = allColors.filter(color => color.toUpperCase() !== colorName.toUpperCase());
       localStorage.setItem("saveColor", JSON.stringify(allColors));
 }
 
-// Layout change controling
-let layoutOptions = document.querySelectorAll(".layout-change-options .option");
-
-layoutOptions.forEach((option) => {
-      option.addEventListener("click", () => {
-
-            layoutOptions.forEach((otn) => {
-                  // otn.querySelector(".checked-icon").classList.remove("visible-checked-icon");
-                  otn.classList.remove("selected-nav-option");
-            });
-
-            // option.querySelector(".checked-icon").classList.add("visible-checked-icon");
-            option.classList.add("selected-nav-option");
-
-            let layoutType = option.getAttribute("data-layout");
-
+function setSelectedLayoutOption() {
+      const type = localStorage.getItem("layout-type") || "list";
+      
+      // Check if Auto Grid View is enabled - disable toggle if so
+      if (localStorage.getItem("autoGridView") === "enable") {
+            layoutToggleContainer.classList.add("disabled");
+      } else {
+            layoutToggleContainer.classList.remove("disabled");
+      }
+      
+      // Remove all active states first
+      listView.classList.remove("active");
+      gridView.classList.remove("active");
+      listView.setAttribute("aria-checked", "false");
+      gridView.setAttribute("aria-checked", "false");
+      layoutToggleContainer.classList.remove("grid-active");
+      
+      if (type === "list") {
+            // Set list view as active
+            listView.classList.add("active");
+            listView.setAttribute("aria-checked", "true");
             savedColorList.classList.remove("saved-color-grid-view");
-
-            if (layoutType === "list") {
-                  savedColorList.classList.remove("saved-color-grid-view");
-                  localStorage.setItem("layout-type", "list");
-            }
-            else if (layoutType === "grid") {
-                  savedColorList.classList.add("saved-color-grid-view");
-                  localStorage.setItem("layout-type", "grid");
-            }
-      });
-});
+            
+            // Move slider to list position (left)
+            layoutToggleContainer.classList.remove("grid-active");
+            
+      } else if (type === "grid") {
+            // Set grid view as active
+            gridView.classList.add("active");
+            gridView.setAttribute("aria-checked", "true");
+            savedColorList.classList.add("saved-color-grid-view");
+            
+            // Move slider to grid position (right)
+            layoutToggleContainer.classList.add("grid-active");
+      }
+}
 
 // Deletion of color controling 
 let popUpContainer = document.querySelector(".pop-up-container");
 let popUpButtons = document.querySelectorAll(".pop-up-buttons .btn");
+let deletePopupTitle = document.getElementById("title");
+let deleteAllPlan = null;
 
 popUpButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1252,19 +1758,40 @@ popUpButtons.forEach(btn => {
 
             if (work == "no-delete") {
                   popUpContainer.style.display = "none";
+                  deleteAllPlan = null;
             }
             else if (work == "yes-delete") {
                   popUpContainer.style.display = "none";
-                  localStorage.removeItem("saveColor");
+
+                  const saved = JSON.parse(localStorage.getItem("saveColor")) || [];
+                  const trash = JSON.parse(localStorage.getItem("trashColors")) || [];
+
+                  if (deleteAllPlan) {
+                        const newTrash = [...trash, ...deleteAllPlan.toTrashColors].slice(0, orgTrashColorLimit);
+                        localStorage.setItem("trashColors", JSON.stringify(newTrash));
+
+                        const remaining = saved.slice(deleteAllPlan.toTrashColors.length);
+                        localStorage.setItem("saveColor", JSON.stringify(remaining));
+                  } else {
+                        localStorage.removeItem("saveColor");
+                  }
+
+                  // UI updates
                   savedColorList.innerHTML = "";
+                  // renderSavedColors && renderSavedColors();
+                  renderTrashColors();
                   focusInput();
                   updateColorCounter();
+
+                  deleteAllPlan = null;
             }
-
-
       });
 });
 
+let bgChanger = document.getElementById("bg-change");
+bgChanger.addEventListener("change", () => {
+      displayContainer.style.background = bgChanger.value;
+})
 
 // network checking controling
 let connectionLostContainer = document.querySelector(".connection-lost-container");
@@ -1283,10 +1810,12 @@ function connectionCheck() {
 }
 
 function connectionLost() {
+      return alert("connection lost")
       connectionLostContainer.style.display = "flex";
 }
 
 function connectionFound() {
+      // return alert("connection recover")
       connectionLostContainer.style.display = "none";
 }
 
@@ -1341,6 +1870,69 @@ resizeBtn.addEventListener("click", () => {
       }
 });
 
+// Remove ResizeObserver since we don't need to track during resize
+// We'll only save the size when resizer is turned off
+
+function resetFavColorBoxSize() {
+      // First turn off resizer if it's on to prevent OffResizer from saving the current size
+      if (resizerIsOn) {
+            resizeBtn.classList.remove("selected-nav-option")
+            favColorListContainer.classList.remove("resizable");
+            resizerIsOn = false;
+      }
+      
+      // Clear localStorage entries
+      localStorage.removeItem("favColorBoxW");
+      localStorage.removeItem("favColorBoxH");
+
+      // Reset container to default size
+      favColorListContainer.style.width = "";
+      favColorListContainer.style.height = "";
+      
+      // Show confirmation message
+      throwMessage("Box Size Reset", "#ff6b35", "refresh-outline");
+}
+
+let msgBox, textTag;
+resizeBtn.addEventListener("mouseover", () => {
+      let boxShadow = localStorage.getItem("theme");
+      if(localStorage.getItem("screen-size") == "full") return;
+      if(!resizerIsOn) {
+            // favColorListContainer.style.boxShadow = `0 0 15px ${(boxShadow == "light") ? "#ff0000" : "#b87af5"}`;
+            favColorListContainer.style.outline = `5px solid #00ffff`;
+            favColorListContainer.style.outlineOffset = "5px";
+            
+            msgBox = document.createElement("div");
+            textTag = document.createElement("p");
+            
+            msgBox.classList.add("resizable-tool-tip");
+            textTag.textContent = "Resize this focused Box";
+            
+            msgBox.append(textTag);
+            document.body.append(msgBox);
+      }
+})
+
+resizeBtn.addEventListener("mouseout", () => {
+      // favColorListContainer.style.boxShadow = "";
+      favColorListContainer.style.outline = "";
+      favColorListContainer.style.outlineOffset = "";
+      msgBox.remove();
+})
+
+window.addEventListener("keyup", (event) => {
+      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() === "w") {
+            event.preventDefault();
+            (resizerIsOn) ? OffResizer() : OnResizer();
+      }
+})
+
+window.addEventListener('keyup', (event) => {
+      if (event.key.toLowerCase() === "/") {
+            addColorInput.focus();
+      }
+})
+
 function OnResizer() {
       const screenSize = localStorage.getItem("screen-size") || "";
       if (screenSize === "full") {
@@ -1349,14 +1941,39 @@ function OnResizer() {
       resizeBtn.classList.add("selected-nav-option")
       favColorListContainer.classList.add("resizable");
 
+      hideLogo();
+      
       resizerIsOn = !resizerIsOn;
 }
 
 function OffResizer() {
       resizeBtn.classList.remove("selected-nav-option")
       favColorListContainer.classList.remove("resizable");
+      
+      // Get current container size and save to localStorage when resizer is turned off
+      const containerRect = favColorListContainer.getBoundingClientRect();
+      const currentWidth = containerRect.width;
+      const currentHeight = containerRect.height;
+      
+      localStorage.setItem("favColorBoxW", currentWidth);
+      localStorage.setItem("favColorBoxH", currentHeight);
+      
+      // Show confirmation that size was saved
+      throwMessage("Box Size Saved", "#00ff00", "checkmark-circle-outline");
 
+      showLogo();
+      
       resizerIsOn = !resizerIsOn;
+}
+
+function hideLogo() {
+      logo.style.transform = "translateX(200px)";
+      logo.style.transition = "transform .6s ease";
+}
+
+function showLogo() {
+      logo.style.transform = "translateX(0px)";
+      logo.style.transition = "transform .3s ease";
 }
 
 let quickPreviewBtn = document.getElementById("quick-preview-mode-btn");
@@ -1365,8 +1982,10 @@ let quickPreviewIcon = document.getElementById("quick-preview-icon");
 let isQuickPreviewModeON = localStorage.getItem("quickPreviewMode") || "off";
 if (isQuickPreviewModeON === "on") {
       quickPreviewIcon.setAttribute("name", "eye-outline");
+      quickPreviewBtn.classList.add("selected-nav-option");
 }
 else {
+      quickPreviewBtn.classList.remove("selected-nav-option");
       quickPreviewIcon.setAttribute("name", "eye-off-outline");
 }
 
@@ -1380,19 +1999,34 @@ function setQuickPreviewMode() {
       if (currentMode === "on") {
             quickPreviewIcon.setAttribute("name", "eye-off-outline");
             localStorage.setItem("quickPreviewMode", "off");
+            quickPreviewBtn.classList.remove("selected-nav-option");
       } else {
             quickPreviewIcon.setAttribute("name", "eye-outline");
             localStorage.setItem("quickPreviewMode", "on");
+            quickPreviewBtn.classList.add("selected-nav-option");
       }
 }
 
 function throwMessage(text, color, icon = "alert-circle-outline") {
 
+      playSound(alertSound);
+      
       let box = document.createElement("div");
       let textBox = document.createElement("p");
       let setIcon = document.createElement("ion-icon");
 
-      box.classList.add("message-layout");
+      box.classList.add("message-layout", "bubbling");
+
+      box.addEventListener('click', () => {
+            box.style.animation = bubblingAnimation;
+      })
+
+      box.addEventListener('animationend', (e) => {
+            if(e.animationName === "bubbling") {
+                  box.style.animation = "";
+            }
+      })
+      
       textBox.innerText = text;
       textBox.style.color = "white";
       setIcon.style.color = color;
@@ -1440,7 +2074,8 @@ async function pasteToInput(inputElement) {
 
             const cleanText = pastedText.trim();
             if (cleanText !== "") {
-                  inputElement.value = cleanText;
+                  inputElement.value = cleanText.toUpperCase();
+                  addColorInput.focus();
                   return cleanText;
             } else {
                   throwMessage("No text found in clipboard", "red");
@@ -1474,6 +2109,13 @@ function fallbackPasteInput() {
 
 
 const pasteBtn = document.getElementById("paste-color-btn");
+const crossClrValueBtn = document.getElementById('cross-clr-input-value');
+
+crossClrValueBtn.addEventListener('click', () => {
+      addColorInput.value = "";
+      addColorInput.focus();
+      hideErrorMessage();
+})
 
 pasteBtn.addEventListener("click", async () => {
       const pastedValue = await pasteToInput(addColorInput);
@@ -1481,6 +2123,9 @@ pasteBtn.addEventListener("click", async () => {
       // Optional: Apply preview
       if (pastedValue) {
             isColorSaved(pastedValue);
+            if(isColorAvailableInTrash(pastedValue)) {
+                  showErrorMessage('in trash')
+            }
             if (!isColorValid(pastedValue)) {
                   showErrorMessage("not color");
             }
@@ -1540,6 +2185,7 @@ function isTrashFull() {
 }
 
 function saveToTrash(color) {
+      color = color.toUpperCase();
       const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
 
       // Ignore when already color is saved in trash bin
@@ -1559,7 +2205,11 @@ function openTrashColorBox() {
 }
 
 function closeTrashColorBox() {
-      trashColorContainer.style.display = "none";
+      trashColorBox.style.animation = "bounce .6s ease";
+      setTimeout(() => {
+            trashColorContainer.style.display = "none";
+            trashColorBox.style.animation = "";
+      }, 300);
       isTrashOpen = !isTrashOpen;
 }
 
@@ -1571,7 +2221,7 @@ function renderTrashColors() {
       updateTrashColorCounter();
 
       if (trashColors.length == 0) {
-            trashColorsList.innerHTML = isTrashEmpty();
+            trashColorsList.innerHTML = emptyTrash();
             return;
       }
       for (const color of trashColors) {
@@ -1579,7 +2229,7 @@ function renderTrashColors() {
       }
 }
 
-function isTrashEmpty() {
+function emptyTrash() {
       return `<center>
                   <p style="margin-top:20px; color: gray; user-select:none;">
                         Empty Trash Bin
@@ -1596,7 +2246,8 @@ function updateTrashColorCounter() {
 }
 
 function trashColorBoxCreator(color) {
-      color = color.toLowerCase();
+      // color = color.toLowerCase();
+      color = color.toUpperCase();
 
       let colorCode = getContrastColor(color);
       updateTrashColorCounter();
@@ -1673,7 +2324,8 @@ trashColorsList.addEventListener("click", (event) => {
 })
 
 function colorMoveToStorageFromTrash(color) {
-      color = color.toLowerCase();
+      // color = color.toLowerCase();
+      color = color.toUpperCase();
 
       // Get trash colors from localStorage (or empty array if none exist)
       let trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
@@ -1695,18 +2347,24 @@ function colorMoveToStorageFromTrash(color) {
 }
 
 function deleteColorFromeTrashStorage(color) {
-      color = color.toLowerCase();
+      // color = color.toLowerCase();
+      color = color.toUpperCase();
 
       let trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
 
       trashColors = trashColors.filter(c => c != color);
 
       localStorage.setItem("trashColors", JSON.stringify(trashColors));
+
+      if(trashColors.length == 0) {
+            trashColorsList.innerHTML = emptyTrash();
+      }
 }
 
 // Check if a color is available in saved colors
 function isColorAvailableInStorage(color) {
-      color = color.toLowerCase();
+      // color = color.toLowerCase();
+      color = color.toUpperCase();
 
       let saveColor = JSON.parse(localStorage.getItem("saveColor")) || [];
 
@@ -1716,7 +2374,8 @@ function isColorAvailableInStorage(color) {
 
 // Check if a color is available in Trash bin
 function isColorAvailableInTrash(color) {
-      color = color.toLowerCase();
+      // color = color.toLowerCase();
+      color = color.toUpperCase();
 
       let trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
 
@@ -1732,25 +2391,31 @@ function showRestorePopup(color) {
             const yesBtn = document.getElementById("restore-yes");
             const noBtn = document.getElementById("restore-no");
 
+            
             text.textContent = `"${color}" is in trash. Restore it?`;
             popup.style.display = "flex";
 
+            
             // Remove old listeners by cloning
             yesBtn.replaceWith(yesBtn.cloneNode(true));
             noBtn.replaceWith(noBtn.cloneNode(true));
-
+            
             // Get new button references
             const newYesBtn = document.getElementById("restore-yes");
             const newNoBtn = document.getElementById("restore-no");
-
+            
             newYesBtn.addEventListener("click", () => {
                   popup.style.display = "none";
                   resolve(true); // YES clicked
             });
-
+            
             newNoBtn.addEventListener("click", () => {
                   popup.style.display = "none";
                   resolve(false); // NO clicked
+            });
+            
+            requestAnimationFrame(() => {
+                  newYesBtn .focus();
             });
       });
 }
@@ -1784,7 +2449,17 @@ shorcutBoxCloseBtn.addEventListener("click", () => {
 
 function toggleShortcutBox() {
       shortcutBoxOpen = !shortcutBoxOpen;
-      shorcutContainer.style.display = shortcutBoxOpen ? "flex" : "none";
+      // shorcutContainer.style.display = shortcutBoxOpen ? "flex" : "none";
+      if(shortcutBoxOpen) {
+            shorcutContainer.style.display = "flex";
+      }
+      else {
+            shortcutBox.style.animation = "bounce .6s ease";
+            setTimeout(() => {
+                  shorcutContainer.style.display = "none";
+                  shortcutBox.style.animation = "";
+            }, 300);
+      }
 }
 
 let sidebarSettingsOption = document.getElementById('settings');
@@ -1822,16 +2497,34 @@ function toggleAutoGridView() {
       setAutoGridView();
 }
 
-function setAutoGridView() {
-      let isAutoModeOn = localStorage.getItem("autoGridView") || "disable";
+function setAutoGridView(mode) {
+      let isAutoModeOn;
+      
+      if (mode) {
+            // If mode is passed as parameter, use it
+            localStorage.setItem("autoGridView", mode);
+            isAutoModeOn = mode;
+      } else {
+            // Otherwise, get from localStorage
+            isAutoModeOn = localStorage.getItem("autoGridView") || "disable";
+      }
+      
+      const layoutToggleContainer = document.querySelector(".layout-toggle-container");
 
       if (isAutoModeOn === "enable") {
             autoGridViewBtnThumb.classList.add("switch-on");
             autoGridViewBtn.style.backgroundColor = "#1070d1";
-      }
-      else {
+            // Disable the layout toggle when Auto Grid View is enabled
+            if (layoutToggleContainer) {
+                  layoutToggleContainer.classList.add("disabled");
+            }
+      } else {
             autoGridViewBtnThumb.classList.remove("switch-on");
             autoGridViewBtn.style.backgroundColor = "";
+            // Enable the layout toggle when Auto Grid View is disabled
+            if (layoutToggleContainer) {
+                  layoutToggleContainer.classList.remove("disabled");
+            }
       }
 }
 
@@ -1846,7 +2539,17 @@ settingsCloseBtn.addEventListener("click", toggleSettingsBox);
 
 function toggleSettingsBox() {
       settingBoxOpen = !settingBoxOpen;
-      settingsContainer.style.display = settingBoxOpen ? "flex" : "none";
+      // settingsContainer.style.display = settingBoxOpen ? "flex" : "none";
+      if(settingBoxOpen) {
+            settingsContainer.style.display = "flex";
+      }
+      else {
+            settingsBox.style.animation = "bounce .6s ease";
+            setTimeout(() => {
+                  settingsContainer.style.display = "none";
+                  settingsBox.style.animation = "";
+            }, 300);
+      }
 }
 
 settingsContainer.addEventListener("click", (event) => {
@@ -1854,7 +2557,6 @@ settingsContainer.addEventListener("click", (event) => {
             toggleSettingsBox();
       }
 });
-
 
 
 // function enableRotateScreenOnlyOnMobile() {
@@ -1871,11 +2573,17 @@ settingsContainer.addEventListener("click", (event) => {
 
 // enableRotateScreenOnlyOnMobile();
 
+let cursorMove = false;
 window.addEventListener("mousemove", (event) => {
       return; // stop strictly for sometime
       if (window.innerWidth >= 786) {
             if (event.clientX <= 5) {
+                  cursorMove = true;
                   showMenuBar();
+            }
+            else if (event.clientX >= 220 && cursorMove) {
+                  cursorMove = false;
+                  hideMenuBar();
             }
       }
 })
@@ -1883,10 +2591,12 @@ window.addEventListener("mousemove", (event) => {
 const observer = new ResizeObserver(entries => {
       if(localStorage.getItem("autoGridView") == "enable") {
             for (let entry of entries) {
-                  if (entry.contentRect.width >= 768) {
-                        localStorage.setItem("layout-type", "grid");
+                  if (entry.contentRect.width >= 700) {
+                        // localStorage.setItem("layout-type", "grid");
+                        setLayoutType("grid");
                   } else {
-                        localStorage.setItem("layout-type", "list");
+                        // localStorage.setItem("layout-type", "list");
+                        setLayoutType("list");
                   }
                   setSelectedLayoutOption();
             }
@@ -1894,3 +2604,187 @@ const observer = new ResizeObserver(entries => {
 });
 
 observer.observe(favColorListContainer);
+
+
+// ####  " Stoped changes immediate "
+
+let brightnessSlider = document.getElementById("brightness-slider");
+
+brightnessSlider.addEventListener("input", () => {
+      let brightness = brightnessSlider.value;
+      document.body.style.filter = `brightness(${brightness}%)`;
+      localStorage.setItem("brightness", brightness);
+});
+
+function setBrightness() {
+      let brightness = localStorage.getItem("brightness") || 100;
+
+      // Check if brightness is valid
+      if(parseInt(brightness) > 100 || parseInt(brightness) < 40) {
+            brightness = 100;
+      }
+
+      brightnessSlider.value = brightness;
+      document.body.style.filter = `brightness(${brightness}%)`;
+      localStorage.setItem("brightness", brightness);
+}
+
+setBrightness();
+
+function setLayoutType(type) {
+    manualOverride = true; // user ne manually change kiya
+    localStorage.setItem("layout-type", type);
+//     setSelectedLayoutOption();
+}
+
+function playSound(soundType) {
+      // Check if sound is muted
+      let currentSoundStatus = localStorage.getItem("soundStatus") || "mute";
+      if (currentSoundStatus === "mute") {
+            return; // Don't play if muted
+      }
+      
+      try {
+            soundType.currentTime = 0;
+            soundType.play().catch(error => {
+                  console.warn('Sound play failed:', error);
+            });
+      } catch (error) {
+            console.warn('Sound error:', error);
+      }
+}
+
+let sidebarAllOptions = document.querySelectorAll(".all-options .option");
+
+sidebarAllOptions.forEach(option => {
+      option.addEventListener("click", () => {
+            playSound(menuSound)
+      })
+});
+
+// document.addEventListener('DOMContentLoaded', () => {
+//       const alreadyVisited = sessionStorage.getItem('visited');
+
+//       // Strict control
+//       displayContainer.style.display = "none";
+//       splashScreen.style.display = 'none';
+
+//       if (!alreadyVisited) {
+//             splashScreen.style.display = 'flex';
+//             displayContainer.style.display = "none";
+//             // Show splash screen for 3 seconds
+//             setTimeout(() => {
+//                   splashScreen.classList.add('fade-out');
+//                   setTimeout(() => {
+//                         splashScreen.style.display = 'none';
+//                         displayContainer.style.display = "flex";
+//                         checkSidebarIsLocked();
+//                         restoreContainerSize();
+//                         // logo shown
+//                         setTimeout(() => {
+//                               logo.style.display = "flex";
+//                         }, 1000);
+//                   }, 500);
+//             }, 3000);
+
+//             // Mark as visited in sessionStorage
+//             sessionStorage.setItem('visited', 'true');
+//       } else {
+//             // Directly hide splash screen if already visited in session
+//             splashScreen.style.display = 'none';
+//             // displayContainer.style.display = "flex";
+//             checkSidebarIsLocked();
+//             restoreContainerSize();
+//             // logo shown
+//             setTimeout(() => {
+//                   logo.style.display = "flex";
+//             }, 1000);
+//       }
+// });
+
+// Splash Screen Logic - Shows only on first visit in session
+// Uses sessionStorage to track if user has visited in current browser session
+// sessionStorage clears when browser tab/window is closed, localStorage persists
+function initializeSplashScreen() {
+      const hasVisitedInSession = sessionStorage.getItem('hasVisited');
+      
+      if (!hasVisitedInSession) {
+            // First visit in this session - show splash screen
+            showSplashScreen();
+            // Mark as visited for this session only
+            sessionStorage.setItem('hasVisited', 'true');
+      } else {
+            // Already visited in this session (page reload) - skip splash screen
+            hideSplashScreenDirectly();
+      }
+}
+
+function showSplashScreen() {
+      // Hide main content and show splash screen
+      displayContainer.style.display = 'none';
+      AppWrapper.style.display = 'none';
+      logo.style.display = 'none';
+      // splashScreen.style.display = 'flex';
+      
+      // Auto-hide splash screen after 3 seconds
+      setTimeout(() => {
+            hideSplashScreen();
+      }, 3000);
+}
+
+function hideSplashScreen() {
+      // return;
+      // Add fade-out animation
+      splashScreen.classList.add('fade-out');
+      
+      setTimeout(() => {
+            splashScreen.style.display = 'none';
+            showMainContent();
+      }, 500); // Wait for fade-out animation
+}
+
+function hideSplashScreenDirectly() {
+      // return;
+      // Hide splash screen immediately without animation
+      splashScreen.style.display = 'none';
+      showMainContent();
+}
+
+function showMainContent() {
+      // Show main application content
+      requestAnimationFrame(() => {
+            addColorInput.focus();
+      })
+      displayContainer.style.display = 'flex';
+      AppWrapper.style.display = 'block';
+      
+      // Initialize app features
+      checkSidebarIsLocked();
+      restoreContainerSize();
+      
+      // Show logo with delay for smooth transition
+      setTimeout(() => {
+            logo.style.display = 'flex';
+      }, 500);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeSplashScreen);
+
+// Optional: Add click to skip splash screen
+splashScreen.addEventListener('click', () => {
+      const isVisible = splashScreen.style.display !== 'none';
+      if (isVisible) {
+            hideSplashScreen();
+      }
+});
+
+// Optional: Add Escape key to skip splash screen
+document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+            const isVisible = splashScreen.style.display !== 'none';
+            if (isVisible) {
+                  hideSplashScreen();
+            }
+      }
+});

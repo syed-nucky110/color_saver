@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadeSphere Theme Preview</title>
+    <link rel="stylesheet" href="theme-preview.css">
+    <link rel="icon" href="assets/android-icon-144x144.png">
+</head>
+<body>
+    <!-- Sidebar for Color Controls -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Theme Designer</h2>
+            <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+        </div>
+        
+        <div class="color-controls">
+            <h3>Color Settings</h3>
+            
+            <div class="color-input-group">
+                <label for="primaryColor">Primary Color</label>
+                <div class="input-wrapper">
+                    <input type="color" id="primaryColor" value="#4285F4" class="color-picker">
+                    <input type="text" id="primaryColorText" value="#4285F4" class="color-text">
+                </div>
+                <small>Used for header and footer background</small>
+            </div>
+            
+            <div class="color-input-group">
+                <label for="secondaryColor">Secondary Color</label>
+                <div class="input-wrapper">
+                    <input type="color" id="secondaryColor" value="#34A853" class="color-picker">
+                    <input type="text" id="secondaryColorText" value="#34A853" class="color-text">
+                </div>
+                <small>Used for buttons and list bullets</small>
+            </div>
+            
+            <div class="color-input-group">
+                <label for="accentColor">Accent Color</label>
+                <div class="input-wrapper">
+                    <input type="color" id="accentColor" value="#EA4335" class="color-picker">
+                    <input type="text" id="accentColorText" value="#EA4335" class="color-text">
+                </div>
+                <small>Used for hover states and highlights</small>
+            </div>
+            
+            <div class="color-input-group">
+                <label for="backgroundColor">Background Color</label>
+                <div class="input-wrapper">
+                    <input type="color" id="backgroundColor" value="#ffffff" class="color-picker">
+                    <input type="text" id="backgroundColorText" value="#ffffff" class="color-text">
+                </div>
+                <small>Used for main content background</small>
+            </div>
+            
+            <div class="color-input-group">
+                <label for="textColor">Text Color</label>
+                <div class="input-wrapper">
+                    <input type="color" id="textColor" value="#212121" class="color-picker">
+                    <input type="text" id="textColorText" value="#212121" class="color-text">
+                </div>
+                <small>Used for all text content</small>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Preview Area -->
+    <main class="preview-area" id="previewArea">
+        <!-- Fixed Header -->
+        <header class="preview-header primary">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1>ShadeSphere</h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="nav-link">Home</a></li>
+                        <li><a href="#" class="nav-link">Features</a></li>
+                        <li><a href="#" class="nav-link">Docs</a></li>
+                        <li><a href="#" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <section class="preview-content background">
+            <div class="content-container">
+                <h1 class="main-heading text">Welcome to ShadeSphere</h1>
+                <p class="intro-text text">
+                    Experience the power of dynamic theming with our comprehensive color management system. 
+                    ShadeSphere provides developers with an intuitive way to create, customize, and preview 
+                    theme variations for any web application.
+                </p>
+                
+                <h2 class="section-heading text">Key Features</h2>
+                <ul class="feature-list">
+                    <li class="text">Real-time color preview and customization</li>
+                    <li class="text">Responsive design across all devices</li>
+                    <li class="text">CSS custom properties integration</li>
+                    <li class="text">Professional preset themes included</li>
+                    <li class="text">Export functionality for production use</li>
+                </ul>
+                
+                <h2 class="section-heading text">Interactive Demo</h2>
+                <p class="demo-text text">
+                    Try our theme system by adjusting the colors in the sidebar. Watch as the entire interface 
+                    updates in real-time, demonstrating how your theme choices would look in a professional 
+                    web application. You can also 
+                    <a href="#" class="content-link text">visit our documentation</a> 
+                    for more detailed information.
+                </p>
+                
+                <form class="demo-form">
+                    <h3 class="form-title text">Get Started</h3>
+                    <div class="form-group">
+                        <label for="demoInput" class="text">Project Name</label>
+                        <input type="text" id="demoInput" class="form-input" placeholder="Enter your project name">
+                    </div>
+                    <div class="form-group">
+                        <label for="demoTextarea" class="text">Description</label>
+                        <textarea id="demoTextarea" class="form-textarea" rows="4" placeholder="Describe your project..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn secondary">Save Draft</button>
+                        <button type="submit" class="btn accent">Create Project</button>
+                    </div>
+                </form>
+                
+                <!-- Additional Content for Scrolling -->
+                <h2 class="section-heading text">About Our Platform</h2>
+                <p class="text">
+                    ShadeSphere revolutionizes the way developers approach theme design. Our platform combines 
+                    intuitive visual controls with powerful CSS custom properties to create a seamless theming 
+                    experience. Whether you're building a simple website or a complex web application, our tools 
+                    adapt to your workflow.
+                </p>
+                
+                <div class="info-cards">
+                    <div class="info-card">
+                        <h4 class="text">Easy Integration</h4>
+                        <p class="text">Drop-in solution that works with your existing CSS architecture.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4 class="text">Performance Focused</h4>
+                        <p class="text">Optimized CSS variables ensure smooth theme transitions.</p>
+                    </div>
+                    <div class="info-card">
+                        <h4 class="text">Mobile Ready</h4>
+                        <p class="text">Fully responsive design works perfectly on all screen sizes.</p>
+                    </div>
+                </div>
+                
+                <h2 class="section-heading text">Technical Specifications</h2>
+                <p class="text">
+                    Our theming system is built on modern web standards, utilizing CSS custom properties 
+                    for maximum compatibility and performance. The system supports HSL, RGB, and HEX color 
+                    formats, automatic contrast calculations, and seamless integration with existing design systems.
+                </p>
+                
+                <div class="tech-details">
+                    <h4 class="text">Supported Features:</h4>
+                    <ul class="tech-list">
+                        <li class="text">✓ CSS Custom Properties (CSS Variables)</li>
+                        <li class="text">✓ Real-time Color Updates</li>
+                        <li class="text">✓ Accessibility-focused Contrast Ratios</li>
+                        <li class="text">✓ Mobile-first Responsive Design</li>
+                        <li class="text">✓ Cross-browser Compatibility</li>
+                        <li class="text">✓ Theme Export & Import</li>
+                    </ul>
+                </div>
+                
+                <p class="text">
+                    The preview system demonstrates how your color choices affect different UI components, 
+                    from navigation elements to form controls. This comprehensive approach ensures that 
+                    your theme works harmoniously across all interface elements.
+                </p>
+            </div>
+        </section>
+
+        <!-- Fixed Footer -->
+        <footer class="preview-footer primary">
+            <div class="footer-content">
+                <p class="footer-text">© 2024 ShadeSphere. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Terms</a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="theme-preview.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadeSphere - Help & Documentation</title>
+    <link rel="icon" href="assets/android-icon-144x144.png">
+    <link rel="stylesheet" href="help.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="documentation-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ShadeSphere</h2>
+                <p class="tagline">Documentation</p>
+            </div>
+            <nav class="sidebar-nav" role="navigation">
+                <ul>
+                    <li><a href="#introduction" class="nav-link active" aria-current="page"><ion-icon name="home-outline"></ion-icon>Introduction</a></li>
+                    <li><a href="#faq" class="nav-link"><ion-icon name="help-circle-outline"></ion-icon>Help / FAQ</a></li>
+                    <li><a href="#layouts" class="nav-link"><ion-icon name="grid-outline"></ion-icon>Layouts</a></li>
+                    <li><a href="#usage" class="nav-link"><ion-icon name="information-circle-outline"></ion-icon>How to Use</a></li>
+                    <li><a href="#search" class="nav-link"><ion-icon name="search-outline"></ion-icon>Search Features</a></li>
+                    <li><a href="#trash" class="nav-link"><ion-icon name="trash-outline"></ion-icon>Trash Bin</a></li>
+                    <li><a href="#resize" class="nav-link"><ion-icon name="resize-outline"></ion-icon>Resize Feature</a></li>
+                    <li><a href="#shortcuts" class="nav-link"><i class="ph ph-keyboard"></i><span>Keyboard Shortcuts</span></a></li>
+                    <li><a href="#settings" class="nav-link"><ion-icon name="settings-outline"></ion-icon>Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <input type="text" id="search-input" placeholder="Search documentation...">
+                </div>
+                <div class="search-results" id="search-results"></div>
+            </div>
+
+            <!-- Introduction Section -->
+            <section id="introduction" class="doc-section active-section">
+                <h1>Welcome to ShadeSphere</h1>
+                <p class="tagline">Your personal color space to save, manage, and explore colors with ease</p>
+                <div class="section-content">
+                    <p>ShadeSphere is a powerful and intuitive color management application that helps you organize and manage your color palettes efficiently. Whether you're a designer, developer, or color enthusiast, ShadeSphere provides the tools you need to work with colors effectively.</p>
+                    <div class="feature-highlights">
+                        <div class="feature-highlight-item">
+                            <ion-icon name="color-palette-outline"></ion-icon>
+                            <h3>Color Management</h3>
+                            <p>Save, edit, and organize your colors with intuitive controls</p>
+                        </div>
+                        <div class="feature-highlight-item">
+                            <ion-icon name="grid-outline"></ion-icon>
+                            <h3>Flexible Layout</h3>
+                            <p>Switch between list and grid views with auto-adaptation</p>
+                        </div>
+                        <div class="feature-highlight-item">
+                            <ion-icon name="trash-outline"></ion-icon>
+                            <h3>Color Recovery</h3>
+                            <p>Trash bin system for safe color management</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help/FAQ Section -->
+            <section id="faq" class="doc-section">
+                <h2>Help / FAQ</h2>
+                <div class="section-content">
+                    <div class="faq-accordion">
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                <span>Sidebar not closing?</span>
+                                <ion-icon name="chevron-down-outline" class="faq-icon"></ion-icon>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-content">
+                                    <p>Check if the sidebar is locked. Use <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>X</kbd> to toggle the lock state.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                <span>Colors not saving?</span>
+                                <ion-icon name="chevron-down-outline" class="faq-icon"></ion-icon>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-content">
+                                    <p>Verify that:</p>
+                                    <ul>
+                                        <li>Your browser supports localStorage</li>
+                                        <li>You're not in incognito/private browsing mode</li>
+                                        <li>Your browser's storage isn't full</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                <span>Auto Grid not working?</span>
+                                <ion-icon name="chevron-down-outline" class="faq-icon"></ion-icon>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-content">
+                                    <p>Ensure that:</p>
+                                    <ul>
+                                        <li>Auto Grid View is enabled in settings</li>
+                                        <li>Screen width is ≥ 720px for grid view</li>
+                                        <li>You haven't manually overridden the layout</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <button class="faq-question">
+                                <span>Shortcuts not responding?</span>
+                                <ion-icon name="chevron-down-outline" class="faq-icon"></ion-icon>
+                            </button>
+                            <div class="faq-answer">
+                                <div class="faq-content">
+                                    <p>Make sure that:</p>
+                                    <ul>
+                                        <li>The browser tab is focused</li>
+                                        <li>You're pressing the correct key combination</li>
+                                        <li>No other application is capturing the shortcuts</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Layouts Section -->
+            <section id="layouts" class="doc-section">
+                <h2>Layout Options</h2>
+                <div class="section-content">
+                    <div class="feature-card">
+                        <h3><ion-icon name="grid-outline"></ion-icon>Grid View</h3>
+                        <p>Display colors in a responsive grid layout, perfect for larger screens and quick color browsing.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><ion-icon name="list-outline"></ion-icon>List View</h3>
+                        <p>Show colors in a vertical list, ideal for mobile devices and detailed color information.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><ion-icon name="resize-outline"></ion-icon>Auto Grid Feature</h3>
+                        <p>Automatically switches between grid and list views based on screen width (720px breakpoint). This can be manually overridden through the layout controls.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Use Section -->
+            <section id="usage" class="doc-section">
+                <h2>How to Use</h2>
+                <div class="section-content">
+                    <div class="interaction-guide">
+                        <h3>Color Interactions</h3>
+                        <div class="interaction-cards">
+                            <div class="interaction-card">
+                                <div class="interaction-icon">
+                                    <ion-icon name="finger-print-outline"></ion-icon>
+                                </div>
+                                <h4>Single Click</h4>
+                                <p>Click once on any color to copy its code to clipboard</p>
+                            </div>
+                            <div class="interaction-card">
+                                <div class="interaction-icon">
+                                    <ion-icon name="copy-outline"></ion-icon>
+                                </div>
+                                <h4>Double Click</h4>
+                                <p>Double click to open the color editor with options to copy and edit</p>
+                            </div>
+                            <div class="interaction-card">
+                                <div class="interaction-icon">
+                                    <ion-icon name="menu-outline"></ion-icon>
+                                </div>
+                                <h4>Right Click</h4>
+                                <p>Opens a context menu with options to Select, Select All, or Edit</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-explanation">
+                        <h3>Color Selection</h3>
+                        <p>Use Select or Select All to manage multiple colors at once. Selected colors can be deleted as a group.</p>
+                        <div class="visual-guide">
+                            <img src="assets/select-colors.png" alt="Color selection demonstration">
+                        </div>
+                    </div>
+
+                    <div class="feature-explanation">
+                        <h3>Color Editor</h3>
+                        <p>The editor modal provides options to:</p>
+                        <ul>
+                            <li>Copy the color code</li>
+                            <li>Edit the color value</li>
+                            <li>Preview changes in real-time</li>
+                            <li>Save modifications</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Features Section -->
+            <section id="search" class="doc-section">
+                <h2>Search Features</h2>
+                <div class="section-content">
+                    <div class="feature-card">
+                        <h3><ion-icon name="search-outline"></ion-icon>Smart Color Search</h3>
+                        <p>Search for colors using:</p>
+                        <ul>
+                            <li>Color names (e.g., "red", "blue")</li>
+                            <li>HEX codes (e.g., "#ff0000")</li>
+                            <li>RGB values (e.g., "rgb(255,0,0)")</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3><ion-icon name="list-outline"></ion-icon>Live Suggestions</h3>
+                        <p>As you type in the search box:</p>
+                        <ul>
+                            <li>Matching colors appear as suggestions</li>
+                            <li>Each suggestion shows a color preview</li>
+                            <li>Click any suggestion to highlight that color in your list</li>
+                        </ul>
+                    </div>
+
+                    <div class="search-tips">
+                        <h3>Search Tips</h3>
+                        <ul>
+                            <li>Searches are case-insensitive</li>
+                            <li>Partial matches are supported</li>
+                            <li>Use keyboard arrows to navigate suggestions</li>
+                            <li>Press Enter to select highlighted suggestion</li>
+                            <li>Press Escape to clear search</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trash Bin Section -->
+            <section id="trash" class="doc-section">
+                <h2>Trash Bin</h2>
+                <div class="section-content">
+                    <div class="feature-card">
+                        <h3><ion-icon name="trash-outline"></ion-icon>Color Recovery System</h3>
+                        <p>Colors aren't permanently deleted - they move to the Trash Bin first, allowing you to recover them if needed.</p>
+                    </div>
+                    
+                    <div class="trash-info">
+                        <h3>Important Points</h3>
+                        <ul>
+                            <li>Trash capacity: 30 colors maximum</li>
+                            <li>When trash is full, the trash icon shows "Full" in red</li>
+                            <li>Attempting to delete colors when trash is full prompts a warning</li>
+                            <li>Options for each color in trash:
+                                <ul>
+                                    <li>Restore - Moves color back to your saved colors</li>
+                                    <li>Delete Permanently - Removes color completely</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="note warning">
+                        <ion-icon name="warning-outline"></ion-icon>
+                        <p>
+                            Delete All: When you click Delete All, a confirmation shows how many colors will move to Trash and how many will be permanently deleted based on available Trash space.
+                            Trash capacity is 30 colors. Only available space is used; the rest are permanently deleted.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resize Feature Section -->
+            <section id="resize" class="doc-section">
+                <h2>Resize Feature</h2>
+                <div class="section-content">
+                    <div class="feature-card">
+                        <h3><ion-icon name="resize-outline"></ion-icon>Adjustable View</h3>
+                        <p>The color list container can be resized to fit your needs:</p>
+                        <ul>
+                            <li>Click the resize icon in the sidebar to enable resize mode</li>
+                            <li>Drag from the bottom-right corner to adjust size</li>
+                            <li>Container maintains minimum dimensions for usability</li>
+                            <li>Size adjustments persist until you modify them again</li>
+                        </ul>
+                    </div>
+
+                    <div class="note">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                        <p>Resize feature is disabled in fullscreen mode and on mobile devices</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Keyboard Shortcuts Section -->
+            <section id="shortcuts" class="doc-section">
+                <h2>Keyboard Shortcuts</h2>
+                <div class="section-content">
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>D</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Dark Mode</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>S</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Sidebar</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>X</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Sidebar Lock</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Full Screen</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>G</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Grid View</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Z</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Shortcut Guide</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Settings</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>R</kbd>
+                            </div>
+                            <div class="shortcut-desc">Toggle Trash Bin</div>
+                        </div>
+                        <div class="shortcut-item">
+                            <div class="shortcut-keys">
+                                <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>A</kbd>
+                            </div>
+                            <div class="shortcut-desc">Select All Colors</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="doc-section">
+                <h2>Settings</h2>
+                <div class="section-content">
+                    <div class="setting-card">
+                        <h3><ion-icon name="grid-outline"></ion-icon>Auto Grid View</h3>
+                        <p>When enabled, automatically switches between grid and list layouts based on screen width:</p>
+                        <ul>
+                            <li>Screen width ≥ 720px: Grid View</li>
+                            <li>Screen width < 720px: List View</li>
+                        </ul>
+                        <p class="note">Note: Manual layout changes will disable Auto Grid View. Re-enable it in settings to restore automatic behavior.</p>
+                    </div>
+
+                    <div class="setting-card">
+                        <h3><ion-icon name="moon-outline"></ion-icon>Theme Settings</h3>
+                        <div class="theme-options">
+                            <h4>Manual Theme Control</h4>
+                            <p>Switch between Dark and Light themes manually using:</p>
+                            <ul>
+                                <li>Theme toggle button in the top bar</li>
+                                <li>Keyboard shortcut: <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>D</kbd></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="theme-options" style="display: none;">
+                            <h4>Auto Theme Mode</h4>
+                            <p>When enabled, automatically switches themes based on your selected time range.</p>
+                            <ul>
+                                <li>Enable Auto Mode from Settings → Auto Theme Mode toggle.</li>
+                                <li>Click the chevron icon next to the toggle to expand the dropdown.</li>
+                                <li>Edit the custom time range (From → To) inside the dropdown.</li>
+                                <li>Editing is only allowed when Auto Mode is OFF. When ON, inputs are disabled.</li>
+                                <li>The description under the option updates dynamically to show the selected range (e.g., “Dark Mode active from 8:00 PM to 9:00 AM”).</li>
+                                <li>The dropdown lives inside the Auto Theme Mode option, directly under the toggle.</li>
+                            </ul>
+                            <p class="note">Note: Manually changing the theme (using the top bar button or shortcut) turns Auto Theme Mode OFF automatically.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Back to App Button -->
+    <!-- <a href="index.html" class="back-to-app">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+        Back to App
+    </a> -->
+
+    <script src="help.js"></script>
+</body>
+</html>
