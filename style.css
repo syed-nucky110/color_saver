@@ -36,8 +36,32 @@
       height: calc(100% - 10px);
       border-radius: 25px;
       z-index: 0;
-      animation: border-rotation 5s linear infinite forwards;
+      overflow: hidden;
+      animation: border-rotation 3.5s linear infinite forwards;
 }
+
+
+.splash-mask {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      background-color: #121212;
+      transition: opacity 1s ease;
+      animation: hide-mask 1s ease forwards;
+}
+
+@keyframes hide-mask {
+      0% {
+            opacity: 1;
+      }
+      100% {
+            opacity: 0;
+      }
+}
+
+/* .hidden-splash-mask {
+      opacity: 0 !important;
+} */
 
 .splash-inner-section::before {
       content: "";
@@ -46,6 +70,18 @@
       background-color: #121212;
       filter: blur(25px);
       z-index: 0;
+}
+
+@media (max-width: 786px) {
+      .splash-inner-section {
+            width: 100%;
+            height: 100%;
+            border-radius: 0px;
+      }
+      .splash-inner-section::before {
+            inset: 0px;
+            filter: blur(15px);
+      }
 }
 
 .splash-screen.fade-out {

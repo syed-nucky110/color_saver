@@ -17,6 +17,7 @@ let typingClickSound = document.getElementById('typing-click-sound')
 
 // Handle splash screen
 const splashScreen = document.querySelector('.splash-screen');
+// const splashMask = document.getElementById('splash-mask');
 let displayContainer = document.querySelector(".display-container");
 
 let isSidebarLocked = localStorage.getItem("isSidebarLocked");
@@ -2707,10 +2708,12 @@ sidebarAllOptions.forEach(option => {
 // sessionStorage clears when browser tab/window is closed, localStorage persists
 function initializeSplashScreen() {
       const hasVisitedInSession = sessionStorage.getItem('hasVisited');
+      // showSplashScreen();
+      // return;  // temporary #########
       
       if (!hasVisitedInSession) {
-            // First visit in this session - show splash screen
             showSplashScreen();
+            // First visit in this session - show splash screen
             // Mark as visited for this session only
             sessionStorage.setItem('hasVisited', 'true');
       } else {
@@ -2724,12 +2727,13 @@ function showSplashScreen() {
       displayContainer.style.display = 'none';
       AppWrapper.style.display = 'none';
       logo.style.display = 'none';
+      // splashMask.classList.add('hidden-splash-mask')
       // splashScreen.style.display = 'flex';
       
       // Auto-hide splash screen after 3 seconds
       setTimeout(() => {
             hideSplashScreen();
-      }, 3000);
+      }, 4000);
 }
 
 function hideSplashScreen() {
@@ -2772,12 +2776,12 @@ function showMainContent() {
 document.addEventListener('DOMContentLoaded', initializeSplashScreen);
 
 // Optional: Add click to skip splash screen
-splashScreen.addEventListener('click', () => {
-      const isVisible = splashScreen.style.display !== 'none';
-      if (isVisible) {
-            hideSplashScreen();
-      }
-});
+// splashScreen.addEventListener('click', () => {
+//       const isVisible = splashScreen.style.display !== 'none';
+//       if (isVisible) {
+//             hideSplashScreen();
+//       }
+// });
 
 // Optional: Add Escape key to skip splash screen
 document.addEventListener('keydown', (event) => {
