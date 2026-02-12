@@ -15,6 +15,9 @@ let mouseClickSound = document.getElementById('mouse-click-sound')
 let lockSound = document.getElementById('lock-sound')
 let typingClickSound = document.getElementById('typing-click-sound')
 
+let $rootElem = document.querySelector(":root");
+let $accentColor = getComputedStyle($rootElem).getPropertyValue('--accent-color');
+
 // Handle splash screen
 const splashScreen = document.querySelector('.splash-screen');
 // const splashMask = document.getElementById('splash-mask');
@@ -81,12 +84,13 @@ let soundStatus = localStorage.getItem("soundStatus") || "mute";
 // Set initial state - default muted with proper styling
 if(soundStatus === "mute") {
       muteSoundBtnThumb.classList.add("switch-on");
-      muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
+      // muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
+      muteSoundBtn.style.backgroundColor = $accentColor;
 }
 else if(soundStatus !== "mute" && soundStatus !== "" && soundStatus !== "unmute" && !soundStatus) {
       localStorage.setItem("soundStatus", "mute");
       muteSoundBtnThumb.classList.add('switch-on');
-      muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
+      muteSoundBtn.style.backgroundColor = $accentColor;
 }
 else if(soundStatus === "unmute") {
       muteSoundBtnThumb.classList.remove('switch-on');
@@ -115,7 +119,8 @@ muteSoundBtn.addEventListener("click", () => {
             // Mute sounds
             localStorage.setItem("soundStatus", "mute");
             muteSoundBtnThumb.classList.add("switch-on");
-            muteSoundBtn.style.backgroundColor = "#1070d1";
+            // muteSoundBtn.style.backgroundColor = "#1070d1";
+            muteSoundBtn.style.backgroundColor = $accentColor;
             
             // Show feedback
             if (typeof throwMessage === 'function') {
@@ -1900,7 +1905,7 @@ resizeBtn.addEventListener("mouseover", () => {
       if(localStorage.getItem("screen-size") == "full") return;
       if(!resizerIsOn) {
             // favColorListContainer.style.boxShadow = `0 0 15px ${(boxShadow == "light") ? "#ff0000" : "#b87af5"}`;
-            favColorListContainer.style.outline = `5px solid #00ffff`;
+            favColorListContainer.style.outline = `5px solid ${$accentColor}`;
             favColorListContainer.style.outlineOffset = "5px";
             
             msgBox = document.createElement("div");
@@ -2514,7 +2519,8 @@ function setAutoGridView(mode) {
 
       if (isAutoModeOn === "enable") {
             autoGridViewBtnThumb.classList.add("switch-on");
-            autoGridViewBtn.style.backgroundColor = "#1070d1";
+            // autoGridViewBtn.style.backgroundColor = "#1070d1";
+            autoGridViewBtn.style.backgroundColor = $accentColor;
             // Disable the layout toggle when Auto Grid View is enabled
             if (layoutToggleContainer) {
                   layoutToggleContainer.classList.add("disabled");

@@ -14,7 +14,6 @@
       inset: 0;
       width: 100vw;
       height: 100vh;
-      /* background: linear-gradient(135deg, #1070d1 0%, #00d4ff 100%); */
       background-color: black;
       z-index: 99999999;
       display: flex;
@@ -139,7 +138,7 @@
 .splash-logo .color-circle {
       width: 70px;
       height: 70px;
-      background: url(assets/android-icon-144x144.png) center/cover no-repeat, #1070d1;
+      background: url(assets/android-icon-144x144.png) center/cover no-repeat;
       border-radius: 16px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
@@ -188,7 +187,8 @@
       --shortcuts-key-clr: #191919;
       --shortcuts-key-bg-clr: #212121;
       --color-picker-clr: #212121;
-      --accent-color: #0fffff;
+      /* --accent-color: #0fffff; */
+      --accent-color: #00BC7D;
       --line-breaker-bg-clr: radial-gradient(#303030, #999999);
 
       /* gradient colors section */
@@ -565,14 +565,15 @@ input {
       left: 4px;
       width: calc(50% - 4px);
       height: calc(100% - 8px);
-      background: linear-gradient(135deg, var(--accent-color), #00d4ff);
+      /* background: linear-gradient(135deg, var(--accent-color), #00d4ff); */
+      background-color: var(--accent-color);
       border-radius: 8px;
       /* transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); */
       transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 1;
-      box-shadow:
+      /* box-shadow:
             0 2px 8px rgba(0, 255, 255, 0.3),
-            0 1px 3px rgba(0, 0, 0, 0.2);
+            0 1px 3px rgba(0, 0, 0, 0.2); */
 }
 
 .layout-toggle-container.grid-active .layout-toggle-slider {
@@ -598,10 +599,11 @@ input {
 }
 
 .dark-theme .layout-toggle-slider {
-      background: linear-gradient(135deg, var(--accent-color), #00d4ff);
-      box-shadow:
+      /* background: linear-gradient(135deg, var(--accent-color), #00d4ff); */
+      background-color: var(--accent-color);
+      /* box-shadow:
             0 2px 8px rgba(0, 255, 255, 0.4),
-            0 1px 3px rgba(0, 0, 0, 0.3);
+            0 1px 3px rgba(0, 0, 0, 0.3); */
 }
 
 .canvas-option .option {
@@ -1259,7 +1261,7 @@ input[type="color"]:focus-visible {
       background: linear-gradient(5deg,
                   #071c16,
                   #0c4a4a,
-                  #00ffff);
+                  var(--accent-color));
       border-radius: 10px;
 }
 
@@ -1448,7 +1450,7 @@ input[type="color"]:focus-visible {
       background: linear-gradient(5deg,
                   #0d3127,
                   #0c4a4a,
-                  #00ffff);
+                  var(--accent-color));
       border-radius: 10px;
 }
 
@@ -1520,7 +1522,7 @@ input[type="color"]:focus-visible {
       top: 0;
       height: 100%;
       width: 0;
-      background: linear-gradient(45deg, #bb86fc 10%, #00ffff);
+      background: linear-gradient(45deg, #bb86fc 10%, var(--accent-color));
       transition: width 0.1s ease;
 }
 
@@ -3062,7 +3064,7 @@ button#cross-clr-input-value {
       bottom: 0;
       height: 5px;
       width: 0%;
-      background-color: #00ffff;
+      background-color: var(--accent-color);
       animation: loading-less 1.8s linear;
 }
 
@@ -3787,9 +3789,10 @@ i {
       margin-top: 10px;
       height: 6px;
       border-radius: 5px;
-      background: linear-gradient(to right, #007aff, #007aff) no-repeat;
+      /* background: linear-gradient(to right, #007aff, #007aff) no-repeat; */
+      background-color: var(--accent-color);
       background-size: 100% 100%;
-      background-color: #d7d7d7;
+      /* background-color: #d7d7d7; */
       outline: none;
       transition: background-size 0.3s ease;
 }

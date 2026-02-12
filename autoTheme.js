@@ -145,7 +145,8 @@ function toggleAutoThemeMode() {
 function setAutoThemeMode(enabled) {
       if (enabled) {
             autoThemeBtnThumb.classList.add("switch-on");
-            autoThemeBtn.style.backgroundColor = "#1070d1";
+            // autoThemeBtn.style.backgroundColor = "#1070d1";
+            autoThemeBtn.style.backgroundColor = $accentColor;
             setInputsDisabled(true);
       } else {
             autoThemeBtnThumb.classList.remove("switch-on");

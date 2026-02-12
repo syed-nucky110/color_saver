@@ -10,9 +10,9 @@ ShadeSphare updates:-
 
 
 
-1\. splash screen (for mobile also).
+✅ 1\. splash screen (for mobile also).
 
-2\. accent color.
+✅ 2\. accent color.
 
 3\. move quick preview in 'Settings'.
 
@@ -79,3 +79,5 @@ ShadeSphare updates:-
 34\. update animation of choosed color popup.
 
 35\. error message showing also in choosed color popup.
+
+36\. update theme mode button.
