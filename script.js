@@ -1776,7 +1776,8 @@ popUpButtons.forEach(btn => {
                         const newTrash = [...trash, ...deleteAllPlan.toTrashColors].slice(0, orgTrashColorLimit);
                         localStorage.setItem("trashColors", JSON.stringify(newTrash));
 
-                        const remaining = saved.slice(deleteAllPlan.toTrashColors.length);
+                        const startIndex = (deleteAllPlan.toTrashColors.length || 0) + (deleteAllPlan.toDeleteCount || 0);
+                        const remaining = saved.slice(startIndex);
                         localStorage.setItem("saveColor", JSON.stringify(remaining));
                   } else {
                         localStorage.removeItem("saveColor");
@@ -1982,35 +1983,32 @@ function showLogo() {
       logo.style.transition = "transform .3s ease";
 }
 
-let quickPreviewBtn = document.getElementById("quick-preview-mode-btn");
-let quickPreviewIcon = document.getElementById("quick-preview-icon");
+let quickPreviewToggle = document.getElementById("quick-preview-toggle");
+let quickPreviewToggleThumb = quickPreviewToggle ? quickPreviewToggle.querySelector('.thumb') : null;
 
 let isQuickPreviewModeON = localStorage.getItem("quickPreviewMode") || "off";
-if (isQuickPreviewModeON === "on") {
-      quickPreviewIcon.setAttribute("name", "eye-outline");
-      quickPreviewBtn.classList.add("selected-nav-option");
-}
-else {
-      quickPreviewBtn.classList.remove("selected-nav-option");
-      quickPreviewIcon.setAttribute("name", "eye-off-outline");
-}
-
-quickPreviewBtn.addEventListener("click", () => {
-      setQuickPreviewMode();
-});
-
-function setQuickPreviewMode() {
-      const currentMode = localStorage.getItem("quickPreviewMode") || "off";
-
-      if (currentMode === "on") {
-            quickPreviewIcon.setAttribute("name", "eye-off-outline");
-            localStorage.setItem("quickPreviewMode", "off");
-            quickPreviewBtn.classList.remove("selected-nav-option");
+if (quickPreviewToggleThumb) {
+      if (isQuickPreviewModeON === "on") {
+            quickPreviewToggleThumb.classList.add("switch-on");
+            quickPreviewToggle.style.backgroundColor = $accentColor;
       } else {
-            quickPreviewIcon.setAttribute("name", "eye-outline");
-            localStorage.setItem("quickPreviewMode", "on");
-            quickPreviewBtn.classList.add("selected-nav-option");
+            quickPreviewToggleThumb.classList.remove("switch-on");
+            quickPreviewToggle.style.backgroundColor = "";
       }
+
+      quickPreviewToggle.addEventListener("click", () => {
+            const currentMode = localStorage.getItem("quickPreviewMode") || "off";
+
+            if (currentMode === "on") {
+                  localStorage.setItem("quickPreviewMode", "off");
+                  quickPreviewToggleThumb.classList.remove("switch-on");
+                  quickPreviewToggle.style.backgroundColor = "";
+            } else {
+                  localStorage.setItem("quickPreviewMode", "on");
+                  quickPreviewToggleThumb.classList.add("switch-on");
+                  quickPreviewToggle.style.backgroundColor = $accentColor;
+            }
+      });
 }
 
 function throwMessage(text, color, icon = "alert-circle-outline") {

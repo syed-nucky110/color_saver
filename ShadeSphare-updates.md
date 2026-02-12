@@ -14,9 +14,9 @@ ShadeSphare updates:-
 
 ✅ 2\. accent color.
 
-3\. move quick preview in 'Settings'.
+✅ 3\. move quick preview in 'Settings'.
 
-4\. fix logic of 'Delete all' button.
+✅ 4\. fix logic of 'Delete all' button.
 
 5\. update 'Settings' panel.
 
@@ -81,3 +81,5 @@ ShadeSphare updates:-
 35\. error message showing also in choosed color popup.
 
 36\. update theme mode button.
+
+37\. implement color indicator at the color input side.
