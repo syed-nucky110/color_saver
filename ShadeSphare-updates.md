@@ -24,15 +24,15 @@ ShadeSphare updates:-
 
 ✅ 6\. update bottom right logo (ShadeSphare).
 
-7\. implement the 'Right panel'.
+7\. implement the 'Right panel'.    **incomplete**
 
-8\. add single input field of gradient.
+8\. add single input field of gradient. **incomplete**
 
-9\. set fit height of saved gradient container.
+✅ 9\. set fit height of saved gradient container.
 
-10\. add focus shadow to color searching field.
+✅ 10\. add focus shadow to color searching field.
 
-11\. remove the top border of saved color box.
+✅ 11\. remove the top border of saved color box.
 
 12\. remove unnecessary files.
 

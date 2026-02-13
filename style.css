@@ -865,6 +865,10 @@ input {
                   box-shadow var(--theme-mode-transition) ease;
 }
 
+.search-color-box label:focus-within {
+      box-shadow: 0 0 7px var(--accent-color);
+}
+
 .search-color-box label ion-icon {
       background-color: #000000;
       padding: 5px;
@@ -2205,7 +2209,7 @@ button#cross-clr-input-value {
       height: 100%;
       overflow: auto;
       overflow-x: hidden;
-      border-top: 1px solid black;
+      /* border-top: 1px solid black; */
       transition: height .3s ease, width .3s ease, background-color .3s ease !important;
 }
 
