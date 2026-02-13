@@ -30,17 +30,17 @@ ShadeSphare updates:-
 
 ✅ 11\. remove the top border of saved color box.
 
-12\. remove unnecessary files.
+✅ 12\. remove unnecessary files.
 
-13\. remove left padding from save type box (editing color).
+✅ 13\. remove left padding from save type box (editing color).
 
-14\. remove hover effect(::after) of 'Save Gradient' button.
+✅ 14\. remove hover effect(::after) of 'Save Gradient' button.
 
-15\. implement 'Pin color' system.
+15\. implement 'Pin color' system. **incomplete**
 
-16\. give hover effect(grow) to color indicator in gradient color popup.
+✅ 16\. give hover effect(grow) to color indicator in gradient color popup.
 
-17\. show 'Empty' tag in empty boxes.
+✅ 17\. show 'Empty' tag in empty boxes.
 
 18\. show shortcut tag on hover in sidebar.
 

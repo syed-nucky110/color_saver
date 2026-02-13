@@ -2213,6 +2213,30 @@ button#cross-clr-input-value {
       transition: height .3s ease, width .3s ease, background-color .3s ease !important;
 }
 
+.saved-colors-list::before {
+      display: none; /* Initially hidden, will be shown when there are no saved colors */
+      content: "No saved colors yet";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      height: 100%;
+      transform: translateX(-50%);
+      background-color: transparent;
+      color: gray;
+      z-index: -1;
+}
+
+.saved-color-grid-view:not(:has(.saved-clr)) {
+      height: 100% !important;
+}
+
+.saved-colors-list:not(:has(.saved-clr))::before {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+}
+
 .saved-colors-full-view {
       position: fixed;
       top: 0;
@@ -2656,8 +2680,10 @@ button#cross-clr-input-value {
       position: absolute;
       bottom: 100%;
       right: 0;
-      padding: 10px;
-      padding-right: 0;
+      /* padding: 10px; */
+      /* padding-right: 0; */
+      padding-bottom: 10px;
+      width: 100%;
       display: none;
 }
 
@@ -3206,11 +3232,32 @@ button#cross-clr-input-value {
 }
 
 .trash-colors-list {
+      position: relative;
       background-color: var(--primary-bg-color);
       overflow: auto;
       height: 100%;
       width: 100%;
       padding: 10px;
+}
+
+.trash-colors-list::before {
+      display: none; /* Initially hidden, will be shown when there are no trashed colors */
+      content: "No trashed colors yet";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      height: 100%;
+      transform: translateX(-50%);
+      background-color: transparent;
+      color: gray;
+      z-index: -1;
+}
+
+.trash-colors-list:not(:has(.trash-color-list-item))::before {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
 }
 
 .trash-colors-list::-webkit-scrollbar {

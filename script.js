@@ -2225,7 +2225,7 @@ function renderTrashColors() {
       updateTrashColorCounter();
 
       if (trashColors.length == 0) {
-            trashColorsList.innerHTML = emptyTrash();
+            // trashColorsList.innerHTML = emptyTrash();
             return;
       }
       for (const color of trashColors) {
@@ -2305,7 +2305,11 @@ function trashColorBoxCreator(color) {
 
 trashColorsList.addEventListener("click", (event) => {
       let colorBox = event.target.closest(".trash-color-list-item");
-      let color = colorBox.querySelector(".trash-color-name").textContent;
+      let color;
+      
+      if(colorBox) {
+            color = colorBox.querySelector(".trash-color-name").textContent;
+      }
 
       if (event.target.closest(".revert-color-btn")) {
             if (isColorAvailableInStorage(color)) {
@@ -2360,9 +2364,9 @@ function deleteColorFromeTrashStorage(color) {
 
       localStorage.setItem("trashColors", JSON.stringify(trashColors));
 
-      if(trashColors.length == 0) {
-            trashColorsList.innerHTML = emptyTrash();
-      }
+      // if(trashColors.length == 0) {
+      //       trashColorsList.innerHTML = emptyTrash();
+      // }
 }
 
 // Check if a color is available in saved colors
