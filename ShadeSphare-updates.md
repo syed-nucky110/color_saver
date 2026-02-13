@@ -20,7 +20,7 @@ ShadeSphare updates:-
 
 ✅ 5\. update 'Settings' panel.
 
-6\. update bottom right logo (ShadeSphare).
+✅ 6\. update bottom right logo (ShadeSphare).
 
 7\. implement the 'Right panel'.
 

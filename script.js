@@ -2541,7 +2541,6 @@ sidebarSettingsOption.addEventListener("click", () => {
 })
 
 settingsCloseBtn.addEventListener("click", toggleSettingsBox);
-toggleSettingsBox();
 function toggleSettingsBox() {
       settingBoxOpen = !settingBoxOpen;
       // settingsContainer.style.display = settingBoxOpen ? "flex" : "none";
@@ -2733,8 +2732,9 @@ function showSplashScreen() {
       logo.style.display = 'none';
       // splashMask.classList.add('hidden-splash-mask')
       // splashScreen.style.display = 'flex';
+      splashScreen.classList.remove('hidden');
       
-      // Auto-hide splash screen after 3 seconds
+      // Auto-hide splash screen after 4 seconds
       setTimeout(() => {
             hideSplashScreen();
       }, 4000);
@@ -2746,7 +2746,8 @@ function hideSplashScreen() {
       splashScreen.classList.add('fade-out');
       
       setTimeout(() => {
-            splashScreen.style.display = 'none';
+            // splashScreen.style.display = 'none';
+            splashScreen.classList.add('hidden');
             showMainContent();
       }, 500); // Wait for fade-out animation
 }
@@ -2754,7 +2755,8 @@ function hideSplashScreen() {
 function hideSplashScreenDirectly() {
       // return;
       // Hide splash screen immediately without animation
-      splashScreen.style.display = 'none';
+      // splashScreen.style.display = 'none';
+      splashScreen.classList.add('hidden');
       showMainContent();
 }
 

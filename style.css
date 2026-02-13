@@ -10,6 +10,7 @@
 }
 
 .splash-screen {
+      /* display: none; */
       position: fixed;
       inset: 0;
       width: 100vw;
@@ -46,7 +47,7 @@
       opacity: 1;
       background-color: #121212;
       transition: opacity 1s ease;
-      animation: hide-mask 1s ease forwards;
+      animation: hide-mask 1s ease .1s forwards;
 }
 
 @keyframes hide-mask {
@@ -277,7 +278,9 @@ html {
       z-index: 999999999999999990;
       user-select: none;
       border-radius: 7px;
-      background-color: var(--secondry-bg-color);
+      /* background-color: var(--secondry-bg-color); */
+      background-color: #00000099;
+      backdrop-filter: blur(10px);
       padding: 5px;
       animation: shownLogo .3s ease;
       transition: background-color var(--theme-mode-transition) ease;
@@ -285,15 +288,15 @@ html {
 
 .logo p {
       position: relative;
-      background: linear-gradient(45deg,
+      /* background: linear-gradient(45deg,
                   #4285F4,
                   #EA4335,
                   #fbbd05,
                   #34A853,
-                  #4285F4);
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
+                  #4285F4); */
+      color: #ffffff;
+      /* background-clip: text;
+      -webkit-background-clip: text; */
       font-size: 16px;
 }
 
