@@ -516,7 +516,7 @@
       box-shadow: 0 0 5px #9595959f;
       border-radius: var(--secondry-border-radius);
       padding: 5px;
-      height: 500px;
+      /* height: 500px; */
       margin-top: 100px;
       margin-bottom: 70px;
 }
@@ -543,8 +543,23 @@
       background-color: transparent;
       padding: 10px;
       height: 100%;
+      min-height: 50px;
       overflow: auto;
       overflow-x: hidden;
+}
+
+.saved-gradients-list::before {
+      content: 'No saved gradients';
+      color: var(--text-color);
+      font-size: 18px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+}
+
+.saved-gradients-list:not(:has(.saved-gradient-color))::before {
+      display: block;
 }
 
 .saved-gradient-color {

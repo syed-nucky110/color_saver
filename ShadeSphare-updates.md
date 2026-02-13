@@ -2,7 +2,9 @@ ShadeSphare updates:-
 
 
 
-// make separate branch of dev in GitHub.
+✅ // make separate branch of dev in GitHub.
+**// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
+
 
 
 
@@ -83,3 +85,6 @@ ShadeSphare updates:-
 36\. update theme mode button.
 
 37\. implement color indicator at the color input side.
+
+
+**// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
