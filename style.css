@@ -3566,9 +3566,10 @@ button#cross-clr-input-value {
       height: 400px; */
       max-width: calc(100% - 20px);
       max-height: calc(100% - 20px);
-      border-radius: 15px;
+      border-radius: 25px; /* old value 15px*/
       overflow: hidden;
       animation: showSmooth .3s ease;
+      transition: box-shadow var(--theme-mode-transition) ease;
 }
 
 @keyframes showSmooth {
@@ -3593,6 +3594,10 @@ button#cross-clr-input-value {
       user-select: none;
       height: 50px;
       border-bottom: 1px solid var(--text-color);
+      transition:
+            background-color var(--theme-mode-transition) ease,
+            color var(--theme-mode-transition) ease,
+            box-shadow var(--theme-mode-transition) ease;
 }
 
 .option-box-header .option-header-heading {
@@ -3602,6 +3607,10 @@ button#cross-clr-input-value {
       gap: 5px;
       font-size: 20px;
       color: var(--text-color);
+      transition:
+            background-color var(--theme-mode-transition) ease,
+            color var(--theme-mode-transition) ease,
+            box-shadow var(--theme-mode-transition) ease;
 }
 
 .option-header-heading ion-icon,
@@ -3634,13 +3643,17 @@ i {
       flex-direction: column;
       gap: 10px;
       user-select: none;
+      transition:
+            background-color var(--theme-mode-transition) ease,
+            color var(--theme-mode-transition) ease,
+            box-shadow var(--theme-mode-transition) ease;
 }
 
 .shortcut-list li {
       background-color: var(--secondry-bg-color);
       padding: 7px;
       padding-left: 10px;
-      border-radius: 10px;
+      border-radius: 25px;
       display: flex;
       border: 1px solid #212121;
       display: flex;
@@ -3665,7 +3678,9 @@ i {
       flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
+      padding-left: 5px;
       white-space: nowrap;
+      transition: color var(--theme-mode-transition) ease;
 }
 
 .shortcut-list li .key {
@@ -3677,7 +3692,7 @@ i {
       color: white;
       height: 100%;
       padding: 7px 10px;
-      border-radius: 5px;
+      border-radius: 15px;
       background-color: var(--shortcuts-key-bg-clr);
       font-weight: normal;
       text-transform: capitalize;
@@ -3761,17 +3776,25 @@ i {
 }
 
 .settings-list-item .settings-list-item-btn {
-      padding: 7px 10px;
+      padding: 7px 15px;
       border-radius: 5px;
       background-color: var(--secondry-bg-color);
-      border: 1px solid var(--text-color);
+      /* border: 1px solid var(--text-color); */
+      border-radius: 100px;
+      background-color: var(--secondry-bg-color);
+      box-shadow: 0 0 5px var(--shadow-color);
       color: var(--text-color);
       font-size: 16px;
-      transition: transform .3s ease;
+      transition:
+            transform .3s ease,
+            background-color var(--theme-mode-transition) ease,
+            color var(--theme-mode-transition) ease,
+            box-shadow 0.3s ease;
 }
 
 .settings-list-item .settings-list-item-btn:hover {
-      transform: scale(1.05);
+      /* transform: scale(1.05); */
+      box-shadow: 0 0 5px var(--accent-color);
 }
 
 .settings-list-item .settings-list-item-btn:active {

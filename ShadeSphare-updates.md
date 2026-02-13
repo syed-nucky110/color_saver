@@ -18,7 +18,7 @@ ShadeSphare updates:-
 
 ✅ 4\. fix logic of 'Delete all' button.
 
-5\. update 'Settings' panel.
+✅ 5\. update 'Settings' panel.
 
 6\. update bottom right logo (ShadeSphare).
 

@@ -2541,7 +2541,7 @@ sidebarSettingsOption.addEventListener("click", () => {
 })
 
 settingsCloseBtn.addEventListener("click", toggleSettingsBox);
-
+toggleSettingsBox();
 function toggleSettingsBox() {
       settingBoxOpen = !settingBoxOpen;
       // settingsContainer.style.display = settingBoxOpen ? "flex" : "none";
