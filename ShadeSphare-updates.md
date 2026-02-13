@@ -6,11 +6,7 @@ ShadeSphare updates:-
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
 
 
-
-
 **Updates**:
-
-
 
 ✅ 1\. splash screen (for mobile also).
 
