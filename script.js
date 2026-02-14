@@ -65,10 +65,10 @@ function checkSidebarIsLocked() {
 function restoreContainerSize() {
       const screenSize = localStorage.getItem("screen-size") || "";
       if (screenSize === "full") return; // Don't restore size if in fullscreen
-      
+
       const savedWidth = localStorage.getItem("favColorBoxW");
       const savedHeight = localStorage.getItem("favColorBoxH");
-      
+
       // Only restore if both values exist and are not empty strings
       if (savedWidth && savedHeight && savedWidth !== "" && savedHeight !== "") {
             favColorListContainer.style.width = savedWidth + "px";
@@ -82,17 +82,17 @@ let muteSoundBtnThumb = muteSoundBtn.querySelector(".thumb");
 let soundStatus = localStorage.getItem("soundStatus") || "mute";
 
 // Set initial state - default muted with proper styling
-if(soundStatus === "mute") {
+if (soundStatus === "mute") {
       muteSoundBtnThumb.classList.add("switch-on");
       // muteSoundBtn.style.backgroundColor = "#1070d1"; // Blue background when muted
       muteSoundBtn.style.backgroundColor = $accentColor;
 }
-else if(soundStatus !== "mute" && soundStatus !== "" && soundStatus !== "unmute" && !soundStatus) {
+else if (soundStatus !== "mute" && soundStatus !== "" && soundStatus !== "unmute" && !soundStatus) {
       localStorage.setItem("soundStatus", "mute");
       muteSoundBtnThumb.classList.add('switch-on');
       muteSoundBtn.style.backgroundColor = $accentColor;
 }
-else if(soundStatus === "unmute") {
+else if (soundStatus === "unmute") {
       muteSoundBtnThumb.classList.remove('switch-on');
       muteSoundBtn.style.backgroundColor = ""; // Default background when unmuted
 }
@@ -100,16 +100,16 @@ else if(soundStatus === "unmute") {
 // Sound toggle functionality
 muteSoundBtn.addEventListener("click", () => {
       soundStatus = localStorage.getItem("soundStatus");
-      
-      if(soundStatus === "mute") {
+
+      if (soundStatus === "mute") {
             // Unmute sounds
             localStorage.setItem("soundStatus", "unmute");
             muteSoundBtnThumb.classList.remove("switch-on");
             muteSoundBtn.style.backgroundColor = "";
-            
+
             // Play test sound
             playSound(toggleSwitchSound);
-            
+
             // Show feedback
             if (typeof throwMessage === 'function') {
                   throwMessage("Sound Effects Enabled", "#00ff00", "volume-high-outline");
@@ -121,7 +121,7 @@ muteSoundBtn.addEventListener("click", () => {
             muteSoundBtnThumb.classList.add("switch-on");
             // muteSoundBtn.style.backgroundColor = "#1070d1";
             muteSoundBtn.style.backgroundColor = $accentColor;
-            
+
             // Show feedback
             if (typeof throwMessage === 'function') {
                   throwMessage("Sound Effects Disabled", "#ff6b35", "volume-mute-outline");
@@ -157,7 +157,7 @@ let themeText = document.querySelector("#theme-text");
 
 // function to set tooltip
 function setTooltip(selector, text) {
-      if(window.innerWidth > 992) {
+      if (window.innerWidth > 992) {
             tippy(selector, {
                   content: text,
                   allowHTML: true,
@@ -173,68 +173,68 @@ setTooltip('#preview-box-color-picker', "Pick Color");
 // Search functionality
 function handleSearch(event) {
       //     const searchText = event.target.value.toLowerCase();
-    const searchText = event.target.value.toUpperCase();
-    const allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
-    const filteredColors = allColors.filter(color => 
-      //   color.toLowerCase().includes(searchText)
-        color.toUpperCase().includes(searchText)
-    );
+      const searchText = event.target.value.toUpperCase();
+      const allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
+      const filteredColors = allColors.filter(color =>
+            //   color.toLowerCase().includes(searchText)
+            color.toUpperCase().includes(searchText)
+      );
 
-    if (searchText && filteredColors.length > 0) {
-        searchSuggestions.style.display = "block";
-        searchSuggestions.innerHTML = filteredColors
-            .map((color, index) => `
+      if (searchText && filteredColors.length > 0) {
+            searchSuggestions.style.display = "block";
+            searchSuggestions.innerHTML = filteredColors
+                  .map((color, index) => `
                 <div class="search-suggestion-item" data-index="${index}" data-color="${color}">
                     <div class="color-preview" style="background-color: ${color}"></div>
                     <span class="suggestion-color-name">${color}</span>
                 </div>
             `)
-            .join("");
-    } else {
-        searchSuggestions.style.display = "none";
-    }
+                  .join("");
+      } else {
+            searchSuggestions.style.display = "none";
+      }
 }
 
 function handleSuggestionClick(event) {
-    const item = event.target.closest('.search-suggestion-item');
-    if (item) {
-        const color = item.dataset.color;
-        searchBar.value = '';
-        searchSuggestions.style.display = "none";
-        highlightSavedColor(color);
-    }
+      const item = event.target.closest('.search-suggestion-item');
+      if (item) {
+            const color = item.dataset.color;
+            searchBar.value = '';
+            searchSuggestions.style.display = "none";
+            highlightSavedColor(color);
+      }
 }
 
 function handleSearchKeydown(event) {
-    const items = searchSuggestions.querySelectorAll('.search-suggestion-item');
-    const activeItem = searchSuggestions.querySelector('.search-suggestion-item.active');
-    let activeIndex = Array.from(items).indexOf(activeItem);
+      const items = searchSuggestions.querySelectorAll('.search-suggestion-item');
+      const activeItem = searchSuggestions.querySelector('.search-suggestion-item.active');
+      let activeIndex = Array.from(items).indexOf(activeItem);
 
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-        event.preventDefault();
-        
-        if (event.key === 'ArrowDown') {
-            activeIndex = activeIndex < items.length - 1 ? activeIndex + 1 : 0;
-        } else {
-            activeIndex = activeIndex > 0 ? activeIndex - 1 : items.length - 1;
-        }
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            event.preventDefault();
 
-        items.forEach(item => item.classList.remove('active'));
-        items[activeIndex].classList.add('active');
-        items[activeIndex].scrollIntoView({ block: 'nearest' });
-    }
-    
-    if (event.key === 'Enter' && activeItem) {
-        const color = activeItem.dataset.color;
-        searchBar.value = '';
-        searchSuggestions.style.display = "none";
-        highlightSavedColor(color);
-    }
+            if (event.key === 'ArrowDown') {
+                  activeIndex = activeIndex < items.length - 1 ? activeIndex + 1 : 0;
+            } else {
+                  activeIndex = activeIndex > 0 ? activeIndex - 1 : items.length - 1;
+            }
 
-    if (event.key === 'Escape') {
-        searchBar.value = '';
-        searchSuggestions.style.display = "none";
-    }
+            items.forEach(item => item.classList.remove('active'));
+            items[activeIndex].classList.add('active');
+            items[activeIndex].scrollIntoView({ block: 'nearest' });
+      }
+
+      if (event.key === 'Enter' && activeItem) {
+            const color = activeItem.dataset.color;
+            searchBar.value = '';
+            searchSuggestions.style.display = "none";
+            highlightSavedColor(color);
+      }
+
+      if (event.key === 'Escape') {
+            searchBar.value = '';
+            searchSuggestions.style.display = "none";
+      }
 }
 
 // Hide suggestions when clicking outside
@@ -249,7 +249,7 @@ searchBar.addEventListener('keydown', handleSearchKeydown);
 searchSuggestions.addEventListener('click', handleSuggestionClick);
 
 window.addEventListener("keyup", (event) => {
-      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "e") {
+      if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "e") {
             searchBar.focus();
       }
 })
@@ -314,7 +314,7 @@ function initializeLayoutToggle() {
       // Click events for both options
       listView.addEventListener("click", () => toggleLayoutOption("list"));
       gridView.addEventListener("click", () => toggleLayoutOption("grid"));
-      
+
       // Keyboard accessibility for the container
       layoutToggleContainer.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
@@ -324,7 +324,7 @@ function initializeLayoutToggle() {
                   const newType = currentType === "list" ? "grid" : "list";
                   toggleLayoutOption(newType);
             }
-            
+
             // Arrow key navigation
             if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                   event.preventDefault();
@@ -345,12 +345,12 @@ function toggleLayoutOption(layoutType) {
             throwMessage("First, turn off Auto Grid View")
             return;
       }
-      
+
       // Turn off Auto Grid View when manually changing layout
       if (localStorage.getItem("autoGridView") === "enable") {
             setAutoGridView("disable");
       }
-      
+
       // Update layout type
       setLayoutType(layoutType);
       setSelectedLayoutOption();
@@ -362,29 +362,29 @@ function setLayoutType(type) {
 
 function setSelectedLayoutOption() {
       const type = localStorage.getItem("layout-type") || "list";
-      
+
       // Remove all active states first
       listView.classList.remove("active");
       gridView.classList.remove("active");
       listView.setAttribute("aria-checked", "false");
       gridView.setAttribute("aria-checked", "false");
       layoutToggleContainer.classList.remove("grid-active");
-      
+
       if (type === "list") {
             // Set list view as active
             listView.classList.add("active");
             listView.setAttribute("aria-checked", "true");
             savedColorList.classList.remove("saved-color-grid-view");
-            
+
             // Move slider to list position (left)
             layoutToggleContainer.classList.remove("grid-active");
-            
+
       } else if (type === "grid") {
             // Set grid view as active
             gridView.classList.add("active");
             gridView.setAttribute("aria-checked", "true");
             savedColorList.classList.add("saved-color-grid-view");
-            
+
             // Move slider to grid position (right)
             layoutToggleContainer.classList.add("grid-active");
       }
@@ -400,7 +400,7 @@ window.addEventListener("keyup", (event) => {
 
             let currentLayout = localStorage.getItem("layout-type") || "list";
             let newLayout = currentLayout === "grid" ? "list" : "grid";
-            
+
             toggleLayoutOption(newLayout);
       }
 });
@@ -558,9 +558,9 @@ navLockBtn.addEventListener("click", () => {
 let mainOptions = document.querySelector('.top-area-options')
 
 function lockNavbar() {
-      
+
       localStorage.setItem("isSidebarLocked", "yes");
-      
+
       navLockIcon.setAttribute("name", "lock-closed");
       navLockBtn.setAttribute("title", "Unlock sidebar");
       menuCloseBtn.style.visibility = "hidden";
@@ -568,20 +568,20 @@ function lockNavbar() {
 
       menu.style.display = "none";
       mainOptions.style.zIndex = "200";
-      
+
       (localStorage.getItem("screen-size") == "full") ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
       menuIsLocked = !menuIsLocked;
 }
 
 function unlockNavbar() {
-      
+
       localStorage.setItem("isSidebarLocked", "no");
-      
+
       navLockIcon.setAttribute("name", "lock-open-outline");
       navLockBtn.setAttribute("title", "Lock sidebar");
       menuCloseBtn.style.visibility = "visible";
       // themeBtn.style.transform = "translateX(0px)";
-      
+
       menu.style.display = "";
       mainOptions.style.zIndex = "";
 
@@ -620,10 +620,10 @@ else if (screenSize === "normal") {
 window.addEventListener("keyup", (event) => {
       if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "f") {
             event.preventDefault();
-            if(resizerIsOn) {
+            if (resizerIsOn) {
                   OffResizer();
             }
-            
+
             // if (menuIsLocked) {
             //       throwMessage("Unlock Sidebar First");
             // }
@@ -642,7 +642,7 @@ fullScreenBtn.addEventListener("click", () => {
             // return throwMessage("Unlock Sidebar First", "white");
             // arrangeDispalycontainerSize();
       }
-      
+
       if (resizerIsOn) {
             // return throwMessage("Turn off Resize First", "white");
             OffResizer();
@@ -675,7 +675,7 @@ function removeFullScreen() {
       fullScreenIcon.setAttribute("name", "expand-outline");
       screenSizeText.innerText = "Full screen";
       localStorage.setItem("screen-size", "normal");
-      
+
       disarrangeDispalycontainerSize();
       // restoreContainerSize(); // Restore saved size when exiting fullscreen
 }
@@ -971,13 +971,13 @@ function moveCenter(box) {
 }
 
 savedColorList.addEventListener("mouseup", (event) => {
-      
+
       const box = event.target.closest(".saved-clr");
       // moveCenterbox);
-      
+
       if (event.target.closest(".delete-clr-btn")) return;
       if (seletionModOn && box) {
-      
+
             box.classList.toggle("selected");
 
             const colorId = box.dataset.id;
@@ -1027,7 +1027,7 @@ let currentEditingBox = null;
 let currentChoosedBox = null;
 
 function openColorEditor(box) {
-      
+
       currentChoosedBox = box;
       setTimeout(() => {
             choosedColorContainer.style.display = "flex";
@@ -1110,7 +1110,7 @@ function showSuccessMessage(text) {
 
             // Remove after animation ends
             popupWrapper.addEventListener("animationend", (e) => {
-                  if(e.animationName === "slideUp") {
+                  if (e.animationName === "slideUp") {
                         popupWrapper.remove();
                   }
             });
@@ -1215,13 +1215,13 @@ function colorSavingProcess(method) {
             throwMessage("Color Already Saved", "#00ff00", "checkmark-circle-outline")
             return;
       }
-      
-      if(isColorAvailableInTrash(newColor)) {
+
+      if (isColorAvailableInTrash(newColor)) {
             throwMessage("Color is Available in Trash", "#00ff00", "checkmark-circle-outline")
             return;
       }
 
-      if(method === 'save as copy') {
+      if (method === 'save as copy') {
             colorListCreator(newColor);
       }
       else {
@@ -1325,20 +1325,20 @@ savedColorCounting.textContent = allColors.length;
 addColorInput.addEventListener("input", () => {
       playSound(typingClickSound)
 
-      
+
       // addColorInput.value = addColorInput.value.toLowerCase();
       addColorInput.value = addColorInput.value.toUpperCase();
-      
+
       let res = isColorSaved(addColorInput.value);
 
-      if(res === 'saved color') {
+      if (res === 'saved color') {
             showErrorMessage('saved color');
       }
-      else if(isColorAvailableInTrash(addColorInput.value)) {
+      else if (isColorAvailableInTrash(addColorInput.value)) {
             showErrorMessage('in trash');
       }
       else hideErrorMessage();
-      
+
       const quickPreviewMode = localStorage.getItem("quickPreviewMode") || "off";
       if (quickPreviewMode === "on") {
             highlightSavedColor(addColorInput.value);
@@ -1392,7 +1392,7 @@ bubblingElements.forEach(element => {
 
       element.addEventListener('animationend', (e) => {
             // element.classList.remove('bubbling');
-            if(e.animationName === "bubbling") {
+            if (e.animationName === "bubbling") {
                   element.style.animation = "";
             }
       })
@@ -1404,7 +1404,7 @@ addColorBtn.addEventListener("click", async () => {
       playSound(lockSound)
 
       // addColorBtn.style.animation = "bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1)";
-      
+
 
       // addColorBtn.addEventListener("animationend", () => {
       //       addColorBtn.style.animation = "";
@@ -1497,7 +1497,7 @@ function isColorSaved(checkingColor) {
 
 function showErrorMessage(reason) {
       addColorInput.style.transform = 'translateY(-8px)'
-      
+
       let errorIcon = errorMessage.querySelector("ion-icon");
       let errorText = errorMessage.querySelector("span");
 
@@ -1577,9 +1577,9 @@ function createColorBox(color) {
       colorBox.style.backgroundColor = color;
       colorBox.setAttribute("tabindex", "0");
       colorBox.setAttribute("data-id", `${color}`);
-      
+
       colorBox.addEventListener("keydown", (event) => {
-            if(event.key == "Enter") {
+            if (event.key == "Enter") {
                   copyText(color)
             }
       });
@@ -1681,7 +1681,7 @@ savedColorList.addEventListener("click", (event) => {
             saveToTrash(colorName);
 
             playSound(swooshSound)
-            
+
             showSuccessMessage("Move to Trash Bin");
 
             // Remove from localStorage
@@ -1705,7 +1705,7 @@ function removeFromDOM(colorBox) {
       setTimeout(() => {
             colorBox.remove();
       }, 300);
-}``
+} ``
 
 function deleteColorFromStorage(colorName) {
       colorName = colorName.toUpperCase();
@@ -1717,36 +1717,36 @@ function deleteColorFromStorage(colorName) {
 
 function setSelectedLayoutOption() {
       const type = localStorage.getItem("layout-type") || "list";
-      
+
       // Check if Auto Grid View is enabled - disable toggle if so
       if (localStorage.getItem("autoGridView") === "enable") {
             layoutToggleContainer.classList.add("disabled");
       } else {
             layoutToggleContainer.classList.remove("disabled");
       }
-      
+
       // Remove all active states first
       listView.classList.remove("active");
       gridView.classList.remove("active");
       listView.setAttribute("aria-checked", "false");
       gridView.setAttribute("aria-checked", "false");
       layoutToggleContainer.classList.remove("grid-active");
-      
+
       if (type === "list") {
             // Set list view as active
             listView.classList.add("active");
             listView.setAttribute("aria-checked", "true");
             savedColorList.classList.remove("saved-color-grid-view");
-            
+
             // Move slider to list position (left)
             layoutToggleContainer.classList.remove("grid-active");
-            
+
       } else if (type === "grid") {
             // Set grid view as active
             gridView.classList.add("active");
             gridView.setAttribute("aria-checked", "true");
             savedColorList.classList.add("saved-color-grid-view");
-            
+
             // Move slider to grid position (right)
             layoutToggleContainer.classList.add("grid-active");
       }
@@ -1887,7 +1887,7 @@ function resetFavColorBoxSize() {
             favColorListContainer.classList.remove("resizable");
             resizerIsOn = false;
       }
-      
+
       // Clear localStorage entries
       localStorage.removeItem("favColorBoxW");
       localStorage.removeItem("favColorBoxH");
@@ -1895,7 +1895,7 @@ function resetFavColorBoxSize() {
       // Reset container to default size
       favColorListContainer.style.width = "";
       favColorListContainer.style.height = "";
-      
+
       // Show confirmation message
       throwMessage("Box Size Reset", "#ff6b35", "refresh-outline");
 }
@@ -1903,18 +1903,18 @@ function resetFavColorBoxSize() {
 let msgBox, textTag;
 resizeBtn.addEventListener("mouseover", () => {
       let boxShadow = localStorage.getItem("theme");
-      if(localStorage.getItem("screen-size") == "full") return;
-      if(!resizerIsOn) {
+      if (localStorage.getItem("screen-size") == "full") return;
+      if (!resizerIsOn) {
             // favColorListContainer.style.boxShadow = `0 0 15px ${(boxShadow == "light") ? "#ff0000" : "#b87af5"}`;
             favColorListContainer.style.outline = `5px solid ${$accentColor}`;
             favColorListContainer.style.outlineOffset = "5px";
-            
+
             msgBox = document.createElement("div");
             textTag = document.createElement("p");
-            
+
             msgBox.classList.add("resizable-tool-tip");
             textTag.textContent = "Resize this focused Box";
-            
+
             msgBox.append(textTag);
             document.body.append(msgBox);
       }
@@ -1928,7 +1928,7 @@ resizeBtn.addEventListener("mouseout", () => {
 })
 
 window.addEventListener("keyup", (event) => {
-      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() === "w") {
+      if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() === "w") {
             event.preventDefault();
             (resizerIsOn) ? OffResizer() : OnResizer();
       }
@@ -1949,27 +1949,27 @@ function OnResizer() {
       favColorListContainer.classList.add("resizable");
 
       hideLogo();
-      
+
       resizerIsOn = !resizerIsOn;
 }
 
 function OffResizer() {
       resizeBtn.classList.remove("selected-nav-option")
       favColorListContainer.classList.remove("resizable");
-      
+
       // Get current container size and save to localStorage when resizer is turned off
       const containerRect = favColorListContainer.getBoundingClientRect();
       const currentWidth = containerRect.width;
       const currentHeight = containerRect.height;
-      
+
       localStorage.setItem("favColorBoxW", currentWidth);
       localStorage.setItem("favColorBoxH", currentHeight);
-      
+
       // Show confirmation that size was saved
       throwMessage("Box Size Saved", "#00ff00", "checkmark-circle-outline");
 
       showLogo();
-      
+
       resizerIsOn = !resizerIsOn;
 }
 
@@ -2014,7 +2014,7 @@ if (quickPreviewToggleThumb) {
 function throwMessage(text, color, icon = "alert-circle-outline") {
 
       playSound(alertSound);
-      
+
       let box = document.createElement("div");
       let textBox = document.createElement("p");
       let setIcon = document.createElement("ion-icon");
@@ -2026,11 +2026,11 @@ function throwMessage(text, color, icon = "alert-circle-outline") {
       })
 
       box.addEventListener('animationend', (e) => {
-            if(e.animationName === "bubbling") {
+            if (e.animationName === "bubbling") {
                   box.style.animation = "";
             }
       })
-      
+
       textBox.innerText = text;
       textBox.style.color = "white";
       setIcon.style.color = color;
@@ -2127,7 +2127,7 @@ pasteBtn.addEventListener("click", async () => {
       // Optional: Apply preview
       if (pastedValue) {
             isColorSaved(pastedValue);
-            if(isColorAvailableInTrash(pastedValue)) {
+            if (isColorAvailableInTrash(pastedValue)) {
                   showErrorMessage('in trash')
             }
             if (!isColorValid(pastedValue)) {
@@ -2154,7 +2154,7 @@ let orgTrashColorLimit = 30;
 let isTrashOpen = false;
 
 window.addEventListener("keyup", (event) => {
-      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "r") {
+      if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "r") {
             event.preventDefault();
             isTrashOpen ? closeTrashColorBox() : openTrashColorBox();
       }
@@ -2166,10 +2166,87 @@ trashBinBtn.addEventListener("click", () => {
 });
 
 trashColorContainer.addEventListener("click", (event) => {
+      const dropdown = document.querySelector('.trash-dropdown-menu');
+      const isDropdownBtn = event.target.closest('#trash-options-btn');
+      const isDropdownMenu = event.target.closest('.trash-dropdown-menu');
+
+      // Toggling dropdown
+      if (isDropdownBtn) {
+            dropdown.classList.toggle('show');
+      }
+      // Close dropdown if clicking outside
+      else if (!isDropdownMenu) {
+            if (dropdown && dropdown.classList.contains('show')) {
+                  dropdown.classList.remove('show');
+            }
+      }
+
+      // Close Trash Box
       if (event.target == closeTrashBoxBtn || (event.target == trashColorContainer && event.target != trashColorBox)) {
             closeTrashColorBox();
       }
 })
+
+// Trash Options Dropdown Logic
+const trashDropdownMenu = document.querySelector('.trash-dropdown-menu');
+const emptyTrashBtn = document.getElementById('empty-trash-btn');
+const restoreAllTrashBtn = document.getElementById('restore-all-trash-btn');
+
+// Note: trashOptionsBtn listener removed as it is handled in trashColorContainer click
+
+if (emptyTrashBtn) {
+      emptyTrashBtn.addEventListener('click', () => {
+            const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
+            if (trashColors.length === 0) {
+                  throwMessage("Trash is already empty", "#ff6b35");
+                  trashDropdownMenu.classList.remove('show');
+                  return;
+            }
+
+            localStorage.setItem("trashColors", JSON.stringify([]));
+            renderTrashColors();
+            isTrashFull();
+            throwMessage("Trash emptied successfully", "#00ff00", "trash-outline");
+            trashDropdownMenu.classList.remove('show');
+      });
+}
+
+if (restoreAllTrashBtn) {
+      restoreAllTrashBtn.addEventListener('click', () => {
+            const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
+            if (trashColors.length === 0) {
+                  throwMessage("No colors to restore", "#ff6b35");
+                  trashDropdownMenu.classList.remove('show');
+                  return;
+            }
+
+            let savedColors = JSON.parse(localStorage.getItem("saveColor")) || [];
+
+            // Filter out colors that are already in savedColors to avoid duplicates
+            const newColors = trashColors.filter(color => !savedColors.includes(color));
+
+            // Add non-duplicate colors to savedColors
+            savedColors = [...savedColors, ...newColors];
+
+            localStorage.setItem("saveColor", JSON.stringify(savedColors));
+            localStorage.setItem("trashColors", JSON.stringify([]));
+
+            renderTrashColors();
+            renderColors(); // Update the main list
+            isTrashFull();
+
+            const restoredCount = newColors.length;
+            const duplicateCount = trashColors.length - restoredCount;
+
+            if (duplicateCount > 0) {
+                  throwMessage(`Restored ${restoredCount} colors (${duplicateCount} were duplicates)`, "#00ff00", "refresh-outline");
+            } else {
+                  throwMessage("All colors restored successfully", "#00ff00", "refresh-outline");
+            }
+
+            trashDropdownMenu.classList.remove('show');
+      });
+}
 
 closeTrashBoxBtn.addEventListener("click", () => {
       closeTrashColorBox();
@@ -2201,6 +2278,7 @@ function saveToTrash(color) {
       localStorage.setItem("trashColors", JSON.stringify(trashColors));
 }
 
+openTrashColorBox()
 function openTrashColorBox() {
       trashColorContainer.style.display = "flex";
       trashColorsList.scrollTop = 0;
@@ -2221,8 +2299,9 @@ function renderTrashColors() {
       // return;
       trashColorsList.innerHTML = "";
       const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
-      
+
       updateTrashColorCounter();
+      updateTrashButtonsState(trashColors.length);
 
       if (trashColors.length == 0) {
             // trashColorsList.innerHTML = emptyTrash();
@@ -2230,6 +2309,18 @@ function renderTrashColors() {
       }
       for (const color of trashColors) {
             trashColorBoxCreator(color);
+      }
+}
+
+function updateTrashButtonsState(count) {
+      const emptyTrashBtn = document.getElementById('empty-trash-btn');
+      const restoreAllTrashBtn = document.getElementById('restore-all-trash-btn');
+
+      if (emptyTrashBtn) {
+            emptyTrashBtn.disabled = count === 0;
+      }
+      if (restoreAllTrashBtn) {
+            restoreAllTrashBtn.disabled = count === 0;
       }
 }
 
@@ -2306,8 +2397,8 @@ function trashColorBoxCreator(color) {
 trashColorsList.addEventListener("click", (event) => {
       let colorBox = event.target.closest(".trash-color-list-item");
       let color;
-      
-      if(colorBox) {
+
+      if (colorBox) {
             color = colorBox.querySelector(".trash-color-name").textContent;
       }
 
@@ -2399,31 +2490,31 @@ function showRestorePopup(color) {
             const yesBtn = document.getElementById("restore-yes");
             const noBtn = document.getElementById("restore-no");
 
-            
+
             text.textContent = `"${color}" is in trash. Restore it?`;
             popup.style.display = "flex";
 
-            
+
             // Remove old listeners by cloning
             yesBtn.replaceWith(yesBtn.cloneNode(true));
             noBtn.replaceWith(noBtn.cloneNode(true));
-            
+
             // Get new button references
             const newYesBtn = document.getElementById("restore-yes");
             const newNoBtn = document.getElementById("restore-no");
-            
+
             newYesBtn.addEventListener("click", () => {
                   popup.style.display = "none";
                   resolve(true); // YES clicked
             });
-            
+
             newNoBtn.addEventListener("click", () => {
                   popup.style.display = "none";
                   resolve(false); // NO clicked
             });
-            
+
             requestAnimationFrame(() => {
-                  newYesBtn .focus();
+                  newYesBtn.focus();
             });
       });
 }
@@ -2458,7 +2549,7 @@ shorcutBoxCloseBtn.addEventListener("click", () => {
 function toggleShortcutBox() {
       shortcutBoxOpen = !shortcutBoxOpen;
       // shorcutContainer.style.display = shortcutBoxOpen ? "flex" : "none";
-      if(shortcutBoxOpen) {
+      if (shortcutBoxOpen) {
             shorcutContainer.style.display = "flex";
       }
       else {
@@ -2480,7 +2571,7 @@ let autoGridViewBtnThumb = document.querySelector('.thumb');
 let settingBoxOpen = false;
 
 window.addEventListener("keyup", (event) => {
-      if(event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "c") {
+      if (event.shiftKey && event.altKey && event.key.toLocaleLowerCase() == "c") {
             event.preventDefault();
             toggleSettingsBox();
       }
@@ -2507,7 +2598,7 @@ function toggleAutoGridView() {
 
 function setAutoGridView(mode) {
       let isAutoModeOn;
-      
+
       if (mode) {
             // If mode is passed as parameter, use it
             localStorage.setItem("autoGridView", mode);
@@ -2516,7 +2607,7 @@ function setAutoGridView(mode) {
             // Otherwise, get from localStorage
             isAutoModeOn = localStorage.getItem("autoGridView") || "disable";
       }
-      
+
       const layoutToggleContainer = document.querySelector(".layout-toggle-container");
 
       if (isAutoModeOn === "enable") {
@@ -2548,7 +2639,7 @@ settingsCloseBtn.addEventListener("click", toggleSettingsBox);
 function toggleSettingsBox() {
       settingBoxOpen = !settingBoxOpen;
       // settingsContainer.style.display = settingBoxOpen ? "flex" : "none";
-      if(settingBoxOpen) {
+      if (settingBoxOpen) {
             settingsContainer.style.display = "flex";
       }
       else {
@@ -2597,7 +2688,7 @@ window.addEventListener("mousemove", (event) => {
 })
 
 const observer = new ResizeObserver(entries => {
-      if(localStorage.getItem("autoGridView") == "enable") {
+      if (localStorage.getItem("autoGridView") == "enable") {
             for (let entry of entries) {
                   if (entry.contentRect.width >= 700) {
                         // localStorage.setItem("layout-type", "grid");
@@ -2628,7 +2719,7 @@ function setBrightness() {
       let brightness = localStorage.getItem("brightness") || 100;
 
       // Check if brightness is valid
-      if(parseInt(brightness) > 100 || parseInt(brightness) < 40) {
+      if (parseInt(brightness) > 100 || parseInt(brightness) < 40) {
             brightness = 100;
       }
 
@@ -2640,9 +2731,9 @@ function setBrightness() {
 setBrightness();
 
 function setLayoutType(type) {
-    manualOverride = true; // user ne manually change kiya
-    localStorage.setItem("layout-type", type);
-//     setSelectedLayoutOption();
+      manualOverride = true; // user ne manually change kiya
+      localStorage.setItem("layout-type", type);
+      //     setSelectedLayoutOption();
 }
 
 function playSound(soundType) {
@@ -2651,7 +2742,7 @@ function playSound(soundType) {
       if (currentSoundStatus === "mute") {
             return; // Don't play if muted
       }
-      
+
       try {
             soundType.currentTime = 0;
             soundType.play().catch(error => {
@@ -2717,7 +2808,7 @@ function initializeSplashScreen() {
       const hasVisitedInSession = sessionStorage.getItem('hasVisited');
       // showSplashScreen();
       // return;  // temporary #########
-      
+
       if (!hasVisitedInSession) {
             showSplashScreen();
             // First visit in this session - show splash screen
@@ -2737,7 +2828,7 @@ function showSplashScreen() {
       // splashMask.classList.add('hidden-splash-mask')
       // splashScreen.style.display = 'flex';
       splashScreen.classList.remove('hidden');
-      
+
       // Auto-hide splash screen after 4 seconds
       setTimeout(() => {
             hideSplashScreen();
@@ -2748,7 +2839,7 @@ function hideSplashScreen() {
       // return;
       // Add fade-out animation
       splashScreen.classList.add('fade-out');
-      
+
       setTimeout(() => {
             // splashScreen.style.display = 'none';
             splashScreen.classList.add('hidden');
@@ -2771,11 +2862,11 @@ function showMainContent() {
       })
       displayContainer.style.display = 'flex';
       AppWrapper.style.display = 'block';
-      
+
       // Initialize app features
       checkSidebarIsLocked();
       restoreContainerSize();
-      
+
       // Show logo with delay for smooth transition
       setTimeout(() => {
             logo.style.display = 'flex';

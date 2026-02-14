@@ -42,9 +42,9 @@ ShadeSphare updates:-
 
 ✅ 17\. show 'Empty' tag in empty boxes.
 
-18\. show shortcut tag on hover in sidebar.
+**completed**18\. show shortcut tag on hover in sidebar.
 
-19\. implement empty/restore trash colors logic.
+✅ 19\. implement empty/restore trash colors logic.
 
 20\. implement color 'Filters'.
 

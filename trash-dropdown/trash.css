@@ -1,0 +1,110 @@
+/* Dropdown styles */
+.trash-options-dropdown {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#trash-options-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color: transparent;
+    color: var(--text-color);
+    transition: background-color .2s ease, transform .2s ease;
+    cursor: pointer;
+}
+
+#trash-options-btn:hover,
+#trash-options-btn:focus-visible {
+    background-color: rgba(73, 73, 73, 0.229);
+}
+
+#trash-options-btn:active {
+    transform: scale(0.9);
+}
+
+.trash-dropdown-menu {
+    display: none;
+    /* Initially hidden */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: var(--primary-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    width: 160px;
+    z-index: 100;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.trash-dropdown-menu.show {
+    display: flex;
+    animation: dropdownFadeIn 0.2s ease-out forwards;
+    opacity: 1;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.trash-dropdown-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    width: 100%;
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--text-color);
+    font-size: 14px;
+    transition: background-color .2s ease;
+    cursor: pointer;
+    text-align: left;
+}
+
+.trash-dropdown-menu button:hover {
+    background-color: var(--secondry-bg-color);
+    backdrop-filter: brightness(90%);
+}
+
+.trash-dropdown-menu button ion-icon {
+    font-size: 18px;
+}
+
+#empty-trash-btn:hover ion-icon {
+    color: #ff5252;
+}
+
+#restore-all-trash-btn:hover ion-icon {
+    color: #4caf50;
+}
+
+.trash-dropdown-menu button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: transparent !important;
+}
+
+.trash-dropdown-menu button:disabled ion-icon {
+    color: var(--text-color) !important;
+}

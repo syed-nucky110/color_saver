@@ -72,9 +72,8 @@
                                     </div>
 
                                     <div class="resize-option">
-                                          <div tabindex="0"
-                                                onkeydown="if(event.key == 'Enter') this.click()" class="option"
-                                                id="resize-color-list-btn">
+                                          <div tabindex="0" onkeydown="if(event.key == 'Enter') this.click()"
+                                                class="option" id="resize-color-list-btn">
                                                 <ion-icon class="sidebar-option-icon no-shrink"
                                                       name="resize-outline"></ion-icon>
                                                 <span title="Resize" class="option-name">Resize</span>
@@ -128,7 +127,8 @@
                                                       onkeydown="if(event.key == 'Enter') this.click()">
                                                       <ion-icon name="color-filter-outline"
                                                             class="no-shrink sidebar-option-icon"></ion-icon>
-                                                      <span title="Gradient colors" class="option-name">Gradient Colors</span>
+                                                      <span title="Gradient colors" class="option-name">Gradient
+                                                            Colors</span>
                                                       <!-- <span class="shortcut-tag">Alt + G</span> -->
                                                 </div>
                                           </div>
@@ -143,7 +143,8 @@
                                           <div class="trash-color-options">
                                                 <div class="option" id="trash-color-option" tabindex="0"
                                                       onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <ion-icon class="sidebar-option-icon no-shrink" name="trash"></ion-icon>
+                                                      <ion-icon class="sidebar-option-icon no-shrink"
+                                                            name="trash"></ion-icon>
                                                       <span title="Trash bin" class="option-name">Trash Bin</span>
                                                       <span class="shortcut-tag">Shift + Alt + R</span>
                                                 </div>
@@ -229,11 +230,13 @@
                                     <div class="color-counter">
                                           <p id="total-clrs-text">Total colors: <span id="color-counting">0</span></p>
                                     </div>
-                                    <div class="saved-colors-list">
-                                          <!-- <div class="saved-clr" style="background-color: aqua;">
-                                                <span class="color-name">aqua</span>
-                                                <button><ion-icon name="trash-outline"></ion-icon></button>
-                                          </div> -->
+                                    <div class="saved-colors-list-wrapper">
+                                          <div class="saved-colors-list">
+                                                <!-- <div class="saved-clr" style="background-color: aqua;">
+                                                      <span class="color-name">aqua</span>
+                                                      <button><ion-icon name="trash-outline"></ion-icon></button>
+                                                </div> -->
+                                          </div>
                                     </div>
                               </div>
                         </div>
@@ -254,7 +257,8 @@
                                           </div>
                                           <div id="display-color-box">
                                                 <div id="color-preview-box">
-                                                      <input type="color" id="preview-box-color-picker" class="bubbling">
+                                                      <input type="color" id="preview-box-color-picker"
+                                                            class="bubbling">
                                                       <p id="preview-text">Live Preview of selected color</p>
                                                 </div>
                                           </div>
@@ -316,6 +320,21 @@
                                           <p>Trash Bin</p>
                                     </div>
                                     <div class="trash-others">
+                                          <div class="trash-options-dropdown">
+                                                <button id="trash-options-btn" title="Options">
+                                                      <ion-icon name="ellipsis-vertical"></ion-icon>
+                                                </button>
+                                                <div class="trash-dropdown-menu">
+                                                      <button id="empty-trash-btn">
+                                                            <ion-icon name="trash-outline"></ion-icon>
+                                                            <span>Empty Trash</span>
+                                                      </button>
+                                                      <button id="restore-all-trash-btn">
+                                                            <ion-icon name="refresh-outline"></ion-icon>
+                                                            <span>Restore All</span>
+                                                      </button>
+                                                </div>
+                                          </div>
                                           <span id="trash-clr-counter">
                                                 <span id="trash-clr-counting"></span> / <span
                                                       id="trash-clr-limit"></span>
@@ -354,13 +373,16 @@
 
                   <ul id="custom-context-menu" class="context-menu">
                         <div>
-                              <li id="context-select-option"><ion-icon name="checkmark-circle-outline"></ion-icon><span>Select</span></li>
+                              <li id="context-select-option"><ion-icon
+                                          name="checkmark-circle-outline"></ion-icon><span>Select</span></li>
                         </div>
                         <div>
-                              <li id="context-select-all-option"><ion-icon name="checkmark-circle"></ion-icon><span>Select All</span></li>
+                              <li id="context-select-all-option"><ion-icon
+                                          name="checkmark-circle"></ion-icon><span>Select All</span></li>
                         </div>
                         <div>
-                              <li id="context-edit-option"><ion-icon name="create-outline"></ion-icon><span>Edit</span></li>
+                              <li id="context-edit-option"><ion-icon name="create-outline"></ion-icon><span>Edit</span>
+                              </li>
                         </div>
                   </ul>
 
@@ -415,8 +437,10 @@
                                     <li><span class="operation">Search Color</span><span class="key">shift + alt +
                                                 E</span>
                                     </li>
-                                    <li><span class="operation">Select All</span><span class="key">shift + alt + A</span></li>
-                                    <li><span class="operation">Focus Add Color Box</span><span class="key">/</span></li>
+                                    <li><span class="operation">Select All</span><span class="key">shift + alt +
+                                                A</span></li>
+                                    <li><span class="operation">Focus Add Color Box</span><span class="key">/</span>
+                                    </li>
                               </ul>
                         </div>
                   </div>
@@ -665,9 +689,9 @@
                   </div>
                   <div class="options-2 options"></div>
             </div>
-            
+
       </div>
-      
+
       <div class="simple-preview-frame">
             <button id="simple-preview-frame-close-btn">
                   <ion-icon name="close-outline"></ion-icon>
@@ -718,7 +742,8 @@
                   <div class="splash-logo">
                         <div class="color-circle"></div>
                   </div>
-                  <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true" class="splash-text">ShadeSphare</div>
+                  <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
+                        class="splash-text">ShadeSphare</div>
             </div>
       </div>
 
