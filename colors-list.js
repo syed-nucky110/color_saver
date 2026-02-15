@@ -752,89 +752,185 @@ const COLORS_LIST = [
 const colorInput = document.getElementById("get-color-input");
 const suggestionsBox = document.querySelector(".clr-suggestions");
 
+// Toggle Suggestions Logic (Settings Panel)
+const suggestionsToggleBtn = document.getElementById("suggestions-toggle-btn");
+// Default to true if not set
+let suggestionsEnabled = localStorage.getItem("suggestionsEnabled") !== "false";
+
+if (suggestionsToggleBtn) {
+      const thumb = suggestionsToggleBtn.querySelector(".thumb");
+
+      // Initial UI State
+      updateSuggestionsUI();
+
+      suggestionsToggleBtn.addEventListener("click", () => {
+            suggestionsEnabled = !suggestionsEnabled;
+            localStorage.setItem("suggestionsEnabled", suggestionsEnabled);
+            updateSuggestionsUI();
+
+            // If disabled, hide existing suggestions
+            if (!suggestionsEnabled) {
+                  suggestionsBox.classList.add("hidden");
+            }
+      });
+
+      function updateSuggestionsUI() {
+            if (suggestionsEnabled) {
+                  thumb.classList.add("switch-on");
+                  // Get accent color dynamically
+                  const root = document.querySelector(":root");
+                  const accentColor = getComputedStyle(root).getPropertyValue('--accent-color').trim();
+                  suggestionsToggleBtn.style.backgroundColor = accentColor;
+            } else {
+                  thumb.classList.remove("switch-on");
+                  suggestionsToggleBtn.style.backgroundColor = ""; // Default
+            }
+      }
+}
+
 colorInput.addEventListener("input", () => {
-  const value = colorInput.value.trim().toLowerCase();
-  suggestionsBox.innerHTML = "";
+      // Check if suggestions are enabled
+      if (!suggestionsEnabled) {
+            suggestionsBox.classList.add("hidden");
+            return;
+      }
+      const value = colorInput.value.trim().toLowerCase();
+      suggestionsBox.innerHTML = "";
 
-  if (!value) {
-    suggestionsBox.classList.add("hidden");
-    return;
-  }
+      if (!value) {
+            suggestionsBox.classList.add("hidden");
+            return;
+      }
 
-  const isHex = value.startsWith("#") || /^[0-9a-f]{3,6}$/i.test(value);
-  const isRGB = value.startsWith("rgb");
+      const isHex = value.startsWith("#") || /^[0-9a-f]{3,6}$/i.test(value);
+      // Relaxed RGB intent check
+      const isRGB = /^rgb/i.test(value) || /\d/.test(value);
 
-  const matchedColors = COLORS_LIST.filter(color => {
+      const savedColors = JSON.parse(localStorage.getItem("saveColor")) || [];
+      const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
 
-    // NAME search
-    if (!isHex && !isRGB) {
-      return color.name.toLowerCase().includes(value);
-    }
+      const matchedColors = COLORS_LIST.filter(color => {
+            // Check if color is already saved or in trash
+            const isSaved = savedColors.some(saved =>
+                  saved.toLowerCase() === color.name.toLowerCase() ||
+                  saved.toLowerCase() === `#${color.hex}`.toLowerCase() ||
+                  saved.toLowerCase() === color.hex.toLowerCase()
+            );
 
-    // HEX search
-    if (isHex) {
-      const inputHex = value.replace("#", "");
-      return color.hex.toLowerCase().includes(inputHex);
-    }
+            const isTrashed = trashColors.some(trashed =>
+                  trashed.toLowerCase() === color.name.toLowerCase() ||
+                  trashed.toLowerCase() === `#${color.hex}`.toLowerCase() ||
+                  trashed.toLowerCase() === color.hex.toLowerCase()
+            );
 
-    // RGB search
-    if (isRGB) {
-      const match = value.match(/\d+/g);
-      if (!match) return false;
+            if (isSaved || isTrashed) return false;
 
-      const [r, g, b] = match.map(Number);
-      return (
-        color.rgb.r === r ||
-        color.rgb.g === g ||
-        color.rgb.b === b
-      );
-    }
+            let match = false;
 
-    return false;
-  });
+            // 1. Explicit RGB prefix Check (Strict)
+            if (/^rgb/i.test(value)) {
+                  const temp = value.replace(/^rgb/i, "").replace(/[()]/g, "");
+                  if (/[a-z]/i.test(temp)) return false; // Garbage -> no match
 
-  if (matchedColors.length === 0) {
-    suggestionsBox.classList.add("hidden");
-    return;
-  }
+                  // If valid rgb prefix, we prioritize RGB matching
+                  const numbers = value.match(/\d+/g);
+                  if (numbers) {
+                        const { r, g, b } = color.rgb;
+                        const matchR = numbers.length >= 1 ? r.toString().startsWith(numbers[0]) : true;
+                        const matchG = numbers.length >= 2 ? g.toString().startsWith(numbers[1]) : true;
+                        const matchB = numbers.length >= 3 ? b.toString().startsWith(numbers[2]) : true;
+                        if (matchR && matchG && matchB) match = true;
+                  }
+                  // If strict RGB, we might want to return match immediately? 
+                  // Or allow name/hex fallback? 
+                  // If typing "rgb...", name "Rgb..." color might exist? 
+                  // Let's allow fallthrough but generally "rgb" implies strict intent.
+                  // For now, let's keep it inclusive.
+            }
+            // 1b. Digital RGB Check (if not explicit prefix but has digits)
+            else if (/\d/.test(value)) {
+                  const numbers = value.match(/\d+/g);
+                  if (numbers) {
+                        const { r, g, b } = color.rgb;
+                        const matchR = numbers.length >= 1 ? r.toString().startsWith(numbers[0]) : true;
+                        const matchG = numbers.length >= 2 ? g.toString().startsWith(numbers[1]) : true;
+                        const matchB = numbers.length >= 3 ? b.toString().startsWith(numbers[2]) : true;
+                        if (matchR && matchG && matchB) match = true;
+                  }
+            }
+            if (match) return true;
 
-  matchedColors.forEach(color => {
-    const item = document.createElement("div");
-    item.className = "clr-suggestion-item";
+            // 2. HEX Search
+            if (isHex) {
+                  const inputHex = value.replace("#", "");
+                  if (!/^\d+$/.test(value) || value.startsWith("#")) {
+                        if (color.hex.toLowerCase().includes(inputHex)) match = true;
+                  }
+            }
+            if (match) return true;
 
-    const preview = document.createElement("div");
-    preview.className = "clr-preview";
-    preview.style.backgroundColor = `#${color.hex}`;
+            // 3. Name Search (Always Check)
+            if (color.name.toLowerCase().includes(value)) match = true;
 
-    const text = document.createElement("span");
+            return match;
+      });
 
-    // 🔥 FORMAT-BASED OUTPUT
-    if (isHex) {
-      text.textContent = `#${color.hex.toUpperCase()}`;
-    } 
-    else if (isRGB) {
-      text.textContent = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`;
-    } 
-    else {
-      text.textContent = color.name;
-    }
+      if (matchedColors.length === 0) {
+            suggestionsBox.classList.add("hidden");
+            return;
+      }
 
-    item.appendChild(preview);
-    item.appendChild(text);
+      matchedColors.forEach(color => {
+            const item = document.createElement("div");
+            item.className = "clr-suggestion-item";
 
-//     let color = text.textContent.tou
-    item.addEventListener("click", () => {
-      // colorInput.value = text.textContent.toUpperCase();
-      let color = text.textContent.toUpperCase();
-      
-      colorListCreator(color);
-      suggestionsBox.classList.add("hidden");
-    });
+            const preview = document.createElement("div");
+            preview.className = "clr-preview";
+            preview.style.backgroundColor = `#${color.hex}`;
 
-    suggestionsBox.appendChild(item);
-  });
+            const text = document.createElement("span");
 
-  suggestionsBox.classList.remove("hidden");
+            // FORMAT-BASED OUTPUT
+            if (isHex) {
+                  text.textContent = `#${color.hex.toUpperCase()}`;
+            }
+            else if (isRGB) {
+                  text.textContent = `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`;
+            }
+            else {
+                  text.textContent = color.name;
+            }
+
+            item.appendChild(preview);
+            item.appendChild(text);
+
+            //     let color = text.textContent.tou
+            item.addEventListener("click", () => {
+                  // colorInput.value = text.textContent.toUpperCase();
+                  let color = text.textContent.toUpperCase();
+
+                  colorListCreator(color);
+                  suggestionsBox.classList.add("hidden");
+            });
+
+            suggestionsBox.appendChild(item);
+      });
+
+      suggestionsBox.classList.remove("hidden");
+});
+
+// Hide suggestions when clicking outside
+document.addEventListener("click", (e) => {
+      if (!colorInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.classList.add("hidden");
+      }
+});
+
+// Hide suggestions when pressing "Enter" in the input
+colorInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+            suggestionsBox.classList.add("hidden");
+      }
 });
 
 

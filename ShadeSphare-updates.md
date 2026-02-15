@@ -48,11 +48,11 @@ ShadeSphare updates:-
 
 20\. implement color 'Filters'. **pending**
 
-21\. add menu(three dot) button in saved color to show context menu(custom).
+21\. add menu(three dot) button in saved color to show context menu(custom). **Ppending**
 
-22\. update 'Resizer'(in sidebar) UI and also fix logic.
+22\. update 'Resizer'(in sidebar) UI and also fix logic. **pending**
 
-23\. complete color suggestions logic with 'Settings' option.
+✅ 23\. complete color suggestions logic with 'Settings' option.
 
 24\. Update Appearance/theme logic.
 

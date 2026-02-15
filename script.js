@@ -169,6 +169,7 @@ function setTooltip(selector, text) {
 // Calling functions to set tooltip
 setTooltip('#clr-picker', "Pick Color");
 setTooltip('#preview-box-color-picker', "Pick Color");
+setTooltip('#label-clr-picker', "Pick Color");
 
 // Search functionality
 function handleSearch(event) {
@@ -1168,6 +1169,13 @@ colorNameInput.addEventListener("input", () => {
 previewBoxColorPicker.addEventListener("input", () => {
       colorNameInput.value = previewBoxColorPicker.value.toUpperCase();
       previewBox.style.backgroundColor = previewBoxColorPicker.value;
+})
+
+previewBoxColorPicker.addEventListener('focus', () => {
+      previewBox.style.transition = "none"
+})
+previewBoxColorPicker.addEventListener('blur', () => {
+      previewBox.style.transition = ""
 })
 
 saveBtn.addEventListener("click", (event) => {

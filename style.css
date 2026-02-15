@@ -2310,7 +2310,7 @@ button#cross-clr-input-value {
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1;
+      z-index: 0;
 }
 
 .saved-colors-full-view {
@@ -2674,7 +2674,9 @@ button#cross-clr-input-value {
       padding: 10px;
       /* animation: smoothApply .3s ease-in-out; */
       animation: smooth-closer .3s ease-in-out;
-      transition: opacity .3s ease-in-out;
+      transition:
+            opacity .3s ease-in-out,
+            background-color .5s ease;
 }
 
 #color-preview-box #preview-box-color-picker {
@@ -2762,12 +2764,16 @@ button#cross-clr-input-value {
 }
 
 .buttons-area .btn {
-      transition: transform .3s ease, box-shadow .3s ease;
+      transition:
+            transform .3s ease,
+            box-shadow .3s ease,
+            width .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .buttons-area .btn:not(#save-btn):hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 10px var(--shadow-color);
+      /* transform: translateY(-5px);
+      box-shadow: 0 5px 10px var(--shadow-color); */
+      width: 50%;
 }
 
 #save-btn {
@@ -3753,7 +3759,8 @@ button#cross-clr-input-value {
 }
 
 .saved-clr.selected {
-      outline: 3px solid yellow;
+      outline: 3px solid var(--accent-color);
+      outline-offset: 2px;
       /* selection highlight */
 }
 

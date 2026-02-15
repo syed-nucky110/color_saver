@@ -189,7 +189,9 @@
                                           <div class="search-suggestions" id="search-suggestions"></div>
                                     </div>
                                     <div id="color-picker" class="bubbling">
-                                          <label id="label-clr-picker" for="clr-picker" style="display: flex; font-size: 20px;"><ion-icon name="color-fill"></ion-icon></label>
+                                          <label id="label-clr-picker" for="clr-picker"
+                                                style="display: flex; font-size: 20px;"><ion-icon
+                                                      name="color-fill"></ion-icon></label>
                                           <input type="color" id="clr-picker">
                                     </div>
                               </div>
@@ -224,7 +226,7 @@
                                                       </div>
                                                 </div>
                                                 <button class="bubbling" id="add-color-btn">Add Color</button>
-                                                <div style="display: none;" class="clr-suggestions hidden"></div>
+                                                <div class="clr-suggestions hidden"></div>
                                           </div>
                                     </div>
                                     <div class="color-counter">
@@ -253,7 +255,7 @@
                                                       value="rgba(132, 223, 213, .745)" autocomplete="off">
                                                 <button class="cross-btn">
                                                       <ion-icon name="close-outline"></ion-icon>
-                                                      <span id="close-txt">close</span>
+                                                      <span id="close-txt">Close</span>
                                                 </button>
                                           </div>
                                           <div id="display-color-box">
@@ -487,6 +489,15 @@
                                                 <span class="setting-decs">Mute sound of the app</span>
                                           </div>
                                           <button class="settings-option-switch" id="mute-sound-btn">
+                                                <span class="thumb"></span>
+                                          </button>
+                                    </li>
+                                    <li class="settings-list-item">
+                                          <div class="setting-text">
+                                                <span class="setting-title">Search Suggestions</span>
+                                                <span class="setting-decs">Show suggestions while typing</span>
+                                          </div>
+                                          <button class="settings-option-switch" id="suggestions-toggle-btn">
                                                 <span class="thumb"></span>
                                           </button>
                                     </li>
