@@ -20,9 +20,9 @@ ShadeSphare updates:-
 
 ✅ 6\. update bottom right logo (ShadeSphare).
 
-7\. implement the 'Right panel'.    **incomplete**
+7\. implement the 'Right panel'.    **pending**
 
-8\. add single input field of gradient. **incomplete**
+8\. add single input field of gradient. **pending**
 
 ✅ 9\. set fit height of saved gradient container.
 
@@ -36,17 +36,17 @@ ShadeSphare updates:-
 
 ✅ 14\. remove hover effect(::after) of 'Save Gradient' button.
 
-15\. implement 'Pin color' system. **incomplete**
+15\. implement 'Pin color' system. **pending**
 
 ✅ 16\. give hover effect(grow) to color indicator in gradient color popup.
 
 ✅ 17\. show 'Empty' tag in empty boxes.
 
-**completed**18\. show shortcut tag on hover in sidebar.
+**completed from starting**18\. show shortcut tag on hover in sidebar.
 
 ✅ 19\. implement empty/restore trash colors logic.
 
-20\. implement color 'Filters'.
+20\. implement color 'Filters'. **pending**
 
 21\. add menu(three dot) button in saved color to show context menu(custom).
 

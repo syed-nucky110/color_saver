@@ -1026,19 +1026,22 @@ savedColorList.addEventListener("mouseup", (event) => {
 let currentEditingBox = null;
 let currentChoosedBox = null;
 
+// openColorEditor();
 function openColorEditor(box) {
 
-      currentChoosedBox = box;
+      // currentChoosedBox = box;
       setTimeout(() => {
             choosedColorContainer.style.display = "flex";
             playSound(popupSound)
       }, 100);
 
+      // return;
+
       // moveCenter(box);
 
       let colorName = box.querySelector(".color-name").innerText;
       let bgColor = colorName;
-      // document.querySelector('input[type="color"]').value = colorName;
+      document.querySelector('input[type="color"]').value = colorName;
 
       let colorNameInput = document.querySelector("#color-code-box");
       let displayColorBox = document.querySelector("#display-color-box");
@@ -2278,7 +2281,6 @@ function saveToTrash(color) {
       localStorage.setItem("trashColors", JSON.stringify(trashColors));
 }
 
-openTrashColorBox()
 function openTrashColorBox() {
       trashColorContainer.style.display = "flex";
       trashColorsList.scrollTop = 0;
@@ -2885,11 +2887,11 @@ document.addEventListener('DOMContentLoaded', initializeSplashScreen);
 // });
 
 // Optional: Add Escape key to skip splash screen
-document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-            const isVisible = splashScreen.style.display !== 'none';
-            if (isVisible) {
-                  hideSplashScreen();
-            }
-      }
-});
+// document.addEventListener('keydown', (event) => {
+//       if (event.key === 'Escape') {
+//             const isVisible = splashScreen.style.display !== 'none';
+//             if (isVisible) {
+//                   hideSplashScreen();
+//             }
+//       }
+// });
