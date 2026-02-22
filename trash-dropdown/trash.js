@@ -3,7 +3,8 @@ trashColorContainer.addEventListener("click", (event) => {
     const isDropdownBtn = event.target.closest('#trash-options-btn');
     const isDropdownMenu = event.target.closest('.trash-dropdown-menu');
 
-    // Toggling dropdown
+    // Toggling dropdown (Removed in favor of CSS hover)
+    /*
     if (isDropdownBtn) {
         dropdown.classList.toggle('show');
     }
@@ -13,6 +14,7 @@ trashColorContainer.addEventListener("click", (event) => {
             dropdown.classList.remove('show');
         }
     }
+    */
 
     // Close Trash Box (Existing logic)
     if (event.target == closeTrashBoxBtn || (event.target == trashColorContainer && event.target != trashColorBox)) {

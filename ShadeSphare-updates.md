@@ -54,17 +54,17 @@ ShadeSphare updates:-
 
 ✅ 23\. complete color suggestions logic with 'Settings' option.
 
-24\. Update Appearance/theme logic.
+24\. Update Appearance/theme logic. **pending**
 
-25\. fix error message show/hide logic.
+25\. fix error message show/hide logic. **pending**
 
-26\. update the delete color logic with delete permanently or move to trash.
+26\. update the delete color logic with delete permanently or move to trash. **pending**
 
-27\. implement full screen view color container logic.
+27\. implement full screen view color container logic. **pending**
 
-28\. give accent color outline to selected color (select mode).
+✅ 28\. give accent color outline to selected color (select mode).
 
-29\. implement the color pallate saver system.
+29\. implement the color pallate saver system. **pending**
 
 30\. implement a new header of gradient panel which visible after scroll.
 
@@ -81,6 +81,8 @@ ShadeSphare updates:-
 36\. update theme mode button.
 
 37\. implement color indicator at the color input side.
+
+38\. update gradien panel with border radius.
 
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**

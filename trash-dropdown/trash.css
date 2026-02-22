@@ -66,6 +66,36 @@
     }
 }
 
+/* Hover Effect for Menu */
+.trash-options-dropdown:hover .trash-dropdown-menu {
+    display: flex;
+    animation: dropdownFadeIn 0.2s ease-out forwards;
+    opacity: 1;
+}
+
+/* Icon Rotation on Hover */
+#trash-options-btn ion-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Icon Rotation on Hover/Focus */
+.trash-options-dropdown:hover #trash-options-btn ion-icon,
+#trash-options-btn:focus ion-icon,
+#trash-options-btn:active ion-icon {
+    transform: rotate(180deg) !important;
+}
+
+/* Bridge gap for hover stability */
+.trash-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: transparent;
+}
+
 .trash-dropdown-menu button {
     display: flex;
     align-items: center;

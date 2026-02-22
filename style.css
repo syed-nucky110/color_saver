@@ -433,6 +433,13 @@ input {
 
 #label-clr-picker {
       color: var(--color-picker-clr);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background-color: transparent;
+      padding: 5px;
+      border-radius: 100px;
+      transform: translate(-50%, -50%);
 }
 
 .fav-color-list-container {
@@ -465,8 +472,8 @@ input {
 #clr-picker {
       border-radius: 12px;
       opacity: 0;
-      position: absolute;
-      visibility: hidden;
+      /* position: absolute; */
+      /* visibility: hidden; */
 }
 
 .resizable-tool-tip {
@@ -965,7 +972,7 @@ input {
       display: flex;
       align-items: center;
       gap: 5px;
-      /* position: absolute; */
+      position: relative;
       /* top: 10px; */
       /* right: 10px; */
 }
@@ -1968,7 +1975,8 @@ input[type="color"]:focus-visible {
       position: absolute;
       /* background: #fff; */
       background: var(--primary-bg-color);
-      border-radius: 16px;
+      /* border-radius: 16px; */
+      border-radius: 25px;
       width: 100%;
       top: 60px;
       left: 0;
@@ -1998,7 +2006,8 @@ input[type="color"]:focus-visible {
       align-items: center;
       gap: 10px;
       padding: 8px 12px;
-      border-radius: 10px;
+      /* border-radius: 10px; */
+      border-radius: 25px;
 }
 
 .clr-suggestion-item:hover {
@@ -2110,6 +2119,26 @@ button#cross-clr-input-value {
 .input-holder:hover #paste-color-btn {
       visibility: visible;
       opacity: 1;
+}
+
+#placeholder {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: var(--text-color);
+      font-size: 16px;
+      transition: all .3s ease;
+}
+
+.input-holder #get-color-input:not(:placeholder-shown)~#placeholder {
+      top: 5px;
+      font-size: 12px;
+}
+
+.input-holder #get-color-input:focus~#placeholder {
+      top: 5px;
+      font-size: 12px;
 }
 
 .input-area #add-color-btn {
@@ -2536,6 +2565,7 @@ button#cross-clr-input-value {
       border-radius: 30px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.492);
       transition: background-color var(--theme-mode-transition) ease;
+      /* transform-origin: top right; */
 }
 
 @keyframes smoothHide {
@@ -2546,7 +2576,25 @@ button#cross-clr-input-value {
 
       to {
             opacity: 0;
-            transform: scale(0.99);
+            transform: scale(0.7);
+      }
+}
+
+@keyframes drop {
+      0% {
+            transform: translateY(0) rotate(0deg);
+      }
+
+      10% {
+            transform: translateY(20vh) rotate(-10deg);
+      }
+
+      60% {
+            transform: translateY(60vh) rotate(-13deg);
+      }
+
+      100% {
+            transform: translateY(100vh) rotate(-13deg);
       }
 }
 
@@ -2581,7 +2629,13 @@ button#cross-clr-input-value {
       color: var(--text-color);
       opacity: .6;
       animation: moveRight .3s ease-in-out;
-      transition: background-color var(--theme-mode-transition) ease;
+      transition:
+            background-color var(--theme-mode-transition) ease,
+            box-shadow var(--theme-mode-transition) ease;
+}
+
+#color-code-box:not([disabled]):focus {
+      box-shadow: 0 0 7px var(--accent-color);
 }
 
 .color-code-box-visibility {
@@ -3971,7 +4025,8 @@ i {
 
 .settings-option-switch {
       position: relative;
-      width: 44px;
+      /* width: 44px; */
+      width: 48px;
       height: 22px;
       background: rgba(128, 128, 128, 0.2);
       flex-shrink: 0;
@@ -3984,15 +4039,18 @@ i {
       position: absolute;
       left: 2px;
       top: 2px;
-      width: 18px;
+      /* width: 18px; */
+      width: 26px;
       height: 18px;
       background: white;
-      border-radius: 50%;
+      /* border-radius: 50%; */
+      border-radius: 100px;
       transition: transform 0.3s ease;
 }
 
 .settings-option-switch .thumb.switch-on {
-      transform: translateX(22px);
+      /* transform: translateX(22px); */
+      transform: translateX(18px);
 }
 
 .settings-list-item .settings-list-item-btn {
@@ -4131,6 +4189,10 @@ input[type="color"]::-moz-color-swatch {
       background-color: transparent;
       color: var(--text-color);
       transition: background-color .2s ease, transform .2s ease;
+}
+
+.rotate-180 {
+      transform: rotate(180deg);
 }
 
 #trash-options-btn:hover,

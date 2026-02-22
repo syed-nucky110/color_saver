@@ -1056,12 +1056,15 @@ function openColorEditor(box) {
 closeClrBoxBtn.addEventListener("click", () => closeColorEditor());
 
 function closeColorEditor() {
-      choosedColorBox.style.animation = "smoothHide .2s ease";
+      // choosedColorBox.style.animation = "drop .7s ease";
+      choosedColorBox.style.animation = "smoothHide 0.2s ease";
       disableEditing();
       setTimeout(() => {
             choosedColorContainer.style.display = "none";
             choosedColorBox.style.animation = "";
-      }, 180);
+      }, 200);
+
+      colorNameInput.disabled = true;
 }
 
 
@@ -1282,11 +1285,13 @@ function enableDisableEditingMode(mode) {
 
       // change input mode
       if (mode === "enable") {
+            colorNameInput.disabled = false;
             colorNameInput.removeAttribute("readonly");
             colorNameInput.focus();
       }
       else if (mode === "disable") {
             disableEditing();
+            colorNameInput.disabled = true;
       }
 }
 
@@ -1373,6 +1378,7 @@ addColorInput.addEventListener("keydown", async (event) => {
                         colorMoveToStorageFromTrash(newColor);
                         renderColors();
                         renderTrashColors();
+                        hideErrorMessage(); // hide error message (Available in trash)
                   }
                   return; // stop further execution
             }
@@ -2184,17 +2190,23 @@ trashColorContainer.addEventListener("click", (event) => {
       // Toggling dropdown
       if (isDropdownBtn) {
             dropdown.classList.toggle('show');
+            isDropdownBtn.classList.toggle('rotate-180');
       }
       // Close dropdown if clicking outside
       else if (!isDropdownMenu) {
             if (dropdown && dropdown.classList.contains('show')) {
                   dropdown.classList.remove('show');
+                  document.getElementById('trash-options-btn').classList.remove('rotate-180');
             }
       }
 
       // Close Trash Box
       if (event.target == closeTrashBoxBtn || (event.target == trashColorContainer && event.target != trashColorBox)) {
             closeTrashColorBox();
+            if (dropdown && dropdown.classList.contains('show')) {
+                  dropdown.classList.remove('show');
+                  document.getElementById('trash-options-btn').classList.remove('rotate-180');
+            }
       }
 })
 
