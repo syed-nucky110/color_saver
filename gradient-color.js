@@ -361,7 +361,7 @@ gradientLogo.addEventListener('click', () => {
  * Hides main app and shows gradient tools
  */
 
-openGradientMode();  // Open gradient mode on page load for easy access during development
+// openGradientMode();  // Open gradient mode on page load for easy access during development
 function openGradientMode() {
       // Close merge mode if active
       if(isMergeModeOn) {

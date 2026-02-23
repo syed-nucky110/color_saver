@@ -80,7 +80,7 @@ ShadeSphare updates:-
 
 36\. update theme mode button.
 
-37\. implement color indicator at the color input side.
+✅ 37\. implement color indicator at the color input side.
 
 38\. update gradien panel with border radius.
 

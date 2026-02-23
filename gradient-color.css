@@ -88,6 +88,12 @@
       transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+@media (max-width: 480px) {
+      .small-gradient-color-header {
+            width: 95% !important;
+      }
+}
+
 .gradient-color-header .options-area {
       display: flex;
       gap: 10px;

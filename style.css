@@ -1876,6 +1876,16 @@ input[type="color"]:focus-visible {
       border-radius: 100px;
 }
 
+span.color-indicator {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      left: -3px;
+      top: -3px;
+}
+
 .main-content .input-area {
       position: relative;
       /* margin: 5px 0px 10px; */

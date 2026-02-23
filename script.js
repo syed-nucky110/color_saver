@@ -1321,6 +1321,7 @@ let allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
 
 let addColorBtn = document.querySelector("#add-color-btn");
 let addColorInput = document.querySelector("#get-color-input");
+let colorIndicator = document.querySelector("#color-indicator");
 let input$gradientBorder = document.getElementById('gradient-border');
 let errorMessage = document.querySelector(".error-message-div");
 
@@ -1339,13 +1340,21 @@ addColorInput.addEventListener("blur", hideGradientBorder);
 savedColorCounting.textContent = allColors.length;
 
 addColorInput.addEventListener("input", () => {
-      playSound(typingClickSound)
 
+      // hide color indicator and return if input is empty
+      if(addColorInput.value.trim() === "") {
+            hideColorIndicator();
+            return;
+      }
+
+      playSound(typingClickSound)
 
       // addColorInput.value = addColorInput.value.toLowerCase();
       addColorInput.value = addColorInput.value.toUpperCase();
 
       let res = isColorSaved(addColorInput.value);
+
+      showColorIndicator(addColorInput.value);
 
       if (res === 'saved color') {
             showErrorMessage('saved color');
@@ -1360,6 +1369,16 @@ addColorInput.addEventListener("input", () => {
             highlightSavedColor(addColorInput.value);
       }
 });
+
+function showColorIndicator(color) {
+      colorIndicator.style.backgroundColor = color;
+      colorIndicator.classList.remove("hidden");
+}
+
+function hideColorIndicator() {
+      colorIndicator.style.backgroundColor = "transparent";
+      colorIndicator.classList.add("hidden");
+}
 
 // Add color using Enter key
 addColorInput.addEventListener("keydown", async (event) => {
@@ -1380,13 +1399,16 @@ addColorInput.addEventListener("keydown", async (event) => {
                         renderTrashColors();
                         hideErrorMessage(); // hide error message (Available in trash)
                   }
+                  hideColorIndicator();
                   return; // stop further execution
             }
 
+            
             // Normal save process
             const result = isColorSaved(newColor);
             if (result === "not saved") {
                   colorListCreator(newColor);
+                  hideColorIndicator();
             } else {
                   highlightSavedColor(newColor);
             }
@@ -2097,6 +2119,7 @@ async function pasteToInput(inputElement) {
             if (cleanText !== "") {
                   inputElement.value = cleanText.toUpperCase();
                   addColorInput.focus();
+                  showColorIndicator(inputElement.value);
                   return cleanText;
             } else {
                   throwMessage("No text found in clipboard", "red");
@@ -2136,6 +2159,7 @@ crossClrValueBtn.addEventListener('click', () => {
       addColorInput.value = "";
       addColorInput.focus();
       hideErrorMessage();
+      hideColorIndicator();
 })
 
 pasteBtn.addEventListener("click", async () => {
