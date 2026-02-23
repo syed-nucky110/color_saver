@@ -75,6 +75,16 @@ dialogPreviewFrameBtn.addEventListener('click', (event) => {
       opneSimplePreviewFrame(color);
 })
 
+let gradientHeader = document.querySelector('.gradient-color-header');
+gradientWrapper.addEventListener('scroll', (event) => {
+      if(gradientWrapper.scrollTop > 20) {
+            gradientHeader.classList.add('small-gradient-color-header');
+      }
+      else {
+            gradientHeader.classList.remove('small-gradient-color-header');
+      }
+})
+
 // ===============================================
 // UTILITY FUNCTIONS
 // ===============================================
@@ -350,6 +360,8 @@ gradientLogo.addEventListener('click', () => {
  * Opens the gradient mode interface with smooth transition
  * Hides main app and shows gradient tools
  */
+
+openGradientMode();  // Open gradient mode on page load for easy access during development
 function openGradientMode() {
       // Close merge mode if active
       if(isMergeModeOn) {

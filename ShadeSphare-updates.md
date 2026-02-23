@@ -66,7 +66,7 @@ ShadeSphare updates:-
 
 29\. implement the color pallate saver system. **pending**
 
-30\. implement a new header of gradient panel which visible after scroll.
+✅ 30\. update header of gradient panel.
 
 31\. update the save color animation.
 
