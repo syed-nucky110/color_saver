@@ -84,5 +84,6 @@ ShadeSphare updates:-
 
 38\. update gradien panel with border radius.
 
+39\. update the layout/UI of toast notification - {throwmessage()}
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**

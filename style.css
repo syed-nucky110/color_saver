@@ -200,6 +200,7 @@
       /* gradient colors section */
       --gradient-bg: linear-gradient(135deg, #e0f7ff, #8ab4ff 100%);
       --gradient-logo: linear-gradient(90deg, #212121, #909090);
+      /* --gradient-logo: #ffffff; */
       --gradient-form-bg-clr: #ffffffa6;
       --gradient-btn-bg-clr: linear-gradient(90deg, #181818, #808080);
       --primary-border-radius: 10px;
@@ -242,6 +243,7 @@
       /* gradient color section */
       --gradient-bg: linear-gradient(135deg, #808080, #181818 100%);
       --gradient-logo: linear-gradient(90deg, #86f7ff, #bb86fc);
+      /* --gradient-logo: #ffffff; */
       --gradient-form-bg-clr: #ffffff4d;
       --gradient-btn-bg-clr: linear-gradient(90deg, #181818, #808080);
       --gradient-1: #00ffff;
@@ -1876,7 +1878,7 @@ input[type="color"]:focus-visible {
       border-radius: 100px;
 }
 
-span.color-indicator {
+span.input-color-indicator {
       position: absolute;
       width: 12px;
       height: 12px;
