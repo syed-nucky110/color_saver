@@ -1062,7 +1062,7 @@ function closeColorEditor() {
       setTimeout(() => {
             choosedColorContainer.style.display = "none";
             choosedColorBox.style.animation = "";
-      }, 200);
+      }, 190);
 
       colorNameInput.disabled = true;
 }

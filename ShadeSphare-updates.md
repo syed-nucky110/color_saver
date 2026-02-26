@@ -74,7 +74,7 @@ ShadeSphare updates:-
 
 33\. implement the themes+layout system/panel.
 
-34\. update animation of choosed color popup.
+✅ 34\. update animation of choosed color popup.
 
 35\. error message showing also in choosed color popup.
 
