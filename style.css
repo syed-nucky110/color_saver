@@ -3246,12 +3246,16 @@ button#cross-clr-input-value {
       display: flex;
       gap: 15px;
       position: fixed;
-      top: 32px;
-      right: 32px;
+      /* top: 32px;
+      right: 32px; */
+      top: 20px;
+      right: 20px;
       padding: 16px 30px;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, rgba(35, 37, 38, 0.95), rgb(110, 112, 114));
+      /* background: linear-gradient(135deg, rgba(35, 37, 38, 0.95), rgb(110, 112, 114)); */
+      background-color: black;
+      /* background: linear-gradient(45deg, #4285F4, #EA4335, #fbbd05, #34A853, #4285F4); */
       color: white;
       font-size: 20px;
       border-radius: 10px;

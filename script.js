@@ -2050,9 +2050,15 @@ if (quickPreviewToggleThumb) {
       });
 }
 
+throwMessage("Welcome to Colorbin!");
 function throwMessage(text, color, icon = "alert-circle-outline") {
 
       playSound(alertSound);
+
+      // If the message is already showing, remove it before showing a new one
+      if(icon.includes("outline")) {
+            icon = icon.replace("-outline", "");
+      }
 
       let box = document.createElement("div");
       let textBox = document.createElement("p");
@@ -2726,7 +2732,7 @@ window.addEventListener("mousemove", (event) => {
                   cursorMove = true;
                   showMenuBar();
             }
-            else if (event.clientX >= 220 && cursorMove) {
+            else if (event.clientX >= 220) {
                   cursorMove = false;
                   hideMenuBar();
             }
