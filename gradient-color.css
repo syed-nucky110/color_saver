@@ -956,7 +956,8 @@
       white-space: nowrap;
       /* text-overflow: ellipsis; */
       width: 100%;
-      padding: 10px;
+      /* padding: 10px; */
+      padding: 10px 20px;
       flex-grow: 1;
       flex-shrink: 1;
       border: 1px solid #ffffff;

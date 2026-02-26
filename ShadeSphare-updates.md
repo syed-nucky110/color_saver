@@ -82,8 +82,8 @@ ShadeSphare updates:-
 
 ✅ 37\. implement color indicator at the color input side.
 
-38\. update gradien panel with border radius.
+✅ 38\. update gradien panel with border radius.
 
-39\. update the layout/UI of toast notification - {throwmessage()}
+✅ 39\. update the layout/UI of toast notification - {throwmessage()}
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
