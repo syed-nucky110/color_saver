@@ -254,8 +254,11 @@
                               <div class="choosed-color-box">
                                     <div class="content">
                                           <div class="top-area">
-                                                <input readonly type="text" id="color-code-box"
+                                                <div id="color-code-box-wrapper" class="color-code-box-wrapper relative">
+                                                      <input readonly disabled type="text" id="color-code-box"
                                                       value="rgba(132, 223, 213, .745)" autocomplete="off">
+                                                      <span id="popup-clr-error-message" class="absolute hidden popup-clr-error-message">demo text</span>
+                                                </div>
                                                 <button class="cross-btn">
                                                       <ion-icon name="close-outline"></ion-icon>
                                                       <span id="close-txt">Close</span>

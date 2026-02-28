@@ -170,6 +170,7 @@ function setTooltip(selector, text) {
 setTooltip('#clr-picker', "Pick Color");
 setTooltip('#preview-box-color-picker', "Pick Color");
 setTooltip('#label-clr-picker', "Pick Color");
+setTooltip('.input-color-indicator', 'Color Indicator')
 
 // Search functionality
 function handleSearch(event) {
@@ -1027,7 +1028,7 @@ savedColorList.addEventListener("mouseup", (event) => {
 let currentEditingBox = null;
 let currentChoosedBox = null;
 
-// openColorEditor();
+// openColorEditor(); // for testing
 function openColorEditor(box) {
 
       // currentChoosedBox = box;
@@ -1056,6 +1057,9 @@ function openColorEditor(box) {
 closeClrBoxBtn.addEventListener("click", () => closeColorEditor());
 
 function closeColorEditor() {
+
+      hideClrPopUpErrorMessage();
+
       // choosedColorBox.style.animation = "drop .7s ease";
       choosedColorBox.style.animation = "smoothHide 0.2s ease";
       disableEditing();
@@ -1157,7 +1161,14 @@ editBtn.addEventListener("click", () => {
 });
 
 colorNameInput.addEventListener("keydown", (event) => {
+      let typedColor = colorNameInput.value.toUpperCase();
       if (event.key == "Enter") {
+            if(!isColorValid(typedColor)) {
+                  let colorCodeWrapper = document.querySelector(".color-code-box-wrapper");
+                  showClrPopUpErrorMessage('wrong');
+                  errorVibration(colorCodeWrapper);
+                  return;
+            }
             colorSavingProcess();
       }
 })
@@ -1167,7 +1178,66 @@ colorNameInput.addEventListener("input", () => {
       colorNameInput.value = colorNameInput.value.toUpperCase();
       let typedColor = colorNameInput.value.toUpperCase();
       previewBox.style.backgroundColor = typedColor;
+
+      if(typedColor === orgColorCode.toUpperCase()) {
+            hideClrPopUpErrorMessage();
+            return;
+      }
+
+      if(isColorAvailableInStorage(typedColor)) {
+            showClrPopUpErrorMessage('saved')
+      }
+      else if(isColorAvailableInTrash(typedColor)) {
+            showClrPopUpErrorMessage('trash');
+      }
+      else {
+            hideClrPopUpErrorMessage();
+      }
+      
 })
+
+let errorMessageBox = document.getElementById('popup-clr-error-message')
+function showClrPopUpErrorMessage(reason) {
+      let errorMessage;
+      let errorColor;
+
+      switch (reason) {
+            case 'saved':
+                  errorMessage = '<ion-icon name="checkmark-circle"></ion-icon> Already Saved';
+                  errorColor = "#008000";
+                  break;
+            case 'trash':
+                  errorMessage = '<ion-icon name="alert-circle"></ion-icon> Available in Trash';
+                  errorColor = '#0051B0';
+                  break;
+            case 'wrong':
+                  errorMessage = '<ion-icon name="close-circle"></ion-icon> Not a Valid Color';
+                  errorColor = '#ff0000';
+                  break
+            default:
+                  break;
+      }
+
+      errorMessageBox.innerHTML = errorMessage;
+      errorMessageBox.style.color = errorColor;
+      colorNameInput.classList.add('move-upwarded-color-code-box');
+      errorMessageBox.classList.remove('hidden');
+}
+
+function hideClrPopUpErrorMessage() {
+      colorNameInput.classList.remove('move-upwarded-color-code-box');
+      errorMessageBox.classList.add('hidden');
+}
+
+function errorVibration(el) {
+      el.classList.add('magic-vibrate-2');
+
+      el.addEventListener('animationend', (e) => {
+            if (e.animationName === 'magic-vibrate-2') {
+                  el.classList.remove('magic-vibrate-2');
+            }
+      });
+}
 
 previewBoxColorPicker.addEventListener("input", () => {
       colorNameInput.value = previewBoxColorPicker.value.toUpperCase();
@@ -1217,7 +1287,7 @@ function colorSavingProcess(method) {
       }
 
       if (!isColorValid(newColor)) {
-            throwMessage("This is not a color", "white", "close-circle-outline");
+            // throwMessage("This is not a color", "white", "close-circle-outline");
             return;
       }
 
@@ -1226,12 +1296,12 @@ function colorSavingProcess(method) {
       // check if color already exists
       // if (allColors.some(color => color.toLowerCase() === newColor)) {
       if (allColors.some(color => color.toUpperCase() === newColor)) {
-            throwMessage("Color Already Saved", "#00ff00", "checkmark-circle-outline")
+            // throwMessage("Color Already Saved", "#00ff00", "checkmark-circle-outline")
             return;
       }
 
       if (isColorAvailableInTrash(newColor)) {
-            throwMessage("Color is Available in Trash", "#00ff00", "checkmark-circle-outline")
+            // throwMessage("Color is Available in Trash", "#00ff00", "checkmark-circle-outline")
             return;
       }
 
@@ -1292,6 +1362,7 @@ function enableDisableEditingMode(mode) {
       else if (mode === "disable") {
             disableEditing();
             colorNameInput.disabled = true;
+            hideClrPopUpErrorMessage();
       }
 }
 
@@ -1563,13 +1634,15 @@ function showErrorMessage(reason) {
             errorMessage.style.color = " #ff0000";
             let el = document.getElementById('input-area-wrapper');
 
-            el.classList.add('magic-vibrate-2');
+            errorVibration(el);
 
-            el.addEventListener('animationend', (e) => {
-                  if (e.animationName === 'magic-vibrate-2') {
-                        el.classList.remove('magic-vibrate-2');
-                  }
-            });
+            // el.classList.add('magic-vibrate-2');
+
+            // el.addEventListener('animationend', (e) => {
+            //       if (e.animationName === 'magic-vibrate-2') {
+            //             el.classList.remove('magic-vibrate-2');
+            //       }
+            // });
       }
 }
 
@@ -2050,7 +2123,7 @@ if (quickPreviewToggleThumb) {
       });
 }
 
-throwMessage("Welcome to Colorbin!");
+// throwMessage("Error message handling");
 function throwMessage(text, color, icon = "alert-circle-outline") {
 
       playSound(alertSound);

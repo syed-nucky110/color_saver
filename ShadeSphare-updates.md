@@ -76,7 +76,7 @@ ShadeSphare updates:-
 
 ✅ 34\. update animation of choosed color popup.
 
-35\. error message showing also in choosed color popup.
+✅ 35\. error message showing also in choosed color popup.
 
 36\. update theme mode button.
 
@@ -85,5 +85,7 @@ ShadeSphare updates:-
 ✅ 38\. update gradien panel with border radius.
 
 ✅ 39\. update the layout/UI of toast notification - {throwmessage()}
+
+40\. upgrade error handling e.g. color will detect all type(hex, rgb, name) while save the color.
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**

@@ -280,6 +280,19 @@ body::before {
       animation: spin 1s linear infinite forwards;
 }
 
+.relative {
+      position: relative !important;
+}
+.absolute {
+      position: absolute !important;
+}
+.fixed {
+      position: fixed !important;
+}
+.sticky {
+      position: sticky !important;
+}
+
 @keyframes spin {
       0% {
             transform: rotate(0);
@@ -2624,6 +2637,11 @@ button#cross-clr-input-value {
       gap: 15px;
 }
 
+.color-code-box-wrapper {
+      width: 100%;
+      display: flex;
+}
+
 .top-area #color-code-box {
       display: flex;
       height: 40px;
@@ -2632,18 +2650,38 @@ button#cross-clr-input-value {
       box-shadow: 0 0 5px black;
       /* border-radius: 10px; */
       border-radius: 30px;
-      padding: 0 10px;
+      /* padding: 0 10px; */
+      padding: 0 17px;
       overflow: auto;
       font-size: 20px;
       font-weight: bold;
-      text-align: center;
+      /* text-align: center; */
       background-color: var(--secondry-bg-color);
       color: var(--text-color);
       opacity: .6;
       animation: moveRight .3s ease-in-out;
       transition:
             background-color var(--theme-mode-transition) ease,
-            box-shadow var(--theme-mode-transition) ease;
+            box-shadow var(--theme-mode-transition) ease,
+            padding-bottom .3s ease,
+            font-size .3s ease,
+            font-weight .3s ease;
+}
+
+.move-upwarded-color-code-box {
+      padding-bottom: 15px !important;
+      font-weight: 100 !important;
+      font-size: 15px !important;
+}
+
+.popup-clr-error-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 2px;
+      left: 17px;
+      /* left: 50%;
+      transform: translateX(-50%); */
 }
 
 #color-code-box:not([disabled]):focus {
@@ -2693,12 +2731,14 @@ button#cross-clr-input-value {
       width: 100px;
 }
 
-.choosed-color-box .top-area .cross-btn:hover #close-txt {
+.choosed-color-box .top-area .cross-btn:hover #close-txt,
+.choosed-color-box .top-area .cross-btn:focus #close-txt {
       /* display: block; */
       transform: scale(1) translate(0%, 0%);
 }
 
-.choosed-color-box .top-area .cross-btn:hover ion-icon {
+.choosed-color-box .top-area .cross-btn:hover ion-icon,
+.choosed-color-box .top-area .cross-btn:focus ion-icon {
       /* display: block; */
       transform: scale(0);
 }
