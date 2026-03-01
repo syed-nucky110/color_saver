@@ -1179,11 +1179,15 @@ colorNameInput.addEventListener("input", () => {
       let typedColor = colorNameInput.value.toUpperCase();
       previewBox.style.backgroundColor = typedColor;
 
+      checkColorStatus(typedColor);
+})
+
+function checkColorStatus(typedColor) {
       if(typedColor === orgColorCode.toUpperCase()) {
             hideClrPopUpErrorMessage();
             return;
       }
-
+      
       if(isColorAvailableInStorage(typedColor)) {
             showClrPopUpErrorMessage('saved')
       }
@@ -1193,8 +1197,8 @@ colorNameInput.addEventListener("input", () => {
       else {
             hideClrPopUpErrorMessage();
       }
-      
-})
+
+}
 
 let errorMessageBox = document.getElementById('popup-clr-error-message')
 function showClrPopUpErrorMessage(reason) {
@@ -1242,6 +1246,8 @@ function errorVibration(el) {
 previewBoxColorPicker.addEventListener("input", () => {
       colorNameInput.value = previewBoxColorPicker.value.toUpperCase();
       previewBox.style.backgroundColor = previewBoxColorPicker.value;
+
+      checkColorStatus(colorNameInput.value);
 })
 
 previewBoxColorPicker.addEventListener('focus', () => {
