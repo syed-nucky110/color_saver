@@ -2589,7 +2589,9 @@ button#cross-clr-input-value {
       /* border-radius: 15px; */
       border-radius: 30px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.492);
-      transition: background-color var(--theme-mode-transition) ease;
+      transition:
+            background-color var(--theme-mode-transition) ease,
+            box-shadow var(--theme-mode-transition) ease;
       /* transform-origin: top right; */
 }
 
@@ -2652,6 +2654,7 @@ button#cross-clr-input-value {
       border-radius: 30px;
       /* padding: 0 10px; */
       padding: 0 17px;
+      padding-right: 35px;
       overflow: auto;
       font-size: 20px;
       font-weight: bold;
@@ -2666,6 +2669,46 @@ button#cross-clr-input-value {
             padding-bottom .3s ease,
             font-size .3s ease,
             font-weight .3s ease;
+}
+
+.empty-input-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      height: 20px;
+      width: 20px;
+      background-color: transparent;
+      opacity: 0;
+      visibility: visible;
+      transition: all .3s ease;
+}
+
+#color-code-box:disabled ~ .empty-input-btn,
+#color-code-box[disabled] ~ .empty-input-btn {
+      visibility: hidden !important;
+}
+
+#color-code-box:not(:placeholder-shown)~.empty-input-btn {
+      opacity: 1;
+      /* visibility: visible; */
+}
+/* #color-code-box:not(:placeholder-shown)~.empty-input-btn:hover {
+      opacity: 1;
+} */
+
+.empty-input-btn ion-icon {
+      font-size: 18px;
+      color: var(--text-color);
+}
+
+.empty-input-btn:hover {
+      /* background-color: var(--inverce-of-text-color);
+      filter: invert(1); */
+      background-color: #808080a4;
 }
 
 .move-upwarded-color-code-box {

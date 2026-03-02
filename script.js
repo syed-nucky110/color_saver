@@ -1151,6 +1151,7 @@ let save_clr = document.querySelector('#save');
 let save_as_copy = document.querySelector('#save-as-copy');
 let previewBox = document.getElementById("color-preview-box");
 let previewBoxColorPicker = document.getElementById("preview-box-color-picker");
+let emptyInputBoxBtn = document.getElementById("empty-input-btn");
 
 let orgColorCode = "";
 editBtn.addEventListener("click", () => {
@@ -1159,6 +1160,13 @@ editBtn.addEventListener("click", () => {
       // previewBox.style.backgroundColor = "transparent";
       // orgColorCode = colorNameInput.value;
 });
+
+emptyInputBoxBtn.addEventListener("click", () => {
+      colorNameInput.value = "";
+      previewBox.style.backgroundColor = "transparent";
+      colorNameInput.focus();
+      hideClrPopUpErrorMessage();
+})
 
 colorNameInput.addEventListener("keydown", (event) => {
       let typedColor = colorNameInput.value.toUpperCase();
