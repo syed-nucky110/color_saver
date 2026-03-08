@@ -88,4 +88,6 @@ ShadeSphare updates:-
 
 40\. upgrade error handling e.g. color will detect all type(hex, rgb, name) while save the color.
 
+41\. implement revert color(edit color) logic.
+
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
