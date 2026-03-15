@@ -1007,6 +1007,8 @@ function moveCenter(box) {
 }
 
 savedColorList.addEventListener("mouseup", (event) => {
+      // Only allow left click (button 0) to trigger copy/click logic
+      if (event.button !== 0) return;
 
       const box = event.target.closest(".saved-clr");
       // moveCenterbox);

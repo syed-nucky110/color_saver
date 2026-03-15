@@ -90,6 +90,6 @@ ShadeSphare updates:-
 
 41\. implement revert color(edit color) logic.
 
-42\. fix issue of copied color(automatically copy) while opening the context menu.
+✅ 42\. fix issue of copied color(automatically copy) while opening the context menu.
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
