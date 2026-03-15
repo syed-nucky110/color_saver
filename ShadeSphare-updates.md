@@ -54,9 +54,9 @@ ShadeSphare updates:-
 
 ✅ 23\. complete color suggestions logic with 'Settings' option.
 
-24\. Update Appearance/theme logic. **pending**
+✅ 24\. Update Appearance/theme logic.
 
-25\. fix error message show/hide logic. **pending**
+✅ 25\. fix error message show/hide logic.
 
 26\. update the delete color logic with delete permanently or move to trash. **pending**
 
@@ -78,7 +78,7 @@ ShadeSphare updates:-
 
 ✅ 35\. error message showing also in choosed color popup.
 
-36\. update theme mode button.
+✅ 36\. update theme mode button.
 
 ✅ 37\. implement color indicator at the color input side.
 

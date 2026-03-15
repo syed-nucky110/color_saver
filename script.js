@@ -150,10 +150,10 @@ let savedColorCounting = document.querySelector("#color-counting");
 let allColorsCounting = document.querySelectorAll(".saved-clr");
 let searchBar = document.querySelector("#search-bar");
 let searchSuggestions = document.querySelector("#search-suggestions");
-let themeBtn = document.querySelector(".theme-btn");
-
-let themeIcon = document.querySelector("#theme-icon");
-let themeText = document.querySelector("#theme-text");
+const themeBtns = document.querySelectorAll(".theme-btn");
+const lightThemeBtn = document.getElementById("light-theme-btn");
+const darkThemeBtn = document.getElementById("dark-theme-btn");
+const systemThemeBtn = document.getElementById("system-theme-btn");
 
 // function to set tooltip
 function setTooltip(selector, text) {
@@ -256,42 +256,76 @@ window.addEventListener("keyup", (event) => {
       }
 })
 
-let theme = localStorage.getItem("theme") || "";
-if (theme === "") {
-      localStorage.setItem("theme", "light");
-      // theme = "light";
-}
+let currentTheme = localStorage.getItem("theme") || "system";
 
-// Apply theme on page load
-if (theme === "dark") {
-      enableDarkMode();
-} else {
-      disableDarkMode();
-}
+// Function to apply theme
+function applyTheme(themeMode, fromAutoMode = false) {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-themeBtn.addEventListener("click", () => {
-      let currentTheme = localStorage.getItem("theme");
-      playSound(toggleSwitchSound)
-      if (currentTheme === "light") {
-            enableDarkMode();
+      // Remove active class from all buttons
+      themeBtns.forEach(btn => btn.classList.remove("active"));
+
+      if (themeMode === "dark") {
+            enableDarkMode(fromAutoMode);
+            darkThemeBtn.classList.add("active");
+      } else if (themeMode === "light") {
+            disableDarkMode(fromAutoMode);
+            lightThemeBtn.classList.add("active");
+      } else {
+            // System mode
+            if (systemThemeBtn) systemThemeBtn.classList.add("active");
+            if (isDark) {
+                  document.body.classList.add("dark-theme");
+            } else {
+                  document.body.classList.remove("dark-theme");
+            }
+            localStorage.setItem("theme", "system");
       }
-      else if (currentTheme === "dark") {
-            disableDarkMode();
+}
+
+// Initial application
+applyTheme(currentTheme);
+
+// Button listeners
+if (lightThemeBtn) {
+      lightThemeBtn.addEventListener("click", () => {
+            if (typeof stopAutoThemeMode === 'function') stopAutoThemeMode();
+            playSound(toggleSwitchSound);
+            applyTheme("light");
+      });
+}
+
+if (darkThemeBtn) {
+      darkThemeBtn.addEventListener("click", () => {
+            if (typeof stopAutoThemeMode === 'function') stopAutoThemeMode();
+            playSound(toggleSwitchSound);
+            applyTheme("dark");
+      });
+}
+
+if (systemThemeBtn) {
+      systemThemeBtn.addEventListener("click", () => {
+            if (typeof stopAutoThemeMode === 'function') stopAutoThemeMode();
+            playSound(toggleSwitchSound);
+            applyTheme("system");
+      });
+}
+
+// Update on system change if in system mode
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+      if (localStorage.getItem("theme") === "system") {
+            applyTheme("system");
       }
 });
 
-function enableDarkMode() {
+function enableDarkMode(fromAutoMode = false) {
       document.body.classList.add("dark-theme");
       localStorage.setItem("theme", "dark");
-      themeIcon.setAttribute("name", "sunny-outline");
-      themeText.innerText = "Light";
 }
 
-function disableDarkMode() {
+function disableDarkMode(fromAutoMode = false) {
       document.body.classList.remove("dark-theme");
       localStorage.setItem("theme", "light");
-      themeIcon.setAttribute("name", "moon-outline");
-      themeText.innerText = "Dark";
 }
 
 // Modern Layout Toggle Elements
@@ -2185,15 +2219,19 @@ function throwMessage(text, color, icon = "alert-circle-outline") {
 
 
 document.addEventListener("keyup", (event) => {
-      const currentTheme = localStorage.getItem("theme") || "";
-
       if (event.shiftKey && event.altKey && event.key.toLowerCase() === "d") {
+            const currentTheme = localStorage.getItem("theme") || "light";
             event.preventDefault();
 
+            if (typeof stopAutoThemeMode === 'function') stopAutoThemeMode();
+            playSound(toggleSwitchSound);
+
             if (currentTheme === "light") {
-                  enableDarkMode();
+                  applyTheme("dark");
+            } else if (currentTheme === "dark") {
+                  applyTheme("system");
             } else {
-                  disableDarkMode();
+                  applyTheme("light");
             }
       }
 });

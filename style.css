@@ -283,12 +283,15 @@ body::before {
 .relative {
       position: relative !important;
 }
+
 .absolute {
       position: absolute !important;
 }
+
 .fixed {
       position: fixed !important;
 }
+
 .sticky {
       position: sticky !important;
 }
@@ -481,7 +484,7 @@ input {
             background-color var(--theme-mode-transition) ease,
             box-shadow var(--theme-mode-transition) ease,
             resize 0s linear,
-            outline .3s ease;
+            outline .3s ease
 }
 
 #clr-picker {
@@ -1075,42 +1078,76 @@ input {
       color: #ffffff;
 }
 
-.options .theme-btn {
+.theme-btns-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: #212121;
+      border: 1px solid #303030;
+      border-radius: 100px;
+      padding: 4px;
+      gap: 0;
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      transition: width 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+            background-color 0.3s ease,
+            gap 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-btns-wrapper:hover {
+      width: 120px;
+      /* Perfectly fits 3 buttons (32px) + gaps (8px) + padding (4px) */
+      gap: 8px;
+      background-color: #282828;
+}
+
+.theme-btn {
+      flex-shrink: 0;
+      width: 0;
+      /* Default to 0, only active or hovered will have width */
+      height: 32px;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 10px;
-      gap: 0px;
-      background-color: black;
-      color: #ffffff;
-      box-shadow: 0 0 5px var(--shadow-color);
-      transition: box-shadow .3s ease,
-            gap .4s ease,
-            transform .3s ease;
-}
-
-.theme-btn #theme-icon {
-      font-size: 20px;
-      color: var(--theme-icon-color);
-}
-
-.theme-btn #theme-text {
-      font-size: 17px;
-      width: 0;
+      border-radius: 50%;
+      background-color: transparent;
+      color: #999;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
       overflow: hidden;
-      white-space: nowrap;
-      transition: width 0.4s ease-out;
+}
+
+/* Show active button always (even when not hovered) */
+.theme-btn.active {
+      width: 32px;
+      opacity: 1;
+      transform: scale(1);
+      color: #fff;
+      background-color: #404040;
+      pointer-events: auto;
+}
+
+/* When wrapper is hovered, show all buttons with full width */
+.theme-btns-wrapper:hover .theme-btn {
+      width: 32px;
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+}
+
+.theme-btn ion-icon {
+      font-size: 18px;
+      pointer-events: none;
 }
 
 .theme-btn:hover {
-      transition: gap .2s ease-in-out;
-      gap: 10px;
-}
-
-.theme-btn:hover #theme-text {
-      transition: width .2s ease-in-out;
-      width: 37px;
-      /* Adjust this value based on your text length */
+      color: #fff;
+      background-color: #333;
 }
 
 .options .menu {
@@ -2687,8 +2724,8 @@ button#cross-clr-input-value {
       transition: all .3s ease;
 }
 
-#color-code-box:disabled ~ .empty-input-btn,
-#color-code-box[disabled] ~ .empty-input-btn {
+#color-code-box:disabled~.empty-input-btn,
+#color-code-box[disabled]~.empty-input-btn {
       visibility: hidden !important;
 }
 
@@ -2696,6 +2733,7 @@ button#cross-clr-input-value {
       opacity: 1;
       /* visibility: visible; */
 }
+
 /* #color-code-box:not(:placeholder-shown)~.empty-input-btn:hover {
       opacity: 1;
 } */

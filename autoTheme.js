@@ -163,12 +163,19 @@ function setAutoThemeMode(enabled) {
 
 // Function to stop auto theme mode completely
 function stopAutoThemeMode() {
-      localStorage.setItem(AUTO_MODE_KEY, "disable");
-      setAutoThemeMode(false);
-      // Clear the interval
-      if (autoThemeInterval) {
-            clearInterval(autoThemeInterval);
-            autoThemeInterval = null;
+      // Only notify and process if it was actually enabled
+      if (localStorage.getItem(AUTO_MODE_KEY) === "enable") {
+            if (typeof throwMessage === 'function') {
+                  throwMessage("Auto Theme Mode Disabled", "#ffffffff", "moon-outline");
+            }
+
+            localStorage.setItem(AUTO_MODE_KEY, "disable");
+            setAutoThemeMode(false);
+            // Clear the interval
+            if (autoThemeInterval) {
+                  clearInterval(autoThemeInterval);
+                  autoThemeInterval = null;
+            }
       }
 }
 
@@ -204,45 +211,10 @@ function checkTimeAndSetTheme() {
       }
 
       if (isDarkHours) {
-            enableDarkMode(true);
+            if (typeof applyTheme === 'function') applyTheme('dark', true);
       } else {
-            disableDarkMode(true);
+            if (typeof applyTheme === 'function') applyTheme('light', true);
       }
-}
-
-// Extend existing theme functions to handle auto mode
-function enableDarkMode(fromAutoMode = false) {
-      if (!fromAutoMode) {
-            // Show notification that auto theme has been disabled
-            if (localStorage.getItem(AUTO_MODE_KEY) === "enable") {
-                  if (typeof throwMessage === 'function') {
-                        throwMessage("Auto Theme Mode Disabled", "#ff6b35", "moon-outline");
-                  }
-            }
-            // Completely stop auto theme mode
-            stopAutoThemeMode();
-      }
-      document.body.classList.add("dark-theme");
-      localStorage.setItem("theme", "dark");
-      themeIcon.setAttribute("name", "sunny-outline");
-      themeText.innerText = "Light";
-}
-
-function disableDarkMode(fromAutoMode = false) {
-      if (!fromAutoMode) {
-            // Show notification that auto theme has been disabled
-            if (localStorage.getItem(AUTO_MODE_KEY) === "enable") {
-                  if (typeof throwMessage === 'function') {
-                        throwMessage("Auto Theme Mode Disabled", "#ff6b35", "sunny-outline");
-                  }
-            }
-            // Completely stop auto theme mode
-            stopAutoThemeMode();
-      }
-      document.body.classList.remove("dark-theme");
-      localStorage.setItem("theme", "light");
-      themeIcon.setAttribute("name", "moon-outline");
-      themeText.innerText = "Dark";
 }
 
 // Initialize auto theme mode
