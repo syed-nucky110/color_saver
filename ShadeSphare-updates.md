@@ -58,7 +58,7 @@ ShadeSphare updates:-
 
 ✅ 25\. fix error message show/hide logic.
 
-26\. update the delete color logic with delete permanently or move to trash. **pending**
+✅ 26\. update the delete color logic with delete permanently or move to trash.
 
 27\. implement full screen view color container logic. **pending**
 
@@ -89,5 +89,7 @@ ShadeSphare updates:-
 40\. upgrade error handling e.g. color will detect all type(hex, rgb, name) while save the color.
 
 41\. implement revert color(edit color) logic.
+
+42\. fix issue of copied color(automatically copy) while opening the context menu.
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**

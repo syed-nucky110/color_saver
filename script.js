@@ -939,7 +939,7 @@ savedColorList.addEventListener("contextmenu", (event) => {
 
       choosedCurrentColorBox = event.target.closest(".saved-clr");
 
-      if (event.target.closest(".delete-clr-btn")) return;
+      if (event.target.closest(".delete-clr-container")) return;
 
       if (event.target.closest(".saved-clr")) {
             event.preventDefault();
@@ -1011,7 +1011,7 @@ savedColorList.addEventListener("mouseup", (event) => {
       const box = event.target.closest(".saved-clr");
       // moveCenterbox);
 
-      if (event.target.closest(".delete-clr-btn")) return;
+      if (event.target.closest(".delete-clr-container")) return;
       if (seletionModOn && box) {
 
             box.classList.toggle("selected");
@@ -1031,7 +1031,7 @@ savedColorList.addEventListener("mouseup", (event) => {
       }
 
 
-      if (!box || event.target.closest(".delete-clr-btn")) return;
+      if (!box || event.target.closest(".delete-clr-container")) return;
 
       clickCount++;
 
@@ -1205,7 +1205,7 @@ emptyInputBoxBtn.addEventListener("click", () => {
 colorNameInput.addEventListener("keydown", (event) => {
       let typedColor = colorNameInput.value.toUpperCase();
       if (event.key == "Enter") {
-            if(!isColorValid(typedColor)) {
+            if (!isColorValid(typedColor)) {
                   let colorCodeWrapper = document.querySelector(".color-code-box-wrapper");
                   showClrPopUpErrorMessage('wrong');
                   errorVibration(colorCodeWrapper);
@@ -1225,15 +1225,15 @@ colorNameInput.addEventListener("input", () => {
 })
 
 function checkColorStatus(typedColor) {
-      if(typedColor === orgColorCode.toUpperCase()) {
+      if (typedColor === orgColorCode.toUpperCase()) {
             hideClrPopUpErrorMessage();
             return;
       }
-      
-      if(isColorAvailableInStorage(typedColor)) {
+
+      if (isColorAvailableInStorage(typedColor)) {
             showClrPopUpErrorMessage('saved')
       }
-      else if(isColorAvailableInTrash(typedColor)) {
+      else if (isColorAvailableInTrash(typedColor)) {
             showClrPopUpErrorMessage('trash');
       }
       else {
@@ -1461,7 +1461,7 @@ savedColorCounting.textContent = allColors.length;
 addColorInput.addEventListener("input", () => {
 
       // hide color indicator and return if input is empty
-      if(addColorInput.value.trim() === "") {
+      if (addColorInput.value.trim() === "") {
             hideColorIndicator();
             return;
       }
@@ -1522,7 +1522,7 @@ addColorInput.addEventListener("keydown", async (event) => {
                   return; // stop further execution
             }
 
-            
+
             // Normal save process
             const result = isColorSaved(newColor);
             if (result === "not saved") {
@@ -1748,7 +1748,13 @@ function createColorBox(color) {
 
       colorBox.innerHTML = `
             <span title="${color}" class="color-name" style="color:${colorCode};">${color}</span>
-            <button class="delete-clr-btn"><ion-icon name="trash-outline"></ion-icon></button>
+            <div class="delete-clr-container">
+                <button class="delete-clr-btn"><ion-icon name="trash-outline"></ion-icon></button>
+                <div class="delete-confirm-hover">
+                    <button class="confirm-btn move-trash-btn" title="Move to Trash"><ion-icon name="archive-outline"></ion-icon></button>
+                    <button class="confirm-btn delete-perm-btn" title="Delete Permanently"><ion-icon name="trash"></ion-icon></button>
+                </div>
+            </div>
       `;
 
       // New added hover bubbling
@@ -1823,37 +1829,40 @@ function getContrastColor(color) {
 
 // Delete a perticular color
 savedColorList.addEventListener("click", (event) => {
-      if (event.target.closest(".delete-clr-btn")) {
-            const colorBox = event.target.closest(".saved-clr");
-            const colorName = colorBox.querySelector(".color-name").textContent;
+      const colorBox = event.target.closest(".saved-clr");
+      if (!colorBox) return;
 
+      const colorName = colorBox.querySelector(".color-name").textContent;
+
+      if (event.target.closest(".move-trash-btn")) {
             if (isTrashFull()) {
-                  let res = confirm("trash is full are you permanently delete this color ?");
-                  if (res) {
-                        deleteColorFromStorage(colorName);
-                        removeFromDOM(colorBox);
-                        showSuccessMessage("Deleted!")
-                        return;
-                  }
-                  else return;
+                  let res = confirm("Trash is full! Delete this color permanently?");
+                  if (!res) return;
+
+                  deleteColorFromStorage(colorName);
+                  removeFromDOM(colorBox);
+                  showSuccessMessage("Deleted Permanently!");
+                  updateColorCounter();
+                  return;
             }
 
             saveToTrash(colorName);
-
-            playSound(swooshSound)
-
-            showSuccessMessage("Move to Trash Bin");
-
-            // Remove from localStorage
+            playSound(swooshSound);
+            showSuccessMessage("Moved to Trash Bin");
             deleteColorFromStorage(colorName);
-
-            // Remove from DOM
             removeFromDOM(colorBox);
-
-            // Update counter
             updateColorCounter();
-
             isTrashFull();
+      }
+      else if (event.target.closest(".delete-perm-btn")) {
+            const confirmed = confirm(`Are you sure you want to permanently delete ${colorName}?`);
+            if (!confirmed) return;
+
+            deleteColorFromStorage(colorName);
+            removeFromDOM(colorBox);
+            playSound(toggleSwitchSound);
+            showSuccessMessage("Permanently Deleted!");
+            updateColorCounter();
       }
 });
 
@@ -2177,7 +2186,7 @@ function throwMessage(text, color, icon = "alert-circle-outline") {
       playSound(alertSound);
 
       // If the message is already showing, remove it before showing a new one
-      if(icon.includes("outline")) {
+      if (icon.includes("outline")) {
             icon = icon.replace("-outline", "");
       }
 

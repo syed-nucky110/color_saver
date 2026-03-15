@@ -2442,15 +2442,25 @@ button#cross-clr-input-value {
       border-radius: 25px !important;
 }
 
-.saved-color-grid-view button {
+.saved-color-grid-view .delete-clr-container {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      width: fit-content !important;
-      padding: 10px !important;
-      justify-self: flex-start !important;
-      height: fit-content !important;
-      border-radius: 30px !important;
+      width: 45px;
+      height: 45px;
+}
+
+.saved-color-grid-view .delete-confirm-hover {
+      left: 0;
+      right: auto;
+      transform-origin: left;
+      flex-direction: row;
+}
+
+.saved-color-grid-view button {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 50% !important;
       transition: all .3s ease !important;
 }
 
@@ -2554,8 +2564,75 @@ button#cross-clr-input-value {
       white-space: nowrap;
 }
 
-/* Delete button */
-.saved-clr button {
+/* Delete button container */
+.delete-clr-container {
+      position: relative;
+      height: 100%;
+      width: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.delete-clr-container:hover {
+      width: 100px;
+}
+
+.delete-confirm-hover {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      flex-direction: row-reverse;
+      background-color: #000000;
+      border-radius: 100px;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      pointer-events: none;
+      z-index: 5;
+      box-shadow: 0 0 3px white;
+}
+
+.delete-clr-container:hover .delete-confirm-hover {
+      opacity: 1;
+      transform: scaleX(1);
+      pointer-events: auto;
+}
+
+.confirm-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: white;
+      background-color: transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+}
+
+.confirm-btn:hover {
+      transform: scale(1.15);
+}
+
+.move-trash-btn:hover {
+      color: #00BC7D;
+}
+
+.delete-perm-btn:hover {
+      color: #ff4747;
+}
+
+.saved-clr button.delete-clr-btn {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -2566,15 +2643,14 @@ button#cross-clr-input-value {
       color: white;
       background-color: black;
       opacity: 1;
-      transition: opacity .3s ease;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1;
       box-shadow: 0 0 3px white;
-      z-index: 0;
-      transition: background-color .3s ease, color .3s ease;
 }
 
-.saved-clr button:hover {
-      background-color: rgb(21, 21, 21);
-      /* color: red; */
+.delete-clr-container:hover .delete-clr-btn {
+      opacity: 0;
+      transform: scale(0) rotate(-90deg);
 }
 
 .choosed-color-container {
