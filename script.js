@@ -955,60 +955,83 @@ function exitSelectionMode() {
 }
 
 let choosedCurrentColorBox = null;
-savedColorList.addEventListener("contextmenu", (event) => {
+let touchTimer = null;
 
-      choosedCurrentColorBox = event.target.closest(".saved-clr");
+function showCustomContextMenu(x, y, targetBox) {
+      choosedCurrentColorBox = targetBox;
 
-      if (event.target.closest(".delete-clr-container")) return;
+      // Reset scale for dimensions calculation
+      contextMenu.style.display = "block";
+      contextMenu.style.transform = "scale(0.5)";
+      contextMenu.style.opacity = "0";
 
-      if (event.target.closest(".saved-clr")) {
-            event.preventDefault();
+      // Screen dimensions
+      const screenW = window.innerWidth;
+      const screenH = window.innerHeight;
 
-            // Reset scale for dimensions calculation
-            contextMenu.style.display = "block";
-            contextMenu.style.transform = "scale(0.5)";
-            contextMenu.style.opacity = "0";
+      // Menu dimensions
+      const menuW = contextMenu.offsetWidth;
+      const menuH = contextMenu.offsetHeight;
 
-            // Screen dimensions
-            const screenW = window.innerWidth;
-            const screenH = window.innerHeight;
+      // Position logic
+      let posX = x + 2;
+      let posY = y + 2;
 
-            // Menu dimensions
-            const menuW = contextMenu.offsetWidth;
-            const menuH = contextMenu.offsetHeight;
-
-            // Default position with a tiny offset from cursor
-            let posX = event.clientX + 2;
-            let posY = event.clientY + 2;
-
-            // If right side space nahi hai → left side
-            if (posX + menuW > screenW) {
-                  posX = event.clientX - menuW - 2;
-                  contextMenu.style.transformOrigin = "top right";
-            } else {
-                  contextMenu.style.transformOrigin = "top left";
-            }
-
-            // If bottom space nahi hai → upar
-            if (posY + menuH > screenH) {
-                  posY = event.clientY - menuH - 2;
-                  // Update origin if needed
-                  if (posX + menuW > screenW) {
-                        contextMenu.style.transformOrigin = "bottom right";
-                  } else {
-                        contextMenu.style.transformOrigin = "bottom left";
-                  }
-            }
-
-            contextMenu.style.left = posX + "px";
-            contextMenu.style.top = posY + "px";
-            
-            // Trigger animation
-            requestAnimationFrame(() => {
-                  contextMenu.style.transform = "scale(1)";
-                  contextMenu.style.opacity = "1";
-            });
+      if (posX + menuW > screenW) {
+            posX = x - menuW - 2;
+            contextMenu.style.transformOrigin = "top right";
+      } else {
+            contextMenu.style.transformOrigin = "top left";
       }
+
+      if (posY + menuH > screenH) {
+            posY = y - menuH - 2;
+            if (posX + menuW > screenW) {
+                  contextMenu.style.transformOrigin = "bottom right";
+            } else {
+                  contextMenu.style.transformOrigin = "bottom left";
+            }
+      }
+
+      contextMenu.style.left = posX + "px";
+      contextMenu.style.top = posY + "px";
+
+      requestAnimationFrame(() => {
+            contextMenu.style.transform = "scale(1)";
+            contextMenu.style.opacity = "1";
+      });
+}
+
+savedColorList.addEventListener("contextmenu", (event) => {
+      const targetBox = event.target.closest(".saved-clr");
+      if (!targetBox || event.target.closest(".delete-clr-container")) return;
+
+      event.preventDefault();
+      showCustomContextMenu(event.clientX, event.clientY, targetBox);
+});
+
+// Mobile Long Press Support
+savedColorList.addEventListener("touchstart", (event) => {
+      const targetBox = event.target.closest(".saved-clr");
+      if (!targetBox || event.target.closest(".delete-clr-container")) return;
+
+      const touch = event.touches[0];
+      const x = touch.clientX;
+      const y = touch.clientY;
+
+      touchTimer = setTimeout(() => {
+            showCustomContextMenu(x, y, targetBox);
+            // Vibrate if supported
+            if (navigator.vibrate) navigator.vibrate(50);
+      }, 700); // 700ms for long press
+}, { passive: true });
+
+savedColorList.addEventListener("touchend", () => {
+      clearTimeout(touchTimer);
+});
+
+savedColorList.addEventListener("touchmove", () => {
+      clearTimeout(touchTimer);
 });
 
 // Click anywhere → hide menu
