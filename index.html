@@ -259,13 +259,17 @@
                               <div class="choosed-color-box">
                                     <div class="content">
                                           <div class="top-area">
-                                                <div id="color-code-box-wrapper" class="color-code-box-wrapper relative">
+                                                <div id="color-code-box-wrapper"
+                                                      class="color-code-box-wrapper relative">
                                                       <input readonly disabled type="text" id="color-code-box"
-                                                      value="rgba(132, 223, 213, .745)" autocomplete="off" placeholder="">
+                                                            value="rgba(132, 223, 213, .745)" autocomplete="off"
+                                                            placeholder="">
                                                       <button id="empty-input-btn" class="empty-input-btn absolute">
                                                             <ion-icon name="close-circle-outline"></ion-icon>
                                                       </button>
-                                                      <span id="popup-clr-error-message" class="absolute hidden popup-clr-error-message">demo text</span>
+                                                      <span id="popup-clr-error-message"
+                                                            class="absolute hidden popup-clr-error-message">demo
+                                                            text</span>
                                                 </div>
                                                 <button class="cross-btn">
                                                       <ion-icon name="close-outline"></ion-icon>
@@ -389,18 +393,28 @@
                   </div>
 
                   <ul id="custom-context-menu" class="context-menu">
-                        <div>
-                              <li id="context-select-option"><ion-icon
-                                          name="checkmark-circle-outline"></ion-icon><span>Select</span></li>
-                        </div>
-                        <div>
-                              <li id="context-select-all-option"><ion-icon
-                                          name="checkmark-circle"></ion-icon><span>Select All</span></li>
-                        </div>
-                        <div>
-                              <li id="context-edit-option"><ion-icon name="create-outline"></ion-icon><span>Edit</span>
-                              </li>
-                        </div>
+                        <li id="context-select-option">
+                              <ion-icon name="checkmark-circle-outline"></ion-icon>
+                              <span>Select</span>
+                        </li>
+                        <li id="context-select-all-option">
+                              <ion-icon name="checkmark-circle"></ion-icon>
+                              <span>Select All</span>
+                        </li>
+                        <div class="context-separator"></div>
+                        <li id="context-edit-option">
+                              <ion-icon name="create-outline"></ion-icon>
+                              <span>Edit Color</span>
+                        </li>
+                        <div class="context-separator"></div>
+                        <li id="context-copy-hex-option">
+                              <ion-icon name="copy-outline"></ion-icon>
+                              <span>Copy HEX</span>
+                        </li>
+                        <li id="context-copy-rgb-option">
+                              <ion-icon name="color-palette-outline"></ion-icon>
+                              <span>Copy RGB</span>
+                        </li>
                   </ul>
 
                   <div id="selection-bar" class="selection-bar">
@@ -423,7 +437,8 @@
                                     </button>
                               </div>
                               <ul class="shortcut-list option-list-box">
-                                    <li><span class="operation">Toggle Dark Mode</span><span class="key">shift + alt +
+                                    <li><span class="operation">Toggle Theme</span><span class="key">shift +
+                                                alt +
                                                 D</span></li>
                                     <li><span class="operation">Toggle Sidebar</span><span class="key">shift + alt +
                                                 S</span>

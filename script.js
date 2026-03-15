@@ -606,7 +606,7 @@ function lockNavbar() {
       mainOptions.style.zIndex = "200";
 
       (localStorage.getItem("screen-size") == "full") ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
-      menuIsLocked = !menuIsLocked;
+      menuIsLocked = true;
 }
 
 function unlockNavbar() {
@@ -622,7 +622,7 @@ function unlockNavbar() {
       mainOptions.style.zIndex = "";
 
       disarrangeDispalycontainerSize();
-      menuIsLocked = !menuIsLocked;
+      menuIsLocked = false;
 }
 
 menuOptionsBox.addEventListener("click", (event) => {
@@ -781,6 +781,8 @@ choosedColorContainer.addEventListener("keydown", (event) => {
 });
 
 const contextMenu = document.getElementById("custom-context-menu");
+const contextCopyHexOption = document.getElementById("context-copy-hex-option");
+const contextCopyRgbOption = document.getElementById("context-copy-rgb-option");
 const contextSeletOption = document.getElementById("context-select-option");
 const contextSeletAllOption = document.getElementById("context-select-all-option");
 const contextEditOption = document.getElementById("context-edit-option");
@@ -821,7 +823,25 @@ contextEditOption.addEventListener("click", () => {
       setTimeout(() => {
             colorNameInput.focus();
       }, 100);
-})
+});
+
+contextCopyHexOption.addEventListener("click", () => {
+      if (choosedCurrentColorBox) {
+            const color = choosedCurrentColorBox.getAttribute("data-id");
+            const hex = tinycolor(color).toHexString().toUpperCase();
+            copyText(hex);
+            playSound(menuSound);
+      }
+});
+
+contextCopyRgbOption.addEventListener("click", () => {
+      if (choosedCurrentColorBox) {
+            const color = choosedCurrentColorBox.getAttribute("data-id");
+            const rgb = tinycolor(color).toRgbString();
+            copyText(rgb);
+            playSound(menuSound);
+      }
+});
 
 function selectAllColors() {
       const savedColors = document.querySelectorAll(".saved-clr");
@@ -944,8 +964,10 @@ savedColorList.addEventListener("contextmenu", (event) => {
       if (event.target.closest(".saved-clr")) {
             event.preventDefault();
 
-            // Pehle hide kar do (agar already open hai)
+            // Reset scale for dimensions calculation
             contextMenu.style.display = "block";
+            contextMenu.style.transform = "scale(0.5)";
+            contextMenu.style.opacity = "0";
 
             // Screen dimensions
             const screenW = window.innerWidth;
@@ -955,22 +977,37 @@ savedColorList.addEventListener("contextmenu", (event) => {
             const menuW = contextMenu.offsetWidth;
             const menuH = contextMenu.offsetHeight;
 
-            // Default position
-            let posX = event.clientX;
-            let posY = event.clientY;
+            // Default position with a tiny offset from cursor
+            let posX = event.clientX + 2;
+            let posY = event.clientY + 2;
 
-            // Agar right side space nahi hai → left side
+            // If right side space nahi hai → left side
             if (posX + menuW > screenW) {
-                  posX = event.clientX - menuW;
+                  posX = event.clientX - menuW - 2;
+                  contextMenu.style.transformOrigin = "top right";
+            } else {
+                  contextMenu.style.transformOrigin = "top left";
             }
 
-            // Agar bottom space nahi hai → upar
+            // If bottom space nahi hai → upar
             if (posY + menuH > screenH) {
-                  posY = event.clientY - menuH;
+                  posY = event.clientY - menuH - 2;
+                  // Update origin if needed
+                  if (posX + menuW > screenW) {
+                        contextMenu.style.transformOrigin = "bottom right";
+                  } else {
+                        contextMenu.style.transformOrigin = "bottom left";
+                  }
             }
 
             contextMenu.style.left = posX + "px";
             contextMenu.style.top = posY + "px";
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                  contextMenu.style.transform = "scale(1)";
+                  contextMenu.style.opacity = "1";
+            });
       }
 });
 

@@ -92,4 +92,6 @@ ShadeSphare updates:-
 
 ✅ 42\. fix issue of copied color(automatically copy) while opening the context menu.
 
+✅ 43\. update the context menu UI.
+
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
