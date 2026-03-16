@@ -418,11 +418,24 @@
                   </ul>
 
                   <div id="selection-bar" class="selection-bar">
-                        <span>Selected:
-                              <span id="selection-count">0 / 0</span>
-                        </span>
-                        <button id="delete-selected-btn">Delete</button>
-                        <button id="cancel-selection-btn">Cancel</button>
+                        <div class="selection-info">
+                              <ion-icon name="checkmark-circle-outline"></ion-icon>
+                              <span>Selected: <span id="selection-count">0 / 0</span></span>
+                        </div>
+                        <div class="selection-actions">
+                              <button id="select-all-btn" class="action-btn select-all-btn">
+                                    <ion-icon name="checkmark-done-outline"></ion-icon>
+                                    <span>Select All</span>
+                              </button>
+                              <button id="delete-selected-btn" class="action-btn delete-btn">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                    <span>Delete</span>
+                              </button>
+                              <button id="cancel-selection-btn" class="action-btn cancel-btn">
+                                    <ion-icon name="close-outline"></ion-icon>
+                                    <span>Cancel</span>
+                              </button>
+                        </div>
                   </div>
 
                   <div id="shortcut-container" class="option-container">

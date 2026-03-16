@@ -195,6 +195,7 @@
       --color-picker-clr: #212121;
       /* --accent-color: #0fffff; */
       --accent-color: #00BC7D;
+      --accent-color-rgb: 0, 188, 125;
       --line-breaker-bg-clr: radial-gradient(#303030, #999999);
 
       /* gradient colors section */
@@ -213,6 +214,16 @@
       --hover-bg: #dddddd;
 
       --theme-mode-transition: 1s;
+
+      /* Selection Bar Variables */
+      --selection-bar-bg: #ffffff;
+      --selection-bar-border: #e0e0e0;
+      --selection-bar-shadow: rgba(0, 0, 0, 0.15);
+      --selection-info-border: #eeeeee;
+      --action-btn-bg: rgba(0, 0, 0, 0.03);
+      --action-btn-color: #444444;
+      --action-btn-hover-bg: #f0f0f0;
+      --action-btn-hover-color: #000000;
 }
 
 .dark-theme {
@@ -237,6 +248,7 @@
       --shortcuts-key-bg-clr: rgba(0, 0, 0, 0.508);
       --color-picker-clr: gray;
       /* --accent-color: #00ffff; */
+      --accent-color-rgb: 0, 188, 125; /* Match the active accent-color */
       /* --line-breaker-bg-clr: #ffffff; */
       --line-breaker-bg-clr: radial-gradient(#999999, #181818);
 
@@ -250,6 +262,16 @@
       --gradient-2: #bb86fc;
 
       --hover-bg: #181818;
+
+      /* Selection Bar Variables (Dark) */
+      --selection-bar-bg: #111111;
+      --selection-bar-border: #222222;
+      --selection-bar-shadow: rgba(0, 0, 0, 0.6);
+      --selection-info-border: #222222;
+      --action-btn-bg: rgba(255, 255, 255, 0.04);
+      --action-btn-color: rgba(255, 255, 255, 0.75);
+      --action-btn-hover-bg: #1e1e1e;
+      --action-btn-hover-color: #ffffff;
 }
 
 body,
@@ -1081,8 +1103,8 @@ input {
 .theme-btns-wrapper {
       display: flex;
       align-items: center;
-      background-color: #212121;
-      border: 1px solid #303030;
+      background-color: #000;
+      border: 1px solid #333;
       border-radius: 100px;
       padding: 4px;
       gap: 0;
@@ -1100,7 +1122,7 @@ input {
       width: 120px;
       /* Perfectly fits 3 buttons (32px) + gaps (8px) + padding (4px) */
       gap: 8px;
-      background-color: #282828;
+      background-color: #000;
 }
 
 .theme-btn {
@@ -1128,7 +1150,7 @@ input {
       opacity: 1;
       transform: scale(1);
       color: #fff;
-      background-color: #404040;
+      background-color: #222;
       pointer-events: auto;
 }
 
@@ -1147,7 +1169,7 @@ input {
 
 .theme-btn:hover {
       color: #fff;
-      background-color: #333;
+      background-color: #222;
 }
 
 .options .menu {
@@ -1310,8 +1332,7 @@ input[type="color"]:focus-visible {
 }
 
 .all-options .option:hover *:not(.shortcut-tag) {
-      /* transform: translateX(5px) !important;
-      color: #000000 !important; */
+      color: white !important;
 }
 
 .all-options .option:hover .shortcut-tag {
@@ -2085,9 +2106,7 @@ span.input-color-indicator {
       border: 1px solid #ccc;
 }
 
-.input-area:not(:focus-within) .clr-suggestions {
-      /* display: none; */
-}
+/* .input-area:not(:focus-within) .clr-suggestions { display: none; } */
 
 .hidden {
       display: none !important;
@@ -2222,9 +2241,7 @@ button#cross-clr-input-value {
       transition: box-shadow .3s ease, transform .2s linear, background-color .3s ease, color .3s ease;
 }
 
-#add-color-btn:hover {
-      /* box-shadow: 0 0 10px #00ffff55; */
-}
+/* #add-color-btn:hover { box-shadow: 0 0 10px #00ffff55; } */
 
 /* @keyframes bubbling {
       0% {
@@ -2244,9 +2261,7 @@ button#cross-clr-input-value {
       }
 } */
 
-.bubbling {
-      /* animation: bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1); */
-}
+/* .bubbling { animation: bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1); } */
 
 @keyframes bubbling {
       0% {
@@ -2369,6 +2384,7 @@ button#cross-clr-input-value {
       bottom: 0;
 } */
 
+/* content padding transition */
 .saved-colors-list {
       padding: 10px 10px 20px;
       position: relative;
@@ -2498,9 +2514,7 @@ button#cross-clr-input-value {
       /* animation: bounce 0.6s ease; */
 }
 
-.saved-clr:hover {
-      /* box-shadow: 0 0 20px var(--shadow-color), 0 0 30px var(--shadow-color); */
-}
+/* .saved-clr:hover { box-shadow: 0 0 20px var(--shadow-color), 0 0 30px var(--shadow-color); } */
 
 @keyframes smoothEntrance {
       0% {
@@ -3146,9 +3160,7 @@ button#cross-clr-input-value {
             transform: translateY(0px) !important;
       }
 
-      .input-area {
-            /* gap: 10px !important; */
-      }
+/* .input-area { gap: 10px !important; } */
 
       .screen-size-options {
             display: none !important;
@@ -3956,20 +3968,161 @@ button#cross-clr-input-value {
 
 .selection-bar {
       position: fixed;
-      top: 5px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: black;
-      color: white;
-      gap: 10px;
-      border-radius: 5px;
-      padding: 8px 15px;
+      background: var(--selection-bar-bg);
+      border: 1px solid var(--selection-bar-border);
+      color: var(--text-color);
+      gap: 0;
+      border-radius: 25px;
+      padding: 6px;
       display: none;
-      /* hidden by default */
       justify-content: space-between;
       align-items: center;
       z-index: 2000;
-      animation: smoothVisible .3s ease;
+      box-shadow: 
+            0 15px 35px var(--selection-bar-shadow),
+            0 0 0 1px rgba(255, 255, 255, 0.03);
+      animation: selectionBarAppear .4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      min-width: 340px;
+      user-select: none;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+@keyframes selectionBarAppear {
+      from {
+            opacity: 0;
+            transform: translate(-50%, -10px) scale(0.98);
+      }
+      to {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+      }
+}
+
+.selection-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text-color);
+      border-right: 1px solid var(--selection-info-border);
+      height: 32px;
+}
+
+.selection-info ion-icon {
+      font-size: 18px;
+      color: var(--accent-color);
+}
+
+.selection-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-left: 6px;
+}
+
+.action-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      height: 34px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--action-btn-bg);
+      color: var(--action-btn-color);
+      border: 1px solid transparent;
+}
+
+.action-btn ion-icon {
+      font-size: 17px;
+}
+
+.action-btn:hover {
+      background: var(--action-btn-hover-bg);
+      color: var(--action-btn-hover-color);
+}
+
+/* Professional destructive action */
+.action-btn.delete-btn:hover {
+      background: rgba(255, 59, 48, 0.1);
+      color: #ff3b30;
+      border-color: rgba(255, 59, 48, 0.2);
+}
+
+/* Professional primary action focus */
+.action-btn.select-all-btn:hover {
+      background: rgba(var(--accent-color-rgb), 0.1);
+      color: var(--accent-color);
+      border-color: rgba(var(--accent-color-rgb), 0.2);
+}
+
+.action-btn:active {
+      transform: scale(0.96);
+}
+
+.action-btn.cancel-btn:hover {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+}
+
+/* Mobile Optimization for Selection Bar */
+@media (max-width: 600px) {
+      .selection-bar {
+            top: 15px;
+            bottom: auto;
+            width: calc(100% - 30px);
+            min-width: 0;
+            padding: 8px;
+            gap: 0;
+            flex-direction: column;
+            border-radius: 20px;
+            height: auto;
+      }
+
+      .selection-info {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid var(--selection-info-border);
+            justify-content: center;
+            height: 40px;
+            padding: 0;
+            margin-bottom: 6px;
+      }
+
+      .selection-actions {
+            width: 100%;
+            padding-left: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+      }
+
+      .action-btn {
+            padding: 0;
+            justify-content: center;
+            height: 44px; /* Better touch target */
+            flex-direction: column;
+            gap: 2px;
+            font-size: 10px;
+            border-radius: 12px;
+      }
+
+      .action-btn ion-icon {
+            font-size: 18px;
+      }
+
+      .action-btn span {
+            /* Keep span but smaller */
+            display: block;
+      }
 }
 
 .trash-dropdown {
@@ -4030,18 +4183,7 @@ button#cross-clr-input-value {
       }
 }
 
-.selection-bar button {
-      background: transparent;
-      border: 1px solid #212121;
-      color: white;
-      padding: 6px 12px;
-      margin-left: 10px;
-      border-radius: 4px;
-}
-
-.selection-bar button:hover {
-      background-color: #212121;
-}
+/* Buttons in selection bar updated to .action-btn classes */
 
 .saved-clr.selected {
       outline: 3px solid var(--accent-color);

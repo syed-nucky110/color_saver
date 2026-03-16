@@ -43,13 +43,13 @@ let dialogPreviewFrameBtn = document.querySelector('.dialog-preview-on-frame-btn
 // ===============================================
 
 // Back to home button - closes gradient mode
-backToHome.addEventListener('click', () => { 
+backToHome.addEventListener('click', () => {
       closeGradientMode();
 })
 
 // Color direction input change handler
 colorDirection.addEventListener('input', () => {
-      if(!isHexColor(colorDirection.value)) {
+      if (!isHexColor(colorDirection.value)) {
             updatePreviewBox();
       }
       else {
@@ -77,7 +77,7 @@ dialogPreviewFrameBtn.addEventListener('click', (event) => {
 
 let gradientHeader = document.querySelector('.gradient-color-header');
 gradientWrapper.addEventListener('scroll', (event) => {
-      if(gradientWrapper.scrollTop > 20) {
+      if (gradientWrapper.scrollTop > 20) {
             gradientHeader.classList.add('small-gradient-color-header');
       }
       else {
@@ -98,7 +98,7 @@ function getGradientInputField() {
       let count = document.querySelectorAll('.get-gradient-input-field').length;
       let newIndex = count + 1;
       let randomColor = getRandomHexColor();
-      
+
       // Create HTML structure with color picker, text input, and stop percentage
       let structure = `
             <span class="input-title">Color ${newIndex}</span>
@@ -141,7 +141,7 @@ function addNewInput() {
       field.classList.add('per-input-area')
       field.innerHTML = structure;
       gradientColorInputArea.append(field)
-      
+
       // Smooth scroll to the newly added field
       field.scrollIntoView({
             block: "end",
@@ -155,13 +155,13 @@ function addNewInput() {
 
 // Handle remove button clicks for color input fields
 gradientColorInputArea.addEventListener("click", (event) => {
-      if(event.target.closest('.remove-input-btn')) {
+      if (event.target.closest('.remove-input-btn')) {
             let field = event.target.closest('.per-input-area')
             field.remove();  // Remove the input field
             updatePreviewBox();  // Update preview after removal
       }
 
-      else if(event.target.closest('.clear-input-value-btn')) {
+      else if (event.target.closest('.clear-input-value-btn')) {
             let field = event.target.closest('.per-input-area')
             let colorInput = field.querySelector('input[type="text"]');
             colorInput.value = "";
@@ -172,7 +172,7 @@ gradientColorInputArea.addEventListener("click", (event) => {
 
 // Handle clear button click for direction input
 document.querySelector('.gradient-dir-type-inputs').addEventListener('click', (event) => {
-      if(event.target.closest('.clear-direction-value-btn')) {
+      if (event.target.closest('.clear-direction-value-btn')) {
             colorDirection.value = "";
             colorDirection.focus();
             updatePreviewBox();
@@ -185,19 +185,19 @@ document.querySelector('.gradient-dir-type-inputs').addEventListener('click', (e
  */
 function setupColorSync() {
       let allGradientInputs = document.querySelectorAll('.get-gradient-input-field')
-      
+
       allGradientInputs.forEach(inputField => {
             // Only bind events if not already bound (prevents duplicate listeners)
-            if(!inputField.dataset.bound) {
+            if (!inputField.dataset.bound) {
                   let colorInput = inputField.querySelector('input[type="text"]');
                   let colorPicker = inputField.querySelector('input[type="color"]');
                   // let colorStops = inputField.querySelector('.color-stops-input')
-                  
+
                   // Text input change handler
                   colorInput.addEventListener("input", (event) => {
                         colorInput.value = colorInput.value.toUpperCase();
                         // Validate hex color and sync with color picker
-                        if(isHexColor(colorInput.value)) {
+                        if (isHexColor(colorInput.value)) {
                               colorPicker.value = colorInput.value;
                               enableSaveGradientBtn();
                               updatePreviewBox();
@@ -209,11 +209,11 @@ function setupColorSync() {
 
                   // Prevent space key in color input
                   colorInput.addEventListener('keydown', (event) => {
-                        if(event.key == " ") {
+                        if (event.key == " ") {
                               event.preventDefault();
                         }
                   })
-                  
+
                   // Color picker change handler - sync with text input
                   colorPicker.addEventListener('input', () => {
                         colorInput.value = colorPicker.value.toUpperCase();
@@ -237,18 +237,18 @@ function updatePreviewBox() {
       colors = [];  // Reset colors array
       let gradientType = colorType.value;  // linear-gradient, radial-gradient, etc.
       let gradientDirection = colorDirection.value;  // direction or position
-      
-      
+
+
       // Collect all valid colors from input fields
       gradientColorInputArea.querySelectorAll('.get-gradient-input-field').forEach(field => {
             const textInput = field.querySelector('input[type="text"]');
             const stopInput = field.querySelector('.color-stops-input')
 
             // Only add valid hex colors
-            if(isHexColor(textInput.value)) {
+            if (isHexColor(textInput.value)) {
                   let stopValue = stopInput.value;
                   // Include stop percentage if provided
-                  if(stopValue) {
+                  if (stopValue) {
                         colors.push(`${textInput.value} ${stopValue}`)
                   }
                   else {
@@ -256,24 +256,24 @@ function updatePreviewBox() {
                   }
             }
       })
-      
+
       // Setup event listeners for color stop inputs
       document.querySelectorAll('.color-stops-input').forEach(input => {
-            if(!input.dataset.bound) {
+            if (!input.dataset.bound) {
                   input.addEventListener("input", () => {
                         updatePreviewBox();
                   })
                   input.dataset.bound = "true";
             }
       })
-      
+
       // Generate and apply CSS gradient
       let gradientCSS = `${gradientType}(${gradientDirection}, ${colors.join(",")})`
       previewGradientColorBox.style.background = gradientCSS
       updateGradientFrame(gradientCSS)
 
       // Enable/disable save button based on gradient validity
-      if(isValidGradient(gradientCSS)) {
+      if (isValidGradient(gradientCSS)) {
             enableSaveGradientBtn();
       }
       else {
@@ -306,7 +306,7 @@ function enableSaveGradientBtn() {
  */
 function disableSaveGradientBtn() {
       saveGradientBtn.style.opacity = ".6";
-      saveGradientBtn.setAttribute("disabled","");
+      saveGradientBtn.setAttribute("disabled", "");
       saveGradientBtn.style.cursor = "no-drop"
 }
 
@@ -364,14 +364,14 @@ gradientLogo.addEventListener('click', () => {
 // openGradientMode();  // Open gradient mode on page load for easy access during development
 function openGradientMode() {
       // Close merge mode if active
-      if(isMergeModeOn) {
+      if (isMergeModeOn) {
             mergeModeOff();
             throwMessage("Merge Mode off");
             return;
       };
-      
+
       gradientWrapper.style.display = "flex";
-      
+
       // Smooth transition animation
       setTimeout(() => {
             AppWrapper.style.transform = "scale(0.8)";
@@ -381,26 +381,26 @@ function openGradientMode() {
             gradientWrapper.style.transform = "scale(1)";
       }, 100);
 }
-      
+
 /**
  * Closes the gradient mode and returns to main app
  * Restores main app interface with smooth transition
  */
 function closeGradientMode() {
       // Close merge mode if active
-      if(isMergeModeOn) {
+      if (isMergeModeOn) {
             mergeModeOff();
             throwMessage("Merge Mode off");
             return;
       };
-      
+
       // Restore main app with animation
       AppWrapper.style.opacity = ""
       gradientWrapper.style.opacity = "0"
       gradientWrapper.style.transform = "";
       document.querySelector('head title').textContent = "ShadeSphare"
       AppWrapper.style.transform = "";
-      
+
       setTimeout(() => {
             gradientWrapper.style.display = ""
       }, 300);
@@ -411,7 +411,7 @@ let isGradientMode = false;
 
 // Keyboard shortcut: Alt + G to toggle gradient mode
 document.addEventListener("keyup", (event) => {
-      if(event.altKey && event.key.toLocaleLowerCase() == "g" && !event.shiftKey) {
+      if (event.altKey && event.key.toLocaleLowerCase() == "g" && !event.shiftKey) {
             (isGradientMode) ? closeGradientMode() : openGradientMode();
       }
       isGradientMode = !isGradientMode;
@@ -434,9 +434,9 @@ function isValidGradient(gradientStr) {
 saveGradientBtn.addEventListener("click", () => {
       let schema = savedColorSchema();
       console.log(schema);
-      
+
       // Check if gradient is already saved to prevent duplicates
-      if(isAlreadySavedGradient(schema)) {
+      if (isAlreadySavedGradient(schema)) {
             return throwMessage("Already Saved");
       }
       saveGradientProcess(schema);
@@ -476,7 +476,7 @@ renderGradientColors();
 function isAlreadySavedGradient(gradient) {
       let allGradients = JSON.parse(localStorage.getItem('gradient-colors')) || [];
       for (const color of allGradients) {
-            if(color.CSS_code.toLowerCase() == gradient.CSS_code.toLowerCase()) return true;
+            if (color.CSS_code.toLowerCase() == gradient.CSS_code.toLowerCase()) return true;
       }
       return false;
 }
@@ -507,7 +507,7 @@ function gradientBoxCreator(color) {
                   </div>
             </div>
       `
-      
+
       return gradientBox;
 }
 
@@ -524,20 +524,20 @@ let currentChoosedGradient = null;
 // Handle clicks on saved gradient list items
 gradientColorsList.addEventListener('click', (event) => {
       // Copy gradient CSS when copy button is clicked
-      if(event.target.closest('.saved-gradient-color .copy-option')) {
+      if (event.target.closest('.saved-gradient-color .copy-option')) {
             let colorToCopy = event.target.closest('.saved-gradient-color');
             let textToCopy = colorToCopy.getAttribute('data-color-code');
             copyText(textToCopy);
       }
       // Open gradient dialog when gradient box is clicked (but not on buttons)
-      else if(event.target.closest('.saved-gradient-color') && !event.target.closest('.saved-gradient-color-option-bar')) {
+      else if (event.target.closest('.saved-gradient-color') && !event.target.closest('.saved-gradient-color-option-bar')) {
             let gradientBox = event.target.closest('.saved-gradient-color')
             let gradientData = JSON.parse(gradientBox.getAttribute('data-gradient'))
             currentChoosedGradient = gradientBox;
             openGradientDialogBox(gradientData);
       }
       // Open simple preview frame when preview button is clicked
-      else if(event.target.closest('.preview-gradient-on-frame-btn')) {
+      else if (event.target.closest('.preview-gradient-on-frame-btn')) {
             let gradientBox = event.target.closest('.saved-gradient-color')
             let gradientColor = gradientBox.getAttribute('data-color-code')
             opneSimplePreviewFrame(gradientColor);
@@ -578,7 +578,7 @@ gradientDialogBoxCloseBtn.addEventListener('click', () => {
 
 // Close dialog when clicking outside the dialog box
 choosedGradientColorContainer.addEventListener('click', (event) => {
-      if(event.target == choosedGradientColorContainer &&  event.target != choosedGradientDialogBox) {
+      if (event.target == choosedGradientColorContainer && event.target != choosedGradientDialogBox) {
             closeGradientDialogBox();
       }
 })
@@ -589,13 +589,13 @@ choosedGradientColorContainer.addEventListener('click', (event) => {
  */
 function openGradientDialogBox(gradientData) {
       choosedGradientColorContainer.style.display = "flex";
-      
+
       // Extract only color values (without stops) for display
       let onlyColors = extractColorsOnly(gradientData.colors);
-      
+
       // Set dialog background to the gradient
       dialogGradientPreviewBox.style.background = gradientData.CSS_code;
-      
+
       // Clear and populate color fields
       dialogColorFieldSection.innerHTML = "";
       onlyColors.forEach(color => {
@@ -620,7 +620,7 @@ function closeGradientDialogBox() {
 
 // Handle copy button clicks in dialog color fields
 dialogColorFieldSection.addEventListener('click', (event) => {
-      if(event.target.closest('.per-color-copy-btn')) {
+      if (event.target.closest('.per-color-copy-btn')) {
             let colorBox = event.target.closest('.dialog-color-field');
             let textToCopy = colorBox.querySelector('.color-name').textContent;
             copyText(textToCopy);
@@ -670,7 +670,7 @@ copyGradientColorStringBtn.addEventListener('click', () => {
 previewGradientOnFrameBtn.addEventListener('click', (event) => {
 
       gradientWrapper.scrollTop = 0;
-      
+
       let colorBox = event.target.closest('.preview-gradient-color-box');
       let color = getComputedStyle(colorBox).background;
       openGradientPreviewFrame(color);
@@ -697,11 +697,11 @@ gradientPreviewFrame.addEventListener('click', (event) => {
       if (event.target.closest('#gradient-preview-frame-close-btn')) {
             return;
       }
-      
+
       let gradientNavOpen = gradientPreviewFrame.dataset.navOpen === 'true';
-      
+
       // Toggle sidebar height to show/hide navigation
-      if(gradientNavOpen) {
+      if (gradientNavOpen) {
             getGradientForm.style.height = '';  // Show full sidebar
             gradientPreviewFrame.dataset.navOpen = 'false';
       } else {
@@ -725,7 +725,7 @@ function openGradientPreviewFrame(color) {
 
       previousTheme = (localStorage.getItem("theme") === "light") ? "light" : "dark";
       enableDarkMode();
-      
+
       // Smooth fade-in animation
       setTimeout(() => {
             gradientPreviewFrame.style.opacity = '1';
@@ -744,7 +744,7 @@ function closeGradientPreviewFrame() {
 
       showLogo();
 
-      if(previousTheme === "light") {
+      if (previousTheme === "light") {
             disableDarkMode();
       }
 
@@ -777,9 +777,9 @@ function closeSimplePreviewFrame() {
       simplePreviewFrame.style.opacity = "0";
 
       showLogo();
-      
+
       // Hide element after fade-out animation
       setTimeout(() => {
             simplePreviewFrame.style.display = "none";
       }, 300);
-}
+}

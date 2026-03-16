@@ -790,6 +790,7 @@ const selectionBar = document.getElementById("selection-bar");
 const selectionCount = document.getElementById("selection-count");
 const deleteSelectedBtn = document.getElementById("delete-selected-btn");
 const cancelSelectionBtn = document.getElementById("cancel-selection-btn");
+const selectAllBtn = document.getElementById("select-all-btn");
 
 let seletionModOn = false;
 let selectedColors = []; // array to store selected colors
@@ -799,6 +800,7 @@ window.addEventListener("keyup", (event) => {
             event.preventDefault()
             seletionModOn = true;
             selectionBar.style.display = "flex";
+            document.body.classList.add("selection-active");
             selectAllColors();
       }
 })
@@ -807,12 +809,18 @@ window.addEventListener("keyup", (event) => {
 contextSeletOption.addEventListener("click", () => {
       seletionModOn = true;
       selectionBar.style.display = "flex"; // show bar
+      document.body.classList.add("selection-active");
       updateSelectionCount();
 });
 
 contextSeletAllOption.addEventListener("click", () => {
       seletionModOn = true;
       selectionBar.style.display = "flex"; // show bar
+      document.body.classList.add("selection-active");
+      selectAllColors();
+});
+
+selectAllBtn.addEventListener("click", () => {
       selectAllColors();
 });
 
@@ -952,6 +960,7 @@ function exitSelectionMode() {
             el.classList.remove("selected");
       });
       selectionBar.style.display = "none";
+      document.body.classList.remove("selection-active");
 }
 
 let choosedCurrentColorBox = null;
