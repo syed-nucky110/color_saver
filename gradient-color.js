@@ -430,6 +430,20 @@ function isValidGradient(gradientStr) {
 // GRADIENT SAVING AND LOADING
 // ===============================================
 
+/**
+ * Safely parses gradient colors from local storage
+ * Prevents "Unexpected end of JSON input" errors if data is corrupted
+ */
+function getSavedGradients() {
+      try {
+            let data = localStorage.getItem('gradient-colors');
+            return data ? JSON.parse(data) : [];
+      } catch (error) {
+            console.warn("Corrupted gradient data found in local storage. Resetting...", error);
+            return [];
+      }
+}
+
 // Save gradient button click handler
 saveGradientBtn.addEventListener("click", () => {
       let schema = savedColorSchema();
@@ -447,7 +461,7 @@ saveGradientBtn.addEventListener("click", () => {
  * @param {Object} colorSchema - Gradient schema object
  */
 function saveGradientProcess(colorSchema) {
-      let gradientAllColors = JSON.parse(localStorage.getItem('gradient-colors')) || [];
+      let gradientAllColors = getSavedGradients();
       gradientAllColors.push(colorSchema);
       gradientColorsList.prepend(gradientBoxCreator(colorSchema))
       localStorage.setItem('gradient-colors', JSON.stringify(gradientAllColors));
@@ -459,7 +473,7 @@ function saveGradientProcess(colorSchema) {
  * Renders all saved gradients from localStorage to the UI
  */
 function renderGradientColors() {
-      let allGradients = JSON.parse(localStorage.getItem('gradient-colors')) || [];
+      let allGradients = getSavedGradients();
       allGradients.forEach(gradient => {
             gradientColorsList.prepend(gradientBoxCreator(gradient))
       });
@@ -474,7 +488,7 @@ renderGradientColors();
  * @returns {boolean} True if gradient already exists
  */
 function isAlreadySavedGradient(gradient) {
-      let allGradients = JSON.parse(localStorage.getItem('gradient-colors')) || [];
+      let allGradients = getSavedGradients();
       for (const color of allGradients) {
             if (color.CSS_code.toLowerCase() == gradient.CSS_code.toLowerCase()) return true;
       }
@@ -556,7 +570,7 @@ gradientColorDeleteBtn.addEventListener('click', (event) => {
  */
 function deleteGradientProcess(gradientBox) {
       let gradientData = JSON.parse(gradientBox.getAttribute('data-gradient'));
-      let allGradients = JSON.parse(localStorage.getItem('gradient-colors')) || [];
+      let allGradients = getSavedGradients();
 
       // Filter out the gradient to delete
       let updatedGradients = allGradients.filter(gradient =>

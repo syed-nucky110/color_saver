@@ -9,6 +9,7 @@
       <link rel="stylesheet" href="gradient-color.css">
 
       <link rel="icon" href="assets/shadeSphare-logo.png">
+      <link rel="stylesheet" href="filter-system.css">
 </head>
 
 <body>
@@ -237,8 +238,18 @@
                                                 <div class="clr-suggestions hidden"></div>
                                           </div>
                                     </div>
-                                    <div class="color-counter">
-                                          <p id="total-clrs-text">Total colors: <span id="color-counting">0</span></p>
+                                    <div class="fav-colors-header">
+                                          <div class="color-counter">
+                                                <p id="total-clrs-text">Total colors: <span id="color-counting">0</span>
+                                                </p>
+                                          </div>
+                                          <div class="filter-btn-container">
+                                                <button id="open-filter-btn" class="fav-filter-btn"
+                                                      title="Filter Colors" onclick="window.openFilterSystem()">
+                                                      <ion-icon name="filter-outline"></ion-icon>
+                                                      <span>Filters</span>
+                                                </button>
+                                          </div>
                                     </div>
                                     <div class="saved-colors-list-wrapper">
                                           <div class="saved-colors-list">
@@ -482,11 +493,83 @@
                                     <li><span class="operation">Search Color</span><span class="key">shift + alt +
                                                 E</span>
                                     </li>
+                                    <li><span class="operation">Show Filters</span><span class="key">shift + alt +
+                                                L</span>
+                                    </li>
                                     <li><span class="operation">Select All</span><span class="key">shift + alt +
                                                 A</span></li>
                                     <li><span class="operation">Focus Add Color Box</span><span class="key">/</span>
                                     </li>
                               </ul>
+                        </div>
+                  </div>
+
+                  <!-- Filter System Frame -->
+                  <div id="filter-container" class="option-container">
+                        <div id="filter-box" class="filter-box option-box">
+                              <div class="filter-header">
+                                    <h2><ion-icon name="filter-outline"></ion-icon> Filter Colors</h2>
+                                    <button id="filter-close-btn" class="filter-close-btn">
+                                          <ion-icon name="close-outline"></ion-icon>
+                                          <span id="filter-close-txt" class="close-txt">Close</span>
+                                    </button>
+                              </div>
+                              <div class="filter-main">
+                                    <div class="mobile-filter-toggle">
+                                          <button id="mobile-filter-toggle-btn">
+                                                <ion-icon name="options-outline"></ion-icon>
+                                                <span id="mobile-filter-toggle-text">Show Filters</span>
+                                          </button>
+                                    </div>
+                                    <aside class="filter-sidebar">
+                                          <div class="filter-category">
+                                                <h4>Format</h4>
+                                                <div class="filter-options" data-category="format">
+                                                      <div class="filter-chip" data-value="hex">HEX Code</div>
+                                                      <div class="filter-chip" data-value="rgb">RGB Values</div>
+                                                      <div class="filter-chip" data-value="hsl">HSL Format</div>
+                                                      <div class="filter-chip" data-value="name">Color Name</div>
+                                                </div>
+                                          </div>
+                                          <div class="filter-category">
+                                                <h4>Brightness</h4>
+                                                <div class="filter-options" data-category="brightness">
+                                                      <div class="filter-chip" data-value="dark">Dark Colors</div>
+                                                      <div class="filter-chip" data-value="light">Light Colors</div>
+                                                </div>
+                                          </div>
+                                          <div class="filter-category">
+                                                <h4>Vibrancy</h4>
+                                                <div class="filter-options" data-category="tone">
+                                                      <div class="filter-chip" data-value="vibrant">Vibrant</div>
+                                                      <div class="filter-chip" data-value="muted">Muted</div>
+                                                      <div class="filter-chip" data-value="grayscale">Grayscale</div>
+                                                </div>
+                                          </div>
+                                    </aside>
+                                    <main class="filter-results-pane">
+                                          <div class="results-header">
+                                                <span id="filter-results-count">Results: 0 colors found</span>
+                                          </div>
+                                          <div id="filter-results-grid" class="filter-results-grid">
+                                                <!-- Filtered color previews will appear here -->
+                                                <div class="filter-empty-state">
+                                                      <ion-icon name="color-wand-outline"></ion-icon>
+                                                      <p>Select filters to see results</p>
+                                                </div>
+                                          </div>
+                                    </main>
+                              </div>
+                              <div class="filter-footer">
+                                    <div class="active-filters-preview" id="active-filters-preview">
+                                          <span style="color: var(--filter-category-title); font-size: 13px;">Combinations
+                                                active...</span>
+                                    </div>
+                                    <div class="footer-actions">
+                                          <button id="btn-clear-filters" class="btn-clear"><span>Clear All</span></button>
+                                          <button id="btn-apply-filters" class="btn-apply hidden">Apply Filters</button>
+                                    </div>
+                              </div>
                         </div>
                   </div>
 
@@ -820,11 +903,16 @@
       <audio src="assets/sound/lock.mp3" id="lock-sound" preload="auto"></audio>
       <audio src="assets/sound/typing-click.mp3" id="typing-click-sound" preload="auto"></audio>
 
+      <!-- External Libraries -->
+      <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
+
+
       <script src="script.js" defer></script>
       <script src="autoTheme.js" defer></script>
       <script src="gradient-color.js" defer></script>
       <script src="colors-list.js" defer></script>
       <script src="merge-mode.js" defer></script>
+      <script src="filter-system.js" defer></script>
 
       <!-- ztext.js -->
       <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
@@ -842,9 +930,6 @@
       <!-- Tippy.js JS -->
       <script src="https://unpkg.com/@popperjs/core@2"></script>
       <script src="https://unpkg.com/tippy.js@6"></script>
-
-      <!-- to check dark color -->
-      <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
 
 </body>
 

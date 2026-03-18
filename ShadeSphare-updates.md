@@ -46,7 +46,7 @@ ShadeSphare updates:-
 
 ✅ 19\. implement empty/restore trash colors logic.
 
-20\. implement color 'Filters'. **pending**
+✅ 20\. implement color 'Filters'.
 
 21\. add menu(three dot) button in saved color to show context menu(custom). **Ppending**
 

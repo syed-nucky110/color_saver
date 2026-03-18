@@ -183,6 +183,7 @@
       --primery-padding: 10px;
       --theme-icon-color: #ffffff;
       --inverce-of-text-color: #ffffff;
+      --inverce-of-text-color-rgb: 255, 255, 255;
       --copy-text-popup-clr: #00000091;
       --nav-option-bg-color: transparent;
       --nav-selected-option-bg-color: transparent;
@@ -235,6 +236,7 @@
       --text-color: #ffffff;
       --theme-icon-color: yellow;
       --inverce-of-text-color: #000000;
+      --inverce-of-text-color-rgb: 0, 0, 0;
       --copy-text-popup-clr: #ffffff;
       /* --nav-option-b
       g-color: rgba(255, 255, 255, 0.244); */
@@ -248,7 +250,8 @@
       --shortcuts-key-bg-clr: rgba(0, 0, 0, 0.508);
       --color-picker-clr: gray;
       /* --accent-color: #00ffff; */
-      --accent-color-rgb: 0, 188, 125; /* Match the active accent-color */
+      --accent-color-rgb: 0, 188, 125;
+      /* Match the active accent-color */
       /* --line-breaker-bg-clr: #ffffff; */
       --line-breaker-bg-clr: radial-gradient(#999999, #181818);
 
@@ -2350,13 +2353,91 @@ button#cross-clr-input-value {
       box-shadow: 0 0 3px var(--shadow-color);
 } */
 
+.fav-colors-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5px;
+      margin-bottom: 10px;
+}
+
 .color-counter {
       padding-left: 10px;
       font-size: 18px;
       width: fit-content;
-      margin-bottom: 10px;
       color: var(--text-color);
       transition: color .3s ease;
+}
+
+.fav-filter-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background-color: transparent;
+      border: 1px solid var(--end-line-bg-color);
+      border-radius: 100px;
+      color: var(--text-color);
+      font-size: 13.5px;
+      font-weight: 500;
+      overflow: hidden;
+      transition: all 0.2s ease;
+}
+
+.fav-filter-btn span,
+.fav-filter-btn ion-icon {
+      position: relative;
+      z-index: 1;
+      transition: color .3s ease;
+}
+
+.fav-filter-btn:hover ion-icon,
+.fav-filter-btn:hover span {
+      color: #ffffff;
+}
+
+.fav-filter-btn::before {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      transition: all .3s ease;
+      z-index: 0;
+}
+
+.fav-filter-btn:hover::before {
+      transform: translateX(-50%) scale(12);
+}
+
+.fav-filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background-color: var(--accent-color);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+}
+
+.fav-filter-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+}
+
+.fav-filter-btn:hover::after {
+      opacity: 1;
+}
+
+.fav-filter-btn ion-icon {
+      font-size: 1rem;
 }
 
 .saved-colors-list-wrapper {
@@ -3160,7 +3241,7 @@ button#cross-clr-input-value {
             transform: translateY(0px) !important;
       }
 
-/* .input-area { gap: 10px !important; } */
+      /* .input-area { gap: 10px !important; } */
 
       .screen-size-options {
             display: none !important;
@@ -3981,7 +4062,7 @@ button#cross-clr-input-value {
       justify-content: space-between;
       align-items: center;
       z-index: 2000;
-      box-shadow: 
+      box-shadow:
             0 15px 35px var(--selection-bar-shadow),
             0 0 0 1px rgba(255, 255, 255, 0.03);
       animation: selectionBarAppear .4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -3995,6 +4076,7 @@ button#cross-clr-input-value {
             opacity: 0;
             transform: translate(-50%, -10px) scale(0.98);
       }
+
       to {
             opacity: 1;
             transform: translate(-50%, 0) scale(1);
@@ -4108,7 +4190,8 @@ button#cross-clr-input-value {
       .action-btn {
             padding: 0;
             justify-content: center;
-            height: 44px; /* Better touch target */
+            height: 44px;
+            /* Better touch target */
             flex-direction: column;
             gap: 2px;
             font-size: 10px;
@@ -4228,6 +4311,18 @@ button#cross-clr-input-value {
       to {
             opacity: 1;
             transform: translateY(0px);
+      }
+}
+
+@keyframes hideSmooth {
+      from {
+            opacity: 1;
+            transform: translateY(0px);
+      }
+
+      to {
+            opacity: 0;
+            transform: translateY(20px);
       }
 }
 

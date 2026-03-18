@@ -1808,6 +1808,7 @@ function createColorBox(color) {
       colorBox.style.backgroundColor = color;
       colorBox.setAttribute("tabindex", "0");
       colorBox.setAttribute("data-id", `${color}`);
+      colorBox.setAttribute("data-color", color);
 
       colorBox.addEventListener("keydown", (event) => {
             if (event.key == "Enter") {
