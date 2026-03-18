@@ -1707,6 +1707,10 @@ input[type="color"]:focus-visible {
       color: red;
 }
 
+.trash-is-full:hover::after {
+      display: none;
+}
+
 .screen-size-options .screen-size-icon {
       font-size: 25px;
 }
@@ -2440,30 +2444,30 @@ button#cross-clr-input-value {
       font-size: 1rem;
 }
 
-.saved-colors-list-wrapper {
+.overflow-shadow {
       overflow: auto;
       position: relative;
 }
 
-/* .saved-colors-list-wrapper::before,
-.saved-colors-list-wrapper::after { 
-      content:"";
+.overflow-shadow::before,
+.overflow-shadow::after {
+      content: "";
       position: absolute;
       left: 0;
       width: 100%;
-      height: 20px;
-      background-color: var(--primary-bg-color);
-      filter: blur(20px);
+      height: 13px;
       z-index: 2;
 }
 
-.saved-colors-list-wrapper::before {
+.overflow-shadow::before {
       top: 0;
+      background: linear-gradient(to bottom, var(--primary-bg-color), transparent);
 }
 
-.saved-colors-list-wrapper::after {
+.overflow-shadow::after {
       bottom: 0;
-} */
+      background: linear-gradient(to top, var(--primary-bg-color), transparent);
+}
 
 /* content padding transition */
 .saved-colors-list {
@@ -2508,7 +2512,8 @@ button#cross-clr-input-value {
       background-color: var(--primary-bg-color);
       z-index: 150;
       width: 100dvw;
-      height: 100dvh !important;
+      min-height: 100dvh !important;
+      transition: all 1s ease;
 }
 
 /* .saved-color-grid-view {
@@ -2669,7 +2674,17 @@ button#cross-clr-input-value {
       display: flex;
       justify-content: center;
       align-items: center;
-      transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                  opacity 0.3s ease,
+                  transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+body.selection-active .delete-clr-container {
+      width: 0 !important;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0);
+      overflow: hidden;
 }
 
 .delete-clr-container:hover {
