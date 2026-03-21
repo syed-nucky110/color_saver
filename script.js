@@ -1039,6 +1039,23 @@ function exitSelectionMode() {
 let choosedCurrentColorBox = null;
 let touchTimer = null;
 
+function hideCustomContextMenu() {
+      if (!contextMenu.classList.contains("show")) return;
+
+      contextMenu.classList.remove("show");
+      contextMenu.classList.add("hide");
+
+      const handleAnimationEnd = () => {
+            if (contextMenu.classList.contains("hide")) {
+                  contextMenu.style.display = "none";
+                  contextMenu.classList.remove("hide");
+            }
+            contextMenu.removeEventListener("animationend", handleAnimationEnd);
+      };
+
+      contextMenu.addEventListener("animationend", handleAnimationEnd);
+}
+
 function showCustomContextMenu(x, y, targetBox) {
       choosedCurrentColorBox = targetBox;
 
@@ -1058,16 +1075,19 @@ function showCustomContextMenu(x, y, targetBox) {
             pinOptionIcon.className = "ph ph-push-pin-fill icon"; // Fill for pinning
       }
 
-      // Reset scale for dimensions calculation
-      contextMenu.style.display = "block";
-      contextMenu.style.transform = "scale(0.5)";
-      contextMenu.style.opacity = "0";
+      // Reset animation state if already visible to re-trigger it
+      if (contextMenu.classList.contains("show")) {
+            contextMenu.classList.remove("show");
+            void contextMenu.offsetWidth; // Trigger reflow to restart animation
+      }
+      contextMenu.classList.remove("hide"); // Ensure hide class is gone
 
       // Screen dimensions
       const screenW = window.innerWidth;
       const screenH = window.innerHeight;
 
-      // Menu dimensions
+      // Menu dimensions (temporarily show to measure)
+      contextMenu.style.display = "block";
       const menuW = contextMenu.offsetWidth;
       const menuH = contextMenu.offsetHeight;
 
@@ -1094,10 +1114,8 @@ function showCustomContextMenu(x, y, targetBox) {
       contextMenu.style.left = posX + "px";
       contextMenu.style.top = posY + "px";
 
-      requestAnimationFrame(() => {
-            contextMenu.style.transform = "scale(1)";
-            contextMenu.style.opacity = "1";
-      });
+      // Trigger show animation
+      contextMenu.classList.add("show");
 }
 
 savedColorList.addEventListener("contextmenu", (event) => {
@@ -1134,7 +1152,7 @@ savedColorList.addEventListener("touchmove", () => {
 
 // Click anywhere → hide menu
 document.addEventListener("click", () => {
-      contextMenu.style.display = "none";
+      hideCustomContextMenu();
 });
 
 // contextSeletOption.addEventListener("click", () => {

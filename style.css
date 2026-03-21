@@ -4050,20 +4050,45 @@ body.selection-active .delete-clr-container {
             0 0 0 1px rgba(255, 255, 255, 0.05);
       z-index: 9999;
       transform-origin: top left;
-      animation: contextMenuAppear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       user-select: none;
       list-style: none;
+      opacity: 0;
+      pointer-events: none;
+}
+
+.context-menu.show {
+      display: block;
+      pointer-events: auto;
+      animation: contextMenuAppear 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.context-menu.hide {
+      display: block;
+      pointer-events: none;
+      animation: contextMenuDisappear 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes contextMenuAppear {
       from {
             opacity: 0;
-            transform: scale(0.5);
+            transform: scale(0.8);
       }
 
       to {
             opacity: 1;
             transform: scale(1);
+      }
+}
+
+@keyframes contextMenuDisappear {
+      from {
+            opacity: 1;
+            transform: scale(1);
+      }
+
+      to {
+            opacity: 0;
+            transform: scale(0.8);
       }
 }
 
