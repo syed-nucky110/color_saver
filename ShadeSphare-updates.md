@@ -36,7 +36,7 @@ ShadeSphare updates:-
 
 ✅ 14\. remove hover effect(::after) of 'Save Gradient' button.
 
-15\. implement 'Pin color' system. **pending**
+✅ 15\. implement 'Pin color' system.
 
 ✅ 16\. give hover effect(grow) to color indicator in gradient color popup.
 
@@ -68,7 +68,7 @@ ShadeSphare updates:-
 
 ✅ 30\. update header of gradient panel.
 
-31\. update the save color animation.
+✅ 31\. update the save color animation.
 
 32\. implement the colors gallery.
 

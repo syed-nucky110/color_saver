@@ -28,6 +28,72 @@ let menuIsLocked = false;
 
 let bubblingAnimation = "bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1)";
 
+// ============================================================
+// ColorStore — single source of truth
+// ============================================================
+const ColorStore = (() => {
+      const COLORS_KEY = "saveColor";
+      const PINNED_KEY = "pinnedColors";
+
+      const getColors = () => JSON.parse(localStorage.getItem(COLORS_KEY)) || [];
+      const getPinned = () => JSON.parse(localStorage.getItem(PINNED_KEY)) || [];
+
+      const getPinnedSet = () => new Set(getPinned().map(c => c.toUpperCase()));
+
+      const isPinned = (color, cachedPinnedSet = null) => {
+            const pinned = cachedPinnedSet || getPinnedSet();
+            return pinned.has(color.toUpperCase());
+      };
+
+      const togglePin = (color) => {
+            color = color.toUpperCase();
+            const pinned = getPinned();
+            const index = pinned.findIndex(c => c.toUpperCase() === color);
+
+            if (index !== -1) {
+                  pinned.splice(index, 1);
+            } else {
+                  pinned.push(color);
+            }
+
+            localStorage.setItem(PINNED_KEY, JSON.stringify(pinned));
+            return index === -1;
+      };
+
+      const getSortedColors = () => {
+            const colors = getColors();
+            const pinned = getPinned();
+            const pinnedSet = new Set(pinned.map(c => c.toUpperCase()));
+
+            const unpinned = colors.filter(c => !pinnedSet.has(c.toUpperCase()));
+            // We only show pinned items that actually exist in the colors list
+            const validPinned = pinned.filter(c => colors.includes(c.toUpperCase()));
+
+            return [...unpinned, ...validPinned];
+      };
+
+      const save = (color) => {
+            color = color.toUpperCase();
+            const colors = getColors();
+            if (!colors.includes(color)) {
+                  colors.push(color);
+                  localStorage.setItem(COLORS_KEY, JSON.stringify(colors));
+            }
+      };
+
+      const remove = (color) => {
+            color = color.toUpperCase();
+            // Remove from colors
+            const colors = getColors().filter(c => c.toUpperCase() !== color);
+            localStorage.setItem(COLORS_KEY, JSON.stringify(colors));
+            // Remove from pinned
+            const pinned = getPinned().filter(c => c.toUpperCase() !== color);
+            localStorage.setItem(PINNED_KEY, JSON.stringify(pinned));
+      };
+
+      return { getColors, getPinned, getPinnedSet, isPinned, togglePin, getSortedColors, save, remove };
+})();
+
 // splashScreen.addEventListener("contextmenu", (event) => {
 //       event.preventDefault();
 // });
@@ -786,6 +852,7 @@ const contextCopyRgbOption = document.getElementById("context-copy-rgb-option");
 const contextSeletOption = document.getElementById("context-select-option");
 const contextSeletAllOption = document.getElementById("context-select-all-option");
 const contextEditOption = document.getElementById("context-edit-option");
+const contextPinOption = document.getElementById("context-pin-option");
 const selectionBar = document.getElementById("selection-bar");
 const selectionCount = document.getElementById("selection-count");
 const deleteSelectedBtn = document.getElementById("delete-selected-btn");
@@ -831,6 +898,12 @@ contextEditOption.addEventListener("click", () => {
       setTimeout(() => {
             colorNameInput.focus();
       }, 100);
+});
+
+contextPinOption.addEventListener("click", () => {
+      if (choosedCurrentColorBox) {
+            handlePinAction(choosedCurrentColorBox);
+      }
 });
 
 contextCopyHexOption.addEventListener("click", () => {
@@ -968,6 +1041,22 @@ let touchTimer = null;
 
 function showCustomContextMenu(x, y, targetBox) {
       choosedCurrentColorBox = targetBox;
+
+      const color = targetBox.getAttribute("data-id");
+      const pinnedColors = JSON.parse(localStorage.getItem("pinnedColors")) || [];
+      const isPinned = pinnedColors.includes(color.toUpperCase());
+
+      // Update Pin Option Text and Icon
+      const pinOptionText = contextPinOption.querySelector("span");
+      const pinOptionIcon = contextPinOption.querySelector("i");
+
+      if (isPinned) {
+            pinOptionText.innerText = "Unpin Color";
+            pinOptionIcon.className = "ph ph-push-pin-slash-fill icon"; // Outline for unpinning
+      } else {
+            pinOptionText.innerText = "Pin Color";
+            pinOptionIcon.className = "ph ph-push-pin-fill icon"; // Fill for pinning
+      }
 
       // Reset scale for dimensions calculation
       contextMenu.style.display = "block";
@@ -1585,7 +1674,7 @@ addColorInput.addEventListener("keydown", async (event) => {
                         addColorInput.value = "";
                         focusInput();
                         colorMoveToStorageFromTrash(newColor);
-                        renderColors();
+                        renderColors(newColor);
                         renderTrashColors();
                         hideErrorMessage(); // hide error message (Available in trash)
                   }
@@ -1652,7 +1741,7 @@ addColorBtn.addEventListener("click", async () => {
             const confirmed = await showRestorePopup(newColor);
             if (confirmed) {
                   colorMoveToStorageFromTrash(newColor);
-                  renderColors();
+                  renderColors(newColor);
                   renderTrashColors();
             }
             return;
@@ -1786,8 +1875,8 @@ function colorListCreator(color) {
             showErrorMessage("not color");
             return;
       }
-      createColorBox(color);
       saveColorInStorage(color);
+      createColorBox(color, true); // Create individual box instead of full render
       focusInput();
 
       // Calling two time to mantain hover effect
@@ -1795,16 +1884,13 @@ function colorListCreator(color) {
       changeHover();
 }
 
-function createColorBox(color) {
+function createColorBox(color, animate = false, skipReposition = false, cachedPinnedSet = null) {
       color = color.toUpperCase();
       let colorBox = document.createElement("div");
       colorBox.setAttribute("class", "saved-clr");
-      // colorBox.style.animation = bubblingAnimation;
-
-      // New added
-      // let colorBoxWrapper = document.createElement('div');
-      // colorBoxWrapper.classList.add('bubbling', 'saved-clr-wrapper');
-
+      if (animate) {
+            colorBox.style.animation = "smoothEntrance 0.4s ease-out";
+      }
       colorBox.style.backgroundColor = color;
       colorBox.setAttribute("tabindex", "0");
       colorBox.setAttribute("data-id", `${color}`);
@@ -1820,6 +1906,9 @@ function createColorBox(color) {
 
       colorBox.innerHTML = `
             <span title="${color}" class="color-name" style="color:${colorCode};">${color}</span>
+            <span class="pin-clr-btn" title="Pin Color" style="color:${colorCode};">
+                  <i></i>
+            </span>
             <div class="delete-clr-container">
                 <button class="delete-clr-btn"><ion-icon name="trash-outline"></ion-icon></button>
                 <div class="delete-confirm-hover">
@@ -1829,28 +1918,21 @@ function createColorBox(color) {
             </div>
       `;
 
-      // New added hover bubbling
-      // colorBoxWrapper.addEventListener('click', () => {
-      //       colorBoxWrapper.style.animation = bubblingAnimation;
-      // })
-      // colorBoxWrapper.addEventListener('animationend', (e) => {
-      //       if(e.animationName === "bubbling") {
-      //             colorBoxWrapper.style.animation = "";
-      //       }
-      // })
+      // Sync pin state on creation
+      applyPinState(colorBox, ColorStore.isPinned(color, cachedPinnedSet));
 
-      // setTooltip(`#${color}`, color);
+      // Professional approach: Place in its correct chronological position
+      if (!skipReposition) {
+            repositionColorBox(colorBox);
+      } else {
+            savedColorList.prepend(colorBox);
+      }
 
-      // colorBoxWrapper.appendChild(colorBox)
-      savedColorList.prepend(colorBox);
       savedColorList.scrollTop = 0;
 }
 
 function saveColorInStorage(getColor) {
-      getColor = getColor.toUpperCase();
-      allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
-      allColors.push(getColor);
-      localStorage.setItem("saveColor", JSON.stringify(allColors));
+      ColorStore.save(getColor);
       updateColorCounter();
 }
 
@@ -1859,12 +1941,86 @@ function focusInput() {
       addColorInput.focus();
 }
 
-function renderColors() {
-      allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
-      savedColorList.innerHTML = "";
+// ============================================================
+// applyPinState — pure DOM reflect, zero decisions
+// ============================================================
+function applyPinState(colorBox, isPinned) {
+      const pinBtn = colorBox.querySelector(".pin-clr-btn");
+      const pinIcon = pinBtn.querySelector("i");
 
-      allColors.forEach(color => {
-            createColorBox(color);
+      colorBox.classList.toggle("pinned", isPinned);
+      pinBtn.classList.toggle("pinned", isPinned);
+      pinBtn.title = isPinned ? "Unpin color" : "Pin color";
+      pinIcon.className = isPinned ? "ph ph-push-pin-fill" : "ph ph-push-pin";
+}
+
+// ============================================================
+function repositionColorBox(colorBox) {
+      const currentId = colorBox.dataset.id;
+      const sortedColors = ColorStore.getSortedColors();
+
+      // DOM order is reversed getSortedColors (because of prepend)
+      const domOrder = [...sortedColors].reverse();
+      const domIndex = domOrder.indexOf(currentId);
+
+      if (domIndex === -1) return;
+
+      // 1. First (Capture current position)
+      const first = colorBox.getBoundingClientRect();
+      const hasPosition = first.top !== 0 || first.left !== 0;
+
+      // 2. Last (Move in DOM)
+      if (domIndex === 0) {
+            savedColorList.prepend(colorBox);
+      } else {
+            // Find the element that is at domIndex - 1 in the expected DOM order
+            const prevId = domOrder[domIndex - 1];
+            const prevBox = savedColorList.querySelector(`[data-id="${prevId}"]`);
+            if (prevBox) {
+                  prevBox.after(colorBox);
+            } else {
+                  savedColorList.prepend(colorBox);
+            }
+      }
+
+      // 3. Invert/Play (Only for existing elements to achieve the "sliding" effect)
+      if (hasPosition) {
+            const last = colorBox.getBoundingClientRect();
+            const dx = first.left - last.left;
+            const dy = first.top - last.top;
+
+            if (dx !== 0 || dy !== 0) {
+                  colorBox.animate([
+                        { transform: `translate(${dx}px, ${dy}px)` },
+                        { transform: 'translate(0, 0)' }
+                  ], {
+                        duration: 400,
+                        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+                        fill: 'both'
+                  });
+            }
+      }
+}
+
+// ============================================================
+// handlePinAction — thin orchestrator only
+// ============================================================
+function handlePinAction(colorBox) {
+      if (!colorBox) return;
+      const colorId = colorBox.dataset.id;
+      const isPinned = ColorStore.togglePin(colorId); // 1. update state
+      playSound(lockSound);
+      applyPinState(colorBox, isPinned);              // 2. reflect in DOM
+      repositionColorBox(colorBox);                   // 3. reorder in DOM
+      updateColorCounter();
+}
+
+function renderColors(animateColor = null) {
+      savedColorList.innerHTML = "";
+      const pinnedSet = ColorStore.getPinnedSet(); // Cache pinned set for the loop
+      ColorStore.getSortedColors().forEach(color => {
+            // skipReposition=true during bulk render for performance
+            createColorBox(color, color === animateColor, true, pinnedSet);
       });
       updateColorCounter();
 }
@@ -1936,6 +2092,9 @@ savedColorList.addEventListener("click", (event) => {
             showSuccessMessage("Permanently Deleted!");
             updateColorCounter();
       }
+      else if (event.target.closest(".pin-clr-btn")) {
+            handlePinAction(colorBox);
+      }
 });
 
 function removeFromDOM(colorBox) {
@@ -1949,12 +2108,10 @@ function removeFromDOM(colorBox) {
 } ``
 
 function deleteColorFromStorage(colorName) {
-      colorName = colorName.toUpperCase();
-      allColors = JSON.parse(localStorage.getItem("saveColor")) || [];
-      // allColors = allColors.filter(color => color.toLowerCase() !== colorName.toLowerCase());
-      allColors = allColors.filter(color => color.toUpperCase() !== colorName.toUpperCase());
-      localStorage.setItem("saveColor", JSON.stringify(allColors));
+      ColorStore.remove(colorName);
 }
+
+// setSelectedLayoutOption function remains here
 
 function setSelectedLayoutOption() {
       const type = localStorage.getItem("layout-type") || "list";
@@ -2668,7 +2825,7 @@ trashColorsList.addEventListener("click", (event) => {
             colorMoveToStorageFromTrash(color);
             removeFromDOM(colorBox);
             updateTrashColorCounter();
-            renderColors();
+            renderColors(color);
 
       }
       else if (event.target.closest(".delete-permanently-color-btn")) {
