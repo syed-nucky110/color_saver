@@ -20,6 +20,7 @@
       </div>
 
       <div class="cursor-glow hidden"></div>
+      <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
 
       <div class="full-app-wrapper">
             <div class="app-wrapper">
@@ -123,7 +124,7 @@
                                                 <div id="hover-effect-option" class="all-options-hover-effect option"
                                                       tabindex="0" onkeydown="if(event.key == 'Enter') this.click()">
                                                       <i class="ph ph-cursor sidebar-option-icon"></i>
-                                                      <div role="button" class="optio">Hover Effect</div>
+                                                      <div role="button" class="option-name">Hover Effect</div>
                                                 </div>
                                           </div>
                                           <!-- <hr class="end-line" /> -->
@@ -605,6 +606,15 @@
                                     </li>
                                     <li class="settings-list-item">
                                           <div class="setting-text">
+                                                <span class="setting-title">Auto Sidebar</span>
+                                                <span class="setting-decs">Opens sidebar when you move mouse to left edge</span>
+                                          </div>
+                                          <button class="settings-option-switch" id="cursor-sidebar-btn">
+                                                <span class="thumb"></span>
+                                          </button>
+                                    </li>
+                                    <li class="settings-list-item">
+                                          <div class="setting-text">
                                                 <span class="setting-title">Auto Theme Mode</span>
                                                 <span class="setting-decs">Automatically switches to Dark Mode (8 PM - 9
                                                       AM)</span>
@@ -659,8 +669,11 @@
                                                 <div class="setting-title">Reset Size</div>
                                                 <div class="setting-decs">Reset the size of color list box</div>
                                           </div>
-                                          <button class="settings-list-item-btn" id="reset-size-btn"
-                                                onclick="resetFavColorBoxSize()">Reset</button>
+                                          <button class="fav-filter-btn" id="reset-size-btn"
+                                                onclick="resetFavColorBoxSize()">
+                                                <ion-icon name="refresh-outline"></ion-icon>
+                                                <span>Reset</span>
+                                          </button>
                                     </li>
                                     <li class="settings-list-item" style="display: none;">
                                           <div class="setting-text">

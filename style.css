@@ -347,6 +347,21 @@ body::before {
       pointer-events: none;
 }
 
+.sidebar-hover-indicator {
+      position: fixed;
+      top: 50%;
+      left: 3px;
+      width: 5px;
+      height: 80%;
+      border-radius: 10px;
+      transform: translate(0, -50%);
+      background-color: var(--accent-color);
+      opacity: 0;
+      z-index: 99;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+}
+
 .logo {
       display: none;
       gap: 5px;

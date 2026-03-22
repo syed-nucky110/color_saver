@@ -665,10 +665,11 @@ function lockNavbar() {
 
       navLockIcon.setAttribute("name", "lock-closed");
       navLockBtn.setAttribute("title", "Unlock sidebar");
+      
+      // Override: Always hide buttons when locked
       menuCloseBtn.style.visibility = "hidden";
-      // themeBtn.style.transform = "translateX(170px)";
-
       menu.style.display = "none";
+
       mainOptions.style.zIndex = "200";
 
       (localStorage.getItem("screen-size") == "full") ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
@@ -681,10 +682,10 @@ function unlockNavbar() {
 
       navLockIcon.setAttribute("name", "lock-open-outline");
       navLockBtn.setAttribute("title", "Lock sidebar");
-      menuCloseBtn.style.visibility = "visible";
-      // themeBtn.style.transform = "translateX(0px)";
 
-      menu.style.display = "";
+      // Respect the Auto Sidebar toggle state
+      setCursorSidebarUI();
+
       mainOptions.style.zIndex = "";
 
       disarrangeDispalycontainerSize();
@@ -2999,7 +3000,45 @@ let settingsContainer = document.getElementById('settings-container');
 let settingsBox = document.getElementById('settings-box');
 let settingsCloseBtn = document.getElementById('settings-close-btn');
 let autoGridViewBtn = document.getElementById('auto-grid-view');
-let autoGridViewBtnThumb = document.querySelector('.thumb');
+let autoGridViewBtnThumb = autoGridViewBtn.querySelector('.thumb');
+let cursorSidebarBtn = document.getElementById('cursor-sidebar-btn');
+let cursorSidebarBtnThumb = cursorSidebarBtn.querySelector('.thumb');
+
+cursorSidebarBtn.addEventListener("click", toggleCursorSidebar);
+cursorSidebarBtnThumb.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleCursorSidebar();
+});
+
+function toggleCursorSidebar() {
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      if (isCursorModeOn === "on") {
+            localStorage.setItem("cursorSidebar", "off");
+      } else {
+            localStorage.setItem("cursorSidebar", "on");
+      }
+      setCursorSidebarUI();
+}
+
+function setCursorSidebarUI() {
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      if (isCursorModeOn === "on") {
+            cursorSidebarBtnThumb.classList.add("switch-on");
+            cursorSidebarBtn.style.backgroundColor = $accentColor;
+
+            // Aligned with lockNavbar behavior
+            if (menu) menu.style.display = "none";
+            if (menuCloseBtn) menuCloseBtn.style.visibility = "hidden";
+      } else {
+            cursorSidebarBtnThumb.classList.remove("switch-on");
+            cursorSidebarBtn.style.backgroundColor = "";
+
+            // Aligned with unlockNavbar behavior
+            if (menu) menu.style.display = "flex";
+            if (menuCloseBtn) menuCloseBtn.style.visibility = "visible";
+      }
+}
+setCursorSidebarUI();
 
 let settingBoxOpen = false;
 
@@ -3106,8 +3145,28 @@ settingsContainer.addEventListener("click", (event) => {
 // enableRotateScreenOnlyOnMobile();
 
 let cursorMove = false;
+let sidebarIndicatorTimer;
+const sidebarHoverIndicator = document.getElementById('sidebar-hover-indicator');
+
 window.addEventListener("mousemove", (event) => {
-      return; // stop strictly for sometime
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      
+      // Manage sidebar hover indicator (visual cue)
+      if (sidebarHoverIndicator) {
+            const isSidebarClosed = !menuOptionsBox.classList.contains("open");
+            if (isCursorModeOn === "on" && !menuIsLocked && isSidebarClosed) {
+                  sidebarHoverIndicator.style.opacity = "1";
+                  clearTimeout(sidebarIndicatorTimer);
+                  sidebarIndicatorTimer = setTimeout(() => {
+                        sidebarHoverIndicator.style.opacity = "0";
+                  }, 1000); // Hide after 1 second of inactivity
+            } else {
+                  sidebarHoverIndicator.style.opacity = "0";
+            }
+      }
+
+      if (isCursorModeOn === "off") return; 
+
       if (window.innerWidth >= 786) {
             if (event.clientX <= 5) {
                   cursorMove = true;
