@@ -1037,49 +1037,137 @@ input {
 
 .resizable {
       position: relative;
-      resize: both;
-      border-bottom-right-radius: 0px;
-      overflow: auto;
-      transition: hight 0s, width 0s !important;
+      /* removed native resize for better UX */
+      transition: outline 0.3s ease !important;
+      outline: 2px dashed var(--accent-color);
+      outline-offset: 4px;
 }
 
-.resizable::-webkit-resizer {
-      display: none;
-}
-
-.resizable::after,
-.resizable::before {
-      content: "";
+.resizer-handle {
       position: absolute;
-      background-color: var(--text-color);
-      border-radius: 10px;
-      bottom: 0;
-      z-index: 100;
-      animation: glowing .2s 5;
+      bottom: 5px;
+      right: 5px;
+      width: 32px;
+      height: 32px;
+      background-color: var(--accent-color);
+      color: white;
+      border-radius: 50%;
+      display: none;
+      /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      cursor: nwse-resize;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, background-color 0.2s;
 }
 
-@keyframes glowing {
+.resizable .resizer-handle {
+      display: flex;
+      /* Show only when in resizable mode */
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
 
-      0%,
+@keyframes popIn {
+      0% {
+            transform: scale(0);
+            opacity: 0;
+      }
+
       100% {
-            background-color: var(--text-color);
-      }
-
-      50% {
-            background-color: transparent;
+            transform: scale(1);
+            opacity: 1;
       }
 }
 
-.resizable::after {
-      right: 0;
-      height: 25px;
-      width: 3px;
+.resizer-handle:hover {
+      transform: scale(1.1);
+      background-color: var(--accent-color-hover, var(--accent-color));
 }
 
-.resizable::before {
-      right: 0;
-      height: 3px;
-      width: 25px;
+.resizer-handle ion-icon {
+      font-size: 20px;
+      transform: rotate(-45deg);
+}
+
+.resizer-control-overlay {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: fit-content;
+      min-width: 260px;
+      height: 48px;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 100px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px 0 20px;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+      animation: pillFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resizable .resizer-control-overlay {
+      display: flex;
+}
+
+@keyframes pillFadeIn {
+      0% {
+            transform: translateX(-50%) translateY(-30px);
+            opacity: 0;
+      }
+
+      100% {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+      }
+}
+
+.resizer-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      margin-right: 20px;
+}
+
+.resizer-status ion-icon {
+      font-size: 18px;
+      color: var(--accent-color);
+}
+
+#resizer-done-btn.fav-filter-btn {
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      height: 34px;
+      padding: 0 16px;
+}
+
+#resizer-done-btn.fav-filter-btn:hover {
+      border-color: var(--accent-color);
+}
+
+.resizer-done-btn:hover {
+      transform: scale(1.05);
+      background-color: var(--accent-color-hover, var(--accent-color));
+}
+
+.resizer-done-btn:active {
+      transform: scale(0.95);
+}
+
+/* Cursor control for the whole page during resize */
+body.resizing {
+      cursor: nwse-resize !important;
+      user-select: none;
 }
 
 .full-screen {

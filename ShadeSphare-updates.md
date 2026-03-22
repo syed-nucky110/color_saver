@@ -50,7 +50,7 @@ ShadeSphare updates:-
 
 21\. add menu(three dot) button in saved color to show context menu(custom). **Ppending**
 
-22\. update 'Resizer'(in sidebar) UI and also fix logic. **pending**
+✅ 22\. update 'Resizer'(in sidebar) UI and also fix logic. **pending**
 
 ✅ 23\. complete color suggestions logic with 'Settings' option.
 
@@ -93,5 +93,7 @@ ShadeSphare updates:-
 ✅ 42\. fix issue of copied color(automatically copy) while opening the context menu.
 
 ✅ 43\. update the context menu UI.
+
+44\. update help/documentation page with theme mode.
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
