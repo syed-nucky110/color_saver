@@ -3011,7 +3011,7 @@ cursorSidebarBtnThumb.addEventListener("click", (event) => {
 });
 
 function toggleCursorSidebar() {
-      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "off";
       if (isCursorModeOn === "on") {
             localStorage.setItem("cursorSidebar", "off");
       } else {
@@ -3021,7 +3021,13 @@ function toggleCursorSidebar() {
 }
 
 function setCursorSidebarUI() {
-      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      // One-time reset for all users to "off" as default
+      if (!localStorage.getItem("autoSidebarReset_v1")) {
+            localStorage.setItem("cursorSidebar", "off");
+            localStorage.setItem("autoSidebarReset_v1", "true");
+      }
+
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "off";
       if (isCursorModeOn === "on") {
             cursorSidebarBtnThumb.classList.add("switch-on");
             cursorSidebarBtn.style.backgroundColor = $accentColor;
@@ -3149,12 +3155,14 @@ let sidebarIndicatorTimer;
 const sidebarHoverIndicator = document.getElementById('sidebar-hover-indicator');
 
 window.addEventListener("mousemove", (event) => {
-      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "on";
+      let isCursorModeOn = localStorage.getItem("cursorSidebar") || "off";
       
       // Manage sidebar hover indicator (visual cue)
       if (sidebarHoverIndicator) {
             const isSidebarClosed = !menuOptionsBox.classList.contains("open");
-            if (isCursorModeOn === "on" && !menuIsLocked && isSidebarClosed) {
+            const isDesktopSize = window.innerWidth >= 786;
+
+            if (isCursorModeOn === "on" && !menuIsLocked && isSidebarClosed && isDesktopSize) {
                   sidebarHoverIndicator.style.opacity = "1";
                   clearTimeout(sidebarIndicatorTimer);
                   sidebarIndicatorTimer = setTimeout(() => {

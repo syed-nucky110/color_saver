@@ -4409,6 +4409,16 @@ body.selection-active .delete-clr-container {
       transition: box-shadow var(--theme-mode-transition) ease;
 }
 
+@media (max-width: 768px) {
+      .option-container .option-box {
+            width: 100%;
+            height: 100%;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            border-radius: 0;
+      }
+}
+
 @keyframes showSmooth {
       from {
             opacity: 0;
@@ -4578,6 +4588,12 @@ i {
       gap: 10px;
       justify-content: space-between;
       align-items: center;
+}
+
+@media (max-width: 786px) {
+      #auto-sidebar-setting-item {
+            display: none !important;
+      }
 }
 
 .settings-list-item .setting-text {
