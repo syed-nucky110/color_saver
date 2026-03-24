@@ -353,6 +353,7 @@ gradientColorsOption.addEventListener("click", () => {
 
 // Close gradient mode when logo is clicked
 gradientLogo.addEventListener('click', () => {
+      return; // turn off this feature for now
       closeGradientMode();
 })
 
@@ -481,6 +482,164 @@ function renderGradientColors() {
 
 // Load saved gradients on page load
 renderGradientColors();
+
+
+// ===============================================
+// QUICK SAVE GRADIENT LOGIC
+// ===============================================
+
+const quickSaveTriggerBtn = document.getElementById('quick-save-trigger-btn');
+const quickSavePopup = document.getElementById('quick-save-popup');
+const quickSaveWrapper = document.getElementById('quick-save-wrapper');
+const quickSaveInput = document.getElementById('quick-save-gradient-input');
+const quickSaveBtn = document.getElementById('quick-save-gradient-btn');
+const quickPasteBtn = document.getElementById('quick-paste-gradient-btn');
+const quickClearBtn = document.getElementById('quick-clear-gradient-btn');
+
+quickClearBtn.addEventListener('click', () => {
+      quickSaveInput.value = '';
+      quickSaveInput.dispatchEvent(new Event('input')); // Trigger preview reset
+      quickSaveInput.focus();
+      playSound(typingClickSound);
+});
+
+const toggleMagicMode = (forceClose = false) => {
+      const isOpen = quickSavePopup.classList.contains('open');
+
+      if (!isOpen && !forceClose) {
+            // Open the popup notification
+            quickSavePopup.classList.add('open');
+            setTimeout(() => {
+                  quickSaveInput.focus();
+            }, 100);
+            quickSaveTriggerBtn.querySelector('ion-icon').setAttribute('name', 'close-outline');
+            playSound(swooshSound);
+      } else {
+            // Close the popup without saving
+            quickSaveInput.value = '';
+            quickSavePopup.classList.remove('open');
+            quickSavePopup.classList.remove('valid-gradient');
+            quickSaveTriggerBtn.querySelector('ion-icon').setAttribute('name', 'flash-outline');
+            playSound(swooshSound);
+      }
+};
+
+const processQuickSave = () => {
+      const userInput = quickSaveInput.value.trim();
+      if (!userInput) return;
+
+      const newSchema = createGradientSchema(userInput);
+      if (newSchema) {
+            if (isAlreadySavedGradient(newSchema)) {
+                  return throwMessage("Already Saved");
+            }
+            saveGradientProcess(newSchema);
+            playSound(popupSound);
+            throwMessage("Gradient Saved!", "var(--accent-color)", "checkmark-circle-outline");
+
+            // Reset and close UI fully
+            toggleMagicMode(true);
+      } else {
+            throwMessage("Invalid Format", "red");
+      }
+};
+
+quickSaveTriggerBtn.addEventListener('click', () => toggleMagicMode());
+quickSaveBtn.addEventListener('click', processQuickSave);
+
+quickPasteBtn.addEventListener('click', async () => {
+      try {
+            const text = await navigator.clipboard.readText();
+            quickSaveInput.value = text;
+            quickSaveInput.dispatchEvent(new Event('input'));
+            quickSaveInput.focus();
+            playSound(typingClickSound);
+      } catch (err) {
+            console.error('Failed to read clipboard', err);
+            throwMessage("Clipboard Access Denied", "red");
+      }
+});
+
+// Update preview in real-time if user pastes
+quickSaveInput.addEventListener('input', () => {
+      const value = quickSaveInput.value.trim();
+      if (value && isValidGradient(value)) {
+            previewGradientColorBox.style.background = value;
+            updateGradientFrame(value);
+            quickSavePopup.classList.add('valid-gradient');
+      } else {
+            quickSavePopup.classList.remove('valid-gradient');
+            updatePreviewBox(); // Fallback to form values
+      }
+});
+
+quickSaveInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+            processQuickSave();
+      }
+});
+
+/**
+ * Intelligent Gradient Parser
+ * Input: "linear-gradient(to right, #ff0000, rgba(0,0,0,0.5))"
+ * Output: { type, direction, colors[] }
+ */
+function parseCSSGradient(cssString) {
+      try {
+            // 1. Get Type and Inner Content
+            const match = cssString.match(/^([a-z-]+-gradient)\s*\((.*)\)$/i);
+            if (!match) return null;
+
+            const type = match[1];
+            const innerContent = match[2];
+
+            // 2. Split by commas BUT skip commas inside ( )
+            // Ye regex magic hai: comma split karega par sirf bracket ke bahar wale
+            const parts = innerContent.split(/,(?![^(]*\))/).map(p => p.trim());
+
+            let direction = "";
+            let colors = [];
+
+            // 3. Pehla part direction hai ya color? 
+            // Agar pehle part mein "to ", "deg", "at ", "circle" ho toh wo direction hai.
+            const directionKeywords = ['to ', 'deg', 'at ', 'circle', 'ellipse'];
+            const hasDirection = directionKeywords.some(kw => parts[0].toLowerCase().includes(kw));
+
+            if (hasDirection) {
+                  direction = parts[0];
+                  colors = parts.slice(1);
+            } else {
+                  // Default directions agar user ne nahi di
+                  colors = parts;
+                  if (type.includes('linear')) direction = 'to right';
+                  else if (type.includes('radial')) direction = 'circle at center';
+                  else direction = 'from 0deg';
+            }
+
+            return { type, direction, colors };
+      } catch (e) {
+            console.error("Parsing failed", e);
+            return null;
+      }
+}
+
+/**
+ * Creates the official ShadeSphare Schema
+ */
+function createGradientSchema(cssValue) {
+      const data = parseCSSGradient(cssValue);
+
+      if (!data) return null;
+
+      // Return the exact object format you need
+      return {
+            type: data.type,
+            direction: data.direction,
+            colors: data.colors,
+            CSS_code: cssValue, // Original string rakhenge taaki format na bigde
+            isQuickSaved: true
+      };
+}
 
 /**
  * Checks if a gradient is already saved to prevent duplicates
@@ -796,4 +955,4 @@ function closeSimplePreviewFrame() {
       setTimeout(() => {
             simplePreviewFrame.style.display = "none";
       }, 300);
-}
+}

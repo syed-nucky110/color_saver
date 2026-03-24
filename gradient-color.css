@@ -3,9 +3,10 @@
       inset: 0;
       position: fixed;
       background: var(--gradient-bg);
-      min-height: 100dvh;
+      height: 100dvh;
       width: 100%;
-      overflow-y: auto;
+      overflow: hidden;
+      /* Hide overflow on the shell */
       z-index: 9999900;
       opacity: 0;
       transform: scale(0.8);
@@ -16,6 +17,13 @@
       container: wrapper/inline-size;
 }
 
+.gradient-scroll-container {
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      position: relative;
+}
+
 .merge-gradient-color-wrapper {
       display: flex !important;
       position: relative !important;
@@ -24,12 +32,12 @@
       transform: scale(1) !important;
 }
 
-.gradient-color-wrapper::-webkit-scrollbar {
+.gradient-scroll-container::-webkit-scrollbar {
       background-color: transparent;
       width: 7px;
 }
 
-.gradient-color-wrapper::-webkit-scrollbar-thumb {
+.gradient-scroll-container::-webkit-scrollbar-thumb {
       background-color: var(--text-color);
       border-radius: 10px;
 }
@@ -76,7 +84,7 @@
       padding: 15px 15px;
       z-index: 10;
       backdrop-filter: blur(20px);
-      webkit-backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       transition: all .3s ease;
 }
 
@@ -706,6 +714,188 @@
 .saved-gradients-list::-webkit-scrollbar-thumb {
       background-color: #959595;
       border-radius: 10px;
+}
+
+.gradient-color-container {
+      position: relative;
+      /* Container for absolute popup */
+}
+
+/* ===============================================
+   LUXURY QUICK SAVE POPUP NOTIFICATION (FIXED)
+   =============================================== */
+.quick-save-popup-overlay {
+      position: fixed;
+      /* Fixed so it stays on top while scrolling */
+      top: 20px;
+      left: 50%;
+      transform: translate(-50%, -100px) scale(0.6);
+      z-index: 10000;
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      filter: blur(8px);
+      transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1),
+            transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+            filter 0.5s ease;
+}
+
+.quick-save-popup-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+}
+
+.quick-save-popup-overlay .input-area-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 100px;
+      padding: 0;
+}
+
+.magic-import-island {
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      /* Spacing between icons */
+      background: #121212;
+      /* Black background like a command island */
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border-radius: 100px;
+      padding: 5px 5px 5px 20px;
+      height: 50px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#quick-save-gradient-input {
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 16px;
+      width: 100%;
+      opacity: 1;
+      padding: 0 15px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+}
+
+#quick-save-gradient-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+}
+
+.magic-btn {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: none;
+      margin-right: 3px;
+}
+
+.magic-action-btn {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      background: #252525;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: none;
+}
+
+.magic-action-btn:hover {
+      background: var(--accent-color);
+}
+
+.magic-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dynamic Paste/Clear Switch based on input value */
+#quick-clear-gradient-btn {
+      display: none;
+      /* Hidden by default when empty */
+}
+
+#quick-save-gradient-input:not(:placeholder-shown)~#quick-paste-gradient-btn {
+      display: none;
+}
+
+#quick-save-gradient-input:not(:placeholder-shown)~#quick-clear-gradient-btn {
+      display: flex;
+}
+
+/* Rotation Glow for popup */
+#quick-save-border.gradient-border {
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      opacity: 0;
+}
+
+.quick-save-popup-overlay.open #quick-save-border.gradient-border {
+      opacity: 0.4;
+}
+
+.quick-save-popup-overlay.valid-gradient #quick-save-border.gradient-border {
+      opacity: 1;
+      animation: rotation-glow 1.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* ===============================================
+   GRADIENT SAVE CONTROLS
+   =============================================== */
+.gradient-save-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 10px;
+      width: 100%;
+      margin-top: 20px;
+}
+
+#quick-save-trigger-btn {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      border-radius: 50%;
+      background: #000;
+      color: var(--accent-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.gradient-save-controls #save-gradient-clr-btn {
+      flex: 1;
+      /* Giving the colorful button its original full-width priority */
 }
 
 @keyframes smooth-visible {

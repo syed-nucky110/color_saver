@@ -19,8 +19,8 @@
             <p>ShadeSphare</p>
       </div>
 
-      <div class="cursor-glow hidden"></div>
       <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
+      <div class="cursor-glow hidden"></div>
 
       <div class="full-app-wrapper">
             <div class="app-wrapper">
@@ -716,13 +716,33 @@
 
             <!-- gradient colors section -->
             <div class="gradient-color-wrapper">
-                  <div class="gradient-color-container" id="gradient-color-container">
-                        <div class="gradient-color-section">
-                              <div class="gradient-color-header">
-                                    <div class="gradient-color-logo">
-                                          <h1>ShadeSphare</h1>
-                                    </div>
-                                    <div class="options-area">
+                  <!-- Quick Save Notification Popup (Fixed while scrolling) -->
+                  <div class="quick-save-popup-overlay" id="quick-save-popup">
+                        <div class="input-area-wrapper" id="quick-save-wrapper">
+                              <div class="gradient-border" id="quick-save-border"></div>
+                              <div class="magic-import-island">
+                                    <input type="text" id="quick-save-gradient-input" placeholder="Magic Paste CSS Code..." autocomplete="off">
+                                    <button id="quick-paste-gradient-btn" class="magic-btn" title="Paste Magic">
+                                          <ion-icon name="clipboard-outline"></ion-icon>
+                                    </button>
+                                    <button id="quick-clear-gradient-btn" class="magic-btn" title="Clear All">
+                                          <ion-icon name="close-outline"></ion-icon>
+                                    </button>
+                                    <button id="quick-save-gradient-btn" class="magic-action-btn" title="Cast Gradient">
+                                          <ion-icon name="sparkles"></ion-icon>
+                                    </button>
+                              </div>
+                        </div>
+                  </div>
+
+                  <div class="gradient-scroll-container"> <!-- New Scrollable Layer -->
+                        <div class="gradient-color-container" id="gradient-color-container">
+                              <div class="gradient-color-section">
+                                    <div class="gradient-color-header">
+                                          <div class="gradient-color-logo">
+                                                <h1>ShadeSphare</h1>
+                                          </div>
+                                          <div class="options-area">
                                           <button class="merge-section-btn">
                                                 <ion-icon name="chevron-collapse-outline"></ion-icon>
                                           </button>
@@ -808,8 +828,13 @@
                                                       <ion-icon name="scan-outline"></ion-icon>
                                                 </button>
                                           </div>
-                                          <button id="save-gradient-clr-btn" class="hover-focus"><span>Save
-                                                      Gradient</span></button>
+
+                                          <div class="gradient-save-controls">
+                                                <button id="quick-save-trigger-btn" class="hover-focus" title="Quick Import CSS">
+                                                      <ion-icon name="flash-outline"></ion-icon>
+                                                </button>
+                                                <button id="save-gradient-clr-btn" class="hover-focus"><span>Save Gradient</span></button>
+                                          </div>
                                     </div>
                               </div>
                               <div class="saved-gradient-box">

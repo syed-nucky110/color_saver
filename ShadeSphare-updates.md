@@ -22,7 +22,7 @@ ShadeSphare updates:-
 
 7\. implement the 'Right panel'.    **pending**
 
-8\. add single input field of gradient. **pending**
+✅ 8\. add single input field of gradient.
 
 ✅ 9\. set fit height of saved gradient container.
 

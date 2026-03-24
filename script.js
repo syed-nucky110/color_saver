@@ -665,7 +665,7 @@ function lockNavbar() {
 
       navLockIcon.setAttribute("name", "lock-closed");
       navLockBtn.setAttribute("title", "Unlock sidebar");
-      
+
       // Override: Always hide buttons when locked
       menuCloseBtn.style.visibility = "hidden";
       menu.style.display = "none";
@@ -2406,7 +2406,7 @@ function showLogo() {
 function initializeCustomResizer() {
       const handle = document.getElementById("resizer-handle");
       const container = document.querySelector(".fav-color-list-container");
-      
+
       let isDragging = false;
       let startX, startY, startWidth, startHeight;
 
@@ -2415,32 +2415,32 @@ function initializeCustomResizer() {
       handle.addEventListener("mousedown", (e) => {
             // Only allow dragging if resizer mode is ON
             if (!container.classList.contains("resizable")) return;
-            
+
             isDragging = true;
             startX = e.clientX;
             startY = e.clientY;
             startWidth = parseInt(document.defaultView.getComputedStyle(container).width, 10);
             startHeight = parseInt(document.defaultView.getComputedStyle(container).height, 10);
-            
+
             document.body.classList.add("resizing");
-            
+
             document.addEventListener("mousemove", doDrag);
             document.addEventListener("mouseup", stopDrag);
-            
+
             e.preventDefault();
       });
 
       function doDrag(e) {
             if (!isDragging) return;
-            
+
             // Calculate new dimensions
             let newWidth = startWidth + (e.clientX - startX);
             let newHeight = startHeight + (e.clientY - startY);
-            
+
             // Enforce minimum constraints
             if (newWidth < 300) newWidth = 300;
             if (newHeight < 400) newHeight = 400;
-            
+
             // Update UI
             container.style.width = newWidth + 'px';
             container.style.height = newHeight + 'px';
@@ -2448,13 +2448,13 @@ function initializeCustomResizer() {
 
       function stopDrag(e) {
             if (!isDragging) return;
-            
+
             isDragging = false;
             document.body.classList.remove("resizing");
-            
+
             document.removeEventListener("mousemove", doDrag);
             document.removeEventListener("mouseup", stopDrag);
-            
+
             // Save the final size to localStorage
             const containerRect = container.getBoundingClientRect();
             localStorage.setItem("favColorBoxW", containerRect.width);
@@ -3220,7 +3220,7 @@ const sidebarHoverIndicator = document.getElementById('sidebar-hover-indicator')
 
 window.addEventListener("mousemove", (event) => {
       let isCursorModeOn = localStorage.getItem("cursorSidebar") || "off";
-      
+
       // Manage sidebar hover indicator (visual cue)
       if (sidebarHoverIndicator) {
             const isSidebarClosed = !menuOptionsBox.classList.contains("open");
@@ -3237,10 +3237,11 @@ window.addEventListener("mousemove", (event) => {
             }
       }
 
-      if (isCursorModeOn === "off") return; 
+      if (isCursorModeOn === "off") return;
 
       if (window.innerWidth >= 786) {
-            if (event.clientX <= 5) {
+            let percentY = (event.clientY / window.innerHeight) * 100;
+            if (event.clientX <= 5 && percentY >= 10 && percentY <= 90) {
                   cursorMove = true;
                   showMenuBar();
             }
