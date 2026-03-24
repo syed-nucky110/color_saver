@@ -70,7 +70,7 @@ ShadeSphare updates:-
 
 ✅ 31\. update the save color animation.
 
-32\. implement the colors gallery.
+32\. implement the colors gallery for both (saved colors + saved gradients).
 
 33\. implement the themes+layout system/panel.
 
