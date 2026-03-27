@@ -19,11 +19,13 @@
             <p>ShadeSphare</p>
       </div>
 
-      <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
       <div class="cursor-glow hidden"></div>
 
       <div class="full-app-wrapper">
             <div class="app-wrapper">
+
+                  <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
+
                   <div class="top-area-options options">
                         <button class="menu" title="Open Sidebar">
                               <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
@@ -721,7 +723,8 @@
                         <div class="input-area-wrapper" id="quick-save-wrapper">
                               <div class="gradient-border" id="quick-save-border"></div>
                               <div class="magic-import-island">
-                                    <input type="text" id="quick-save-gradient-input" placeholder="Magic Paste CSS Code..." autocomplete="off">
+                                    <input type="text" id="quick-save-gradient-input"
+                                          placeholder="Magic Paste CSS Code..." autocomplete="off">
                                     <button id="quick-paste-gradient-btn" class="magic-btn" title="Paste Magic">
                                           <ion-icon name="clipboard-outline"></ion-icon>
                                     </button>
@@ -743,106 +746,117 @@
                                                 <h1>ShadeSphare</h1>
                                           </div>
                                           <div class="options-area">
-                                          <button class="merge-section-btn">
-                                                <ion-icon name="chevron-collapse-outline"></ion-icon>
-                                          </button>
-                                          <button class="back-to-home-btn" id="back-to-home-btn">
-                                                <ion-icon name="arrow-back-circle"></ion-icon>
-                                                <span>Back</span>
-                                          </button>
-                                    </div>
-                              </div>
-                              <div class="get-gradient-color-form">
-                                    <div class="gradient-colors-input-section">
-                                          <div class="gradient-colors-input-area">
-                                                <div class="per-input-area">
-                                                      <span class="input-title">Color 1</span>
-                                                      <div
-                                                            class="gradient-input-field get-gradient-input-field hover-focus">
-                                                            <input type="color" class="gradient-type-clr-input"
-                                                                  value="#20002C">
-                                                            <input id="color-1" type="text" value="#20002C"
-                                                                  placeholder="Type any color" required>
-                                                            <button class="clear-input-value-btn">
-                                                                  <ion-icon name="close-circle-outline"></ion-icon>
-                                                            </button>
-                                                            <input id="color-1a" type="text" class="color-stops-input"
-                                                                  placeholder="e.g. 20%">
-                                                      </div>
-                                                </div>
-                                                <div class="per-input-area">
-                                                      <span class="input-title">Color 2</span>
-                                                      <div
-                                                            class="gradient-input-field get-gradient-input-field hover-focus">
-                                                            <input type="color" class="gradient-type-clr-input"
-                                                                  value="#CBB4D4">
-                                                            <input id="color-2" type="text" value="#CBB4D4"
-                                                                  placeholder="Type any color" required>
-                                                            <button class="clear-input-value-btn">
-                                                                  <ion-icon name="close-circle-outline"></ion-icon>
-                                                            </button>
-                                                            <input id="color-2a" type="text" class="color-stops-input"
-                                                                  placeholder="e.g. 20%">
-                                                      </div>
-                                                </div>
+                                                <button class="merge-section-btn">
+                                                      <ion-icon name="chevron-collapse-outline"></ion-icon>
+                                                </button>
+                                                <button class="back-to-home-btn" id="back-to-home-btn">
+                                                      <ion-icon name="arrow-back-circle"></ion-icon>
+                                                      <span>Back</span>
+                                                </button>
                                           </div>
-                                          <button class="add-gradient-input hover-focus" id="add-more-color">Add
-                                                more</button>
                                     </div>
-                                    <div class="preview-gradient-box-section">
-                                          <div class="gradient-dir-type-inputs">
-                                                <div class="per-input-area">
-                                                      <span class="input-title">Direction</span>
-                                                      <div class="gradient-input-field hover-focus">
-                                                            <input id="color-direction" type="text" value="to right"
-                                                                  placeholder="e.g. 45deg, to right" required>
-                                                            <button class="clear-direction-value-btn">
-                                                                  <ion-icon name="close-circle-outline"></ion-icon>
-                                                            </button>
+                                    <div class="get-gradient-color-form">
+                                          <div class="gradient-colors-input-section">
+                                                <div class="gradient-colors-input-area">
+                                                      <div class="per-input-area">
+                                                            <span class="input-title">Color 1</span>
+                                                            <div
+                                                                  class="gradient-input-field get-gradient-input-field hover-focus">
+                                                                  <input type="color" class="gradient-type-clr-input"
+                                                                        value="#20002C">
+                                                                  <input id="color-1" type="text" value="#20002C"
+                                                                        placeholder="Type any color" required>
+                                                                  <button class="clear-input-value-btn">
+                                                                        <ion-icon
+                                                                              name="close-circle-outline"></ion-icon>
+                                                                  </button>
+                                                                  <input id="color-1a" type="text"
+                                                                        class="color-stops-input"
+                                                                        placeholder="e.g. 20%">
+                                                            </div>
                                                       </div>
-                                                </div>
-                                                <div class="per-input-area">
-                                                      <span class="input-title">Type</span>
-                                                      <div class="gradient-input-field hover-focus">
-                                                            <div class="gradient-type-select-tag">
-                                                                  <select name="" id="color-type">
-                                                                        <option value="linear-gradient">linear-gradient
-                                                                        </option>
-                                                                        <option value="radial-gradient">radial-gradient
-                                                                        </option>
-                                                                        <option value="conic-gradient">conic-gradient
-                                                                        </option>
-                                                                        <option value="repeating-linear-gradient">
-                                                                              repeating-linear-gradient</option>
-                                                                        <option value="repeating-radial-gradient">
-                                                                              repeating-radial-gradient</option>
-                                                                        <option value="repeating-conic-gradient">
-                                                                              repeating-conic-gradient</option>
-                                                                  </select>
+                                                      <div class="per-input-area">
+                                                            <span class="input-title">Color 2</span>
+                                                            <div
+                                                                  class="gradient-input-field get-gradient-input-field hover-focus">
+                                                                  <input type="color" class="gradient-type-clr-input"
+                                                                        value="#CBB4D4">
+                                                                  <input id="color-2" type="text" value="#CBB4D4"
+                                                                        placeholder="Type any color" required>
+                                                                  <button class="clear-input-value-btn">
+                                                                        <ion-icon
+                                                                              name="close-circle-outline"></ion-icon>
+                                                                  </button>
+                                                                  <input id="color-2a" type="text"
+                                                                        class="color-stops-input"
+                                                                        placeholder="e.g. 20%">
                                                             </div>
                                                       </div>
                                                 </div>
+                                                <button class="add-gradient-input hover-focus" id="add-more-color">Add
+                                                      more</button>
                                           </div>
-                                          <div class="preview-gradient-color-box">
-                                                <button id="preview-on-frame-btn">
-                                                      <ion-icon name="scan-outline"></ion-icon>
-                                                </button>
-                                          </div>
+                                          <div class="preview-gradient-box-section">
+                                                <div class="gradient-dir-type-inputs">
+                                                      <div class="per-input-area">
+                                                            <span class="input-title">Direction</span>
+                                                            <div class="gradient-input-field hover-focus">
+                                                                  <input id="color-direction" type="text"
+                                                                        value="to right"
+                                                                        placeholder="e.g. 45deg, to right" required>
+                                                                  <button class="clear-direction-value-btn">
+                                                                        <ion-icon
+                                                                              name="close-circle-outline"></ion-icon>
+                                                                  </button>
+                                                            </div>
+                                                      </div>
+                                                      <div class="per-input-area">
+                                                            <span class="input-title">Type</span>
+                                                            <div class="gradient-input-field hover-focus">
+                                                                  <div class="gradient-type-select-tag">
+                                                                        <select name="" id="color-type">
+                                                                              <option value="linear-gradient">
+                                                                                    linear-gradient
+                                                                              </option>
+                                                                              <option value="radial-gradient">
+                                                                                    radial-gradient
+                                                                              </option>
+                                                                              <option value="conic-gradient">
+                                                                                    conic-gradient
+                                                                              </option>
+                                                                              <option value="repeating-linear-gradient">
+                                                                                    repeating-linear-gradient</option>
+                                                                              <option value="repeating-radial-gradient">
+                                                                                    repeating-radial-gradient</option>
+                                                                              <option value="repeating-conic-gradient">
+                                                                                    repeating-conic-gradient</option>
+                                                                        </select>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="preview-gradient-color-box">
+                                                      <button id="preview-on-frame-btn">
+                                                            <ion-icon name="scan-outline"></ion-icon>
+                                                      </button>
+                                                </div>
 
-                                          <div class="gradient-save-controls">
-                                                <button id="quick-save-trigger-btn" class="hover-focus" title="Quick Import CSS">
-                                                      <ion-icon name="flash-outline"></ion-icon>
-                                                </button>
-                                                <button id="save-gradient-clr-btn" class="hover-focus"><span>Save Gradient</span></button>
+                                                <div class="gradient-save-controls">
+                                                      <button id="quick-save-trigger-btn" class="hover-focus"
+                                                            title="Quick Import CSS">
+                                                            <ion-icon name="flash-outline"></ion-icon>
+                                                      </button>
+                                                      <button id="save-gradient-clr-btn" class="hover-focus"><span>Save
+                                                                  Gradient</span></button>
+                                                </div>
                                           </div>
                                     </div>
-                              </div>
-                              <div class="saved-gradient-box">
-                                    <div class="saved-gradient-box-header">
-                                          <h2 class="saved-gradient-header-heading">Saved Gradients</h2>
-                                    </div>
-                                    <div class="saved-gradients-list">
-                                          <!-- <div class="saved-gradient-color" data-color-code="linear-gradient(to right, #00ffff, #bb86fc)">
+                                    <div class="saved-gradient-box">
+                                          <div class="saved-gradient-box-header">
+                                                <h2 class="saved-gradient-header-heading">Saved Gradients</h2>
+                                          </div>
+                                          <div class="saved-gradients-list">
+                                                <!-- <div class="saved-gradient-color" data-color-code="linear-gradient(to right, #00ffff, #bb86fc)">
                                                 <div class="saved-gradient-color-option-bar">
                                                       <div class="saved-gradient-color-option-bar-btn-area">
                                                             <button class="preview-gradient-on-frame-btn">
@@ -854,139 +868,140 @@
                                                       </div>
                                                 </div>
                                           </div> -->
+                                          </div>
                                     </div>
                               </div>
                         </div>
+
+                        <div class="gradient-preview-frame">
+                              <button id="gradient-preview-frame-close-btn">
+                                    <ion-icon name="close-outline"></ion-icon>
+                              </button>
+                        </div>
                   </div>
 
-                  <div class="gradient-preview-frame">
-                        <button id="gradient-preview-frame-close-btn">
-                              <ion-icon name="close-outline"></ion-icon>
-                        </button>
+                  <div class="tool-kit hidden">
+                        <div class="options-1 options">
+                              <div class="option">
+                                    <ion-icon name="home-outline"></ion-icon>
+                                    <span>Home</span>
+                              </div>
+                              <div class="option">
+                                    <ion-icon name="home-outline"></ion-icon>
+                                    <span>Gradients</span>
+                              </div>
+                              <div class="option">
+                                    <ion-icon name="chevron-collapse-outline"></ion-icon>
+                                    <span>Split</span>
+                              </div>
+                        </div>
+                        <div class="options-2 options"></div>
                   </div>
+
             </div>
 
-            <div class="tool-kit hidden">
-                  <div class="options-1 options">
-                        <div class="option">
-                              <ion-icon name="home-outline"></ion-icon>
-                              <span>Home</span>
-                        </div>
-                        <div class="option">
-                              <ion-icon name="home-outline"></ion-icon>
-                              <span>Gradients</span>
-                        </div>
-                        <div class="option">
-                              <ion-icon name="chevron-collapse-outline"></ion-icon>
-                              <span>Split</span>
-                        </div>
-                  </div>
-                  <div class="options-2 options"></div>
+            <div class="simple-preview-frame">
+                  <button id="simple-preview-frame-close-btn">
+                        <ion-icon name="close-outline"></ion-icon>
+                  </button>
             </div>
 
-      </div>
-
-      <div class="simple-preview-frame">
-            <button id="simple-preview-frame-close-btn">
-                  <ion-icon name="close-outline"></ion-icon>
-            </button>
-      </div>
-
-      <div class="gradient-color-choosed-container">
-            <div class="choosed-gradient-dialog-box">
-                  <div class="gradient-dialog-box-header">
-                        <button id="dialog-cross-btn" class="dialog-cross-btn">
-                              <ion-icon name="close-outline"></ion-icon>
-                        </button>
-                  </div>
-                  <div class="gradient-dialog-box-content">
-                        <div class="dialog-color-field-section">
-                              <!-- <div class="dialog-color-field">
+            <div class="gradient-color-choosed-container">
+                  <div class="choosed-gradient-dialog-box">
+                        <div class="gradient-dialog-box-header">
+                              <button id="dialog-cross-btn" class="dialog-cross-btn">
+                                    <ion-icon name="close-outline"></ion-icon>
+                              </button>
+                        </div>
+                        <div class="gradient-dialog-box-content">
+                              <div class="dialog-color-field-section">
+                                    <!-- <div class="dialog-color-field">
                                     <span class="color-indicator"></span>
                                     <span class="color-name">#BB86FC</span>
                                     <button class="per-color-copy-btn">
                                           <ion-icon name="copy-outline"></ion-icon>
                                     </button>
                               </div> -->
+                              </div>
+                              <div class="dialog-color-preview-section">
+                                    <button class="dialog-preview-on-frame-btn">
+                                          <ion-icon name="scan-outline"></ion-icon>
+                                    </button>
+                              </div>
                         </div>
-                        <div class="dialog-color-preview-section">
-                              <button class="dialog-preview-on-frame-btn">
-                                    <ion-icon name="scan-outline"></ion-icon>
-                              </button>
-                        </div>
-                  </div>
-                  <div class="dialog-box-footer">
-                        <div class="gradient-color-CSS-field">
-                              <span class="gradient-color-string">linear-gradient(to right, #DCFCFF, #8AB4FF)</span>
-                              <button class="copy-gradient-color-string" id="copy-gradient-color-string">
-                                    <ion-icon name="copy-outline"></ion-icon>
-                              </button>
-                        </div>
-                        <div class="dialog-footer-buttons-area">
-                              <button class="delete-gradient-color-btn">Delete</button>
+                        <div class="dialog-box-footer">
+                              <div class="gradient-color-CSS-field">
+                                    <span class="gradient-color-string">linear-gradient(to right, #DCFCFF,
+                                          #8AB4FF)</span>
+                                    <button class="copy-gradient-color-string" id="copy-gradient-color-string">
+                                          <ion-icon name="copy-outline"></ion-icon>
+                                    </button>
+                              </div>
+                              <div class="dialog-footer-buttons-area">
+                                    <button class="delete-gradient-color-btn">Delete</button>
+                              </div>
                         </div>
                   </div>
             </div>
-      </div>
 
 
-      <div class="splash-screen hidden">
-            <div class="splash-inner-section">
-                  <div id="splash-mask" class="splash-mask"></div>
-                  <div class="splash-logo">
-                        <div class="color-circle"></div>
+            <div class="splash-screen hidden">
+                  <div class="splash-inner-section">
+                        <div id="splash-mask" class="splash-mask"></div>
+                        <div class="splash-logo">
+                              <div class="color-circle"></div>
+                        </div>
+                        <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
+                              class="splash-text">ShadeSphare</div>
                   </div>
-                  <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
-                        class="splash-text">ShadeSphare</div>
             </div>
-      </div>
 
-      <!-- Message container for toast notifications -->
-      <div id="message-container"></div>
+            <!-- Message container for toast notifications -->
+            <div id="message-container"></div>
 
-      <!-- <div class="gradient-selected-color-popup">
+            <!-- <div class="gradient-selected-color-popup">
             
       </div> -->
 
-      <audio src="assets/sound/menu.mp3" id="menu-sound" preload="auto"></audio>
-      <audio src="assets/sound/pop-up.mp3" id="popup-sound" preload="auto"></audio>
-      <audio src="assets/sound/sharp.mp3" id="sharp-sound" preload="auto"></audio>
-      <audio src="assets/sound/alert.mp3" id="alert-sound" preload="auto"></audio>
-      <audio src="assets/sound/light-switch.mp3" id="light-switch-sound" preload="auto"></audio>
-      <audio src="assets/sound/pop-402324.mp3" id="pop-sound" preload="auto"></audio>
-      <audio src="assets/sound/swoosh.mp3" id="swoosh-sound" preload="auto"></audio>
-      <audio src="assets/sound/toggle-switch.mp3" id="toggle-switch-sound" preload="auto"></audio>
-      <audio src="assets/sound/mouse-click.mp3" id="mouse-click-sound" preload="auto"></audio>
-      <audio src="assets/sound/lock.mp3" id="lock-sound" preload="auto"></audio>
-      <audio src="assets/sound/typing-click.mp3" id="typing-click-sound" preload="auto"></audio>
+            <audio src="assets/sound/menu.mp3" id="menu-sound" preload="auto"></audio>
+            <audio src="assets/sound/pop-up.mp3" id="popup-sound" preload="auto"></audio>
+            <audio src="assets/sound/sharp.mp3" id="sharp-sound" preload="auto"></audio>
+            <audio src="assets/sound/alert.mp3" id="alert-sound" preload="auto"></audio>
+            <audio src="assets/sound/light-switch.mp3" id="light-switch-sound" preload="auto"></audio>
+            <audio src="assets/sound/pop-402324.mp3" id="pop-sound" preload="auto"></audio>
+            <audio src="assets/sound/swoosh.mp3" id="swoosh-sound" preload="auto"></audio>
+            <audio src="assets/sound/toggle-switch.mp3" id="toggle-switch-sound" preload="auto"></audio>
+            <audio src="assets/sound/mouse-click.mp3" id="mouse-click-sound" preload="auto"></audio>
+            <audio src="assets/sound/lock.mp3" id="lock-sound" preload="auto"></audio>
+            <audio src="assets/sound/typing-click.mp3" id="typing-click-sound" preload="auto"></audio>
 
-      <!-- External Libraries -->
-      <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
+            <!-- External Libraries -->
+            <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
 
 
-      <script src="script.js" defer></script>
-      <script src="autoTheme.js" defer></script>
-      <script src="gradient-color.js" defer></script>
-      <script src="colors-list.js" defer></script>
-      <script src="merge-mode.js" defer></script>
-      <script src="filter-system.js" defer></script>
+            <script src="script.js" defer></script>
+            <script src="autoTheme.js" defer></script>
+            <script src="gradient-color.js" defer></script>
+            <script src="colors-list.js" defer></script>
+            <script src="merge-mode.js" defer></script>
+            <script src="filter-system.js" defer></script>
 
-      <!-- ztext.js -->
-      <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
+            <!-- ztext.js -->
+            <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
 
-      <!-- phosphor icons -->
-      <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
+            <!-- phosphor icons -->
+            <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
 
-      <!-- ion-icon icons -->
-      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-      <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+            <!-- ion-icon icons -->
+            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-      <!-- Tippy.js CSS -->
-      <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+            <!-- Tippy.js CSS -->
+            <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
 
-      <!-- Tippy.js JS -->
-      <script src="https://unpkg.com/@popperjs/core@2"></script>
-      <script src="https://unpkg.com/tippy.js@6"></script>
+            <!-- Tippy.js JS -->
+            <script src="https://unpkg.com/@popperjs/core@2"></script>
+            <script src="https://unpkg.com/tippy.js@6"></script>
 
 </body>
 

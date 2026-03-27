@@ -207,12 +207,9 @@ function setupColorSync() {
                         }
                   })
 
-                  // Prevent space key in color input
-                  colorInput.addEventListener('keydown', (event) => {
-                        if (event.key == " ") {
-                              event.preventDefault();
-                        }
-                  })
+                  // Allow space key in color input to support functional colors like rgba(...)
+                  // Removed the preventDefault on space key
+
 
                   // Color picker change handler - sync with text input
                   colorPicker.addEventListener('input', () => {
@@ -826,7 +823,11 @@ function perGradientColorFieldCreator(color) {
  */
 function extractColorsOnly(colorsArray) {
       return colorsArray.map(item => {
-            return item.trim().split(" ")[0];  // Take only the color part, ignore stops
+            const trimmed = item.trim();
+            // Use regex to split only by spaces that are not inside parentheses
+            // This ensures colors like rgba(0, 255, 140, 1) aren't broken
+            const parts = trimmed.split(/\s+(?![^(]*\))/);
+            return parts[0];
       });
 }
 
