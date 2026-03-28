@@ -4484,8 +4484,10 @@ body.selection-active .delete-clr-container {
       flex-direction: column;
       background-color: transparent;
       box-shadow: 0 0 20px var(--shadow-color);
-      width: 700px;
-      height: 500px;
+      width: 800px;
+      height: 600px;
+      /* width: 700px;
+      height: 500px; */
       /* width: 500px;
       height: 400px; */
       max-width: calc(100% - 20px);
