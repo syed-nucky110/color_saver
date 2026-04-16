@@ -859,6 +859,7 @@ const selectionCount = document.getElementById("selection-count");
 const deleteSelectedBtn = document.getElementById("delete-selected-btn");
 const cancelSelectionBtn = document.getElementById("cancel-selection-btn");
 const selectAllBtn = document.getElementById("select-all-btn");
+const contextMultishadesOption = document.getElementById("context-multishades-option");
 
 let seletionModOn = false;
 let selectedColors = []; // array to store selected colors
@@ -922,6 +923,14 @@ contextCopyRgbOption.addEventListener("click", () => {
             const rgb = tinycolor(color).toRgbString();
             copyText(rgb);
             playSound(menuSound);
+      }
+});
+
+contextMultishadesOption.addEventListener("click", () => {
+      if (choosedCurrentColorBox) {
+            const color = choosedCurrentColorBox.getAttribute("data-id");
+            if (typeof openRightPenal === "function") openRightPenal();
+            if (typeof openMultishadesDirectly === "function") openMultishadesDirectly(color);
       }
 });
 
@@ -1123,6 +1132,12 @@ savedColorList.addEventListener("contextmenu", (event) => {
       const targetBox = event.target.closest(".saved-clr");
       if (!targetBox || event.target.closest(".delete-clr-container")) return;
 
+      // Ignore context menu if multishades frame is active
+      if (window.isMultishadesFrameActive && window.isMultishadesFrameActive()) {
+            event.preventDefault();
+            return;
+      }
+
       event.preventDefault();
       showCustomContextMenu(event.clientX, event.clientY, targetBox);
 });
@@ -1188,9 +1203,16 @@ savedColorList.addEventListener("mouseup", (event) => {
       if (event.button !== 0) return;
 
       const box = event.target.closest(".saved-clr");
-      // moveCenterbox);
+      if (!box || event.target.closest(".delete-clr-container")) return;
 
-      if (event.target.closest(".delete-clr-container")) return;
+      // If Multishades is active, clicking updates it instead of copying/editing
+      if (window.isMultishadesFrameActive && window.isMultishadesFrameActive()) {
+            const color = box.dataset.id;
+            if (typeof loadMultishades === "function") {
+                  loadMultishades(color);
+            }
+            return;
+      }
       if (seletionModOn && box) {
 
             box.classList.toggle("selected");
@@ -1285,11 +1307,14 @@ function closeColorEditor() {
 }
 
 
-let copyTextBtn = document.querySelector("#copy-clr-btn");
+let getShadesBtn = document.querySelector("#get-shades-btn");
 let colorNameInput = document.querySelector("#color-code-box");
 
-copyTextBtn.addEventListener("click", () => {
-      copyText(colorNameInput.value);
+getShadesBtn.addEventListener("click", () => {
+      if (window.openMultishadesDirectly) {
+            window.openMultishadesDirectly(colorNameInput.value);
+            closeColorEditor();
+      }
 });
 
 function copyText(text) {
@@ -2234,12 +2259,12 @@ function connectionCheck() {
 }
 
 function connectionLost() {
-      return alert("connection lost")
-      connectionLostContainer.style.display = "flex";
+      return throwMessage("Connection Lost", "#ff0000", "warning-outline");
+      // connectionLostContainer.style.display = "flex";
 }
 
 function connectionFound() {
-      // return alert("connection recover")
+      // return throwMessage("Connection Recovered", "#00ff00", "checkmark-circle-outline");
       connectionLostContainer.style.display = "none";
 }
 
@@ -2341,7 +2366,7 @@ resizeBtn.addEventListener("mouseout", () => {
       // favColorListContainer.style.boxShadow = "";
       favColorListContainer.style.outline = "";
       favColorListContainer.style.outlineOffset = "";
-      msgBox.remove();
+      if (msgBox) msgBox.remove();
 })
 
 window.addEventListener("keyup", (event) => {

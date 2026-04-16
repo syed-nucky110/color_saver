@@ -305,7 +305,7 @@ body::before {
       animation: spin 1s linear infinite forwards;
 }
 
-.relative {
+/* .relative {
       position: relative !important;
 }
 
@@ -320,6 +320,14 @@ body::before {
 .sticky {
       position: sticky !important;
 }
+
+.w-full {
+      width: 100% !important;
+}
+
+.h-full {
+      height: 100% !important;
+} */
 
 @keyframes spin {
       0% {
@@ -450,6 +458,10 @@ input {
       position: relative;
       width: 100dvw;
       height: 100dvh;
+      z-index: 10;
+}
+
+.app-and-gradient-wrapper {
       z-index: 10;
 }
 
@@ -1724,6 +1736,7 @@ input[type="color"]:focus-visible {
 }
 
 .delete-color-options,
+.right-penal-options,
 .gradient-color-options {
       display: flex;
       flex-direction: column;
@@ -1733,6 +1746,7 @@ input[type="color"]:focus-visible {
 }
 
 .delete-color-options .option,
+.right-penal-options .option,
 .gradient-color-options .option {
       display: flex;
       align-items: center;
@@ -1744,8 +1758,38 @@ input[type="color"]:focus-visible {
 }
 
 .delete-color-options .option ion-icon,
+.right-penal-options .option ion-icon,
 .gradient-color-options .option ion-icon {
       font-size: 20px;
+}
+
+.gradient-color-options .option {
+      background: linear-gradient(90deg, #bb86fc, var(--accent-color));
+      background-size: 100% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: all 0.3s ease;
+}
+
+.gradient-color-options .option ion-icon {
+      color: #bb86fc !important;
+      -webkit-text-fill-color: #bb86fc !important; /* Ensure visibility */
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      display: inline-block;
+}
+
+.gradient-color-options .option .option-name {
+      background: inherit;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent !important;
+      display: inline-block;
+}
+
+.right-penal-options .option * {
+      color: rgb(198, 198, 198) !important;
 }
 
 .delete-color-options .option:hover {
@@ -1754,10 +1798,20 @@ input[type="color"]:focus-visible {
       background-color: var(--nav-option-bg-color);
 }
 
+.right-penal-options .option:hover,
+.right-penal-options .option:hover *,
+.gradient-color-options .option:hover,
 .gradient-color-options .option:hover * {
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: initial;
       color: black !important;
+      position: relative;
+      z-index: 1;
 }
 
+.right-penal-options .option::before,
 .gradient-color-options .option::before {
       content: '';
       position: absolute;
@@ -3372,7 +3426,7 @@ body.selection-active .delete-clr-container {
       color: black;
 }
 
-.editable-buttons #copy-clr-btn,
+.editable-buttons #get-shades-btn,
 #save-btn {
       background-color: black;
       color: white;

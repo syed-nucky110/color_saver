@@ -1,0 +1,532 @@
+const rightPenal = document.querySelector(".right-penal");
+const rightPenalWrapper = document.querySelector(".right-penal-wrapper");
+const frameHolder = document.querySelector(".frame-holder");
+const mainFrame = document.querySelector(".main-frame");
+const multishadesFrame = document.querySelector(".multishades-frame");
+const pickerFrame = document.querySelector("#picker-frame");
+const multishadesFrameContent = document.querySelector(".multishades-frame-content");
+const mobileOpenCloseBtn = document.querySelectorAll(".mobile-open-close-btn");
+const closeRightPenalBtn = document.querySelectorAll(".close-right-penal-btn");
+const openRightPenalBtn = document.querySelector("#open-right-penal-btn");
+const multishadesBtn = document.querySelector(".multishades-btn");
+const mobileBackBtns = document.querySelectorAll(".mobile-back-btn");
+
+let activeFrame = null;
+let previousFrame = null;
+
+mobileOpenCloseBtn.forEach(btn => {
+    btn.addEventListener("click", () => {
+        rightPenalWrapper.classList.toggle("mobile-close");
+    });
+});
+
+closeRightPenalBtn.forEach(btn => {
+    btn.addEventListener("click", () => {
+        closeRightPenal();
+    });
+});
+
+if (openRightPenalBtn) {
+    openRightPenalBtn.addEventListener("click", () => {
+        openRightPenal();
+    });
+}
+
+if (multishadesBtn) {
+    multishadesBtn.addEventListener("click", () => {
+        openMultishadesFrameOnly();
+    });
+}
+
+mobileBackBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        if (!activeFrame || activeFrame === mainFrame) return;
+
+        if (previousFrame) {
+            // Standard back navigation
+            switchFrame(activeFrame, previousFrame, "backward");
+            activeFrame = previousFrame;
+            previousFrame = null; // Clear history after returning
+        } else {
+            // Fallback to Main Frame
+            switchFrame(activeFrame, mainFrame, "backward");
+            activeFrame = mainFrame;
+            previousFrame = null;
+        }
+
+        clearMultishadesSelection();
+        updateSelectionMode();
+        updateBackButtonVisibility();
+    });
+});
+
+function openMultishadesFrameOnly() {
+    rightPenalWrapper.classList.remove("closed");
+    openMultishades();
+    showMultishadesPlaceholder();
+}
+
+function showMultishadesPlaceholder() {
+    emptyMultishadesFrameContent();
+    const placeholder = document.createElement("div");
+    placeholder.className = "multishades-placeholder";
+    placeholder.innerHTML = `
+        <ion-icon name="layers-outline"></ion-icon>
+        <p>Choose a color to get multishades</p>
+    `;
+    multishadesFrameContent.appendChild(placeholder);
+}
+
+function openRightPenal() {
+    rightPenalWrapper.classList.remove("closed");
+    initializeMainFrame();
+}
+
+function closeRightPenal() {
+    rightPenalWrapper.classList.add("closed");
+    document.body.classList.remove("selection-active");
+    activeFrame = null;
+    previousFrame = null;
+    resetFrames();
+    clearMultishadesSelection();
+}
+
+function clearMultishadesSelection() {
+    document.querySelectorAll(".saved-clr.multishades-selected-clr").forEach(el => {
+        el.classList.remove("multishades-selected-clr");
+    });
+}
+
+function updateSelectionMode() {
+    if (activeFrame === multishadesFrame) {
+        document.body.classList.add("selection-active");
+    } else {
+        document.body.classList.remove("selection-active");
+    }
+}
+
+function updateBackButtonVisibility() {
+    mobileBackBtns.forEach(btn => {
+        if (activeFrame && activeFrame !== mainFrame) {
+            btn.classList.remove("hidden");
+        } else {
+            btn.classList.add("hidden");
+        }
+    });
+}
+
+function initializeMainFrame() {
+    resetFrames();
+    activeFrame = null;
+    previousFrame = null;
+    openMainFrame();
+    clearMultishadesSelection();
+    updateBackButtonVisibility();
+}
+
+function openMainFrame() {
+    if (activeFrame === mainFrame) return;
+    if (activeFrame) switchFrame(activeFrame, mainFrame, "backward");
+    else mainFrame.classList.remove("hidden", "frame-prev");
+
+    previousFrame = activeFrame;
+    activeFrame = mainFrame;
+    updateSelectionMode();
+    clearMultishadesSelection();
+    updateBackButtonVisibility();
+}
+
+function closeMainFrame() {
+    mainFrame.classList.add("hidden");
+    mainFrame.classList.remove("frame-prev");
+}
+
+function openMultishades() {
+    if (activeFrame === multishadesFrame) return;
+    if (activeFrame) switchFrame(activeFrame, multishadesFrame, "forward");
+    else multishadesFrame.classList.remove("hidden", "frame-prev");
+
+    previousFrame = activeFrame;
+    activeFrame = multishadesFrame;
+    updateSelectionMode();
+    updateBackButtonVisibility();
+}
+
+function closeMultishades() {
+    multishadesFrame.classList.add("hidden");
+    multishadesFrame.classList.remove("frame-prev");
+}
+
+function switchFrame(from, to, direction = "forward") {
+    clearMultishadesSelection();
+    if (direction === "forward") {
+        from.classList.add("frame-prev");
+        from.classList.add("hidden");
+        to.classList.remove("hidden", "frame-prev");
+    } else {
+        from.classList.remove("frame-prev");
+        from.classList.add("hidden");
+        to.classList.remove("hidden", "frame-prev");
+    }
+}
+
+function resetFrames() {
+    mainFrame.classList.add("hidden");
+    multishadesFrame.classList.add("hidden");
+    if (pickerFrame) pickerFrame.classList.add("hidden");
+    mainFrame.classList.remove("frame-prev");
+    multishadesFrame.classList.remove("frame-prev");
+    if (pickerFrame) pickerFrame.classList.remove("frame-prev");
+}
+
+function openMultishadesDirectly(color) {
+    rightPenalWrapper.classList.remove("closed");
+    openMultishades();
+    loadMultishades(color);
+}
+
+function isMultishadesFrameActive() {
+    return !rightPenalWrapper.classList.contains("closed") && !multishadesFrame.classList.contains("hidden");
+}
+
+window.openMultishadesDirectly = openMultishadesDirectly;
+window.isMultishadesFrameActive = isMultishadesFrameActive;
+
+// function getMultishades(color, count = 6) {
+
+//     count = 6; // set as 6 forcefull
+
+//     let baseHex = color;
+
+//     // Check if color is already hex; if not, convert to hex
+//     if (typeof color === 'string' && !color.startsWith('#')) {
+//         baseHex = tinycolor(color).toHexString().toUpperCase();
+//     } else if (typeof color === 'string') {
+//         baseHex = color.toUpperCase();
+//     }
+
+//     const shades = {
+//         original: baseHex,
+//         dark: [],
+//         light: []
+//     };
+
+//     const halfCount = Math.floor(count / 2);
+//     const step = 10; // Percentage step for darkening/lightening
+
+//     for (let i = 1; i <= halfCount; i++) {
+//         const amount = i * step;
+//         shades.dark.unshift(tinycolor(baseHex).darken(amount).toHexString().toUpperCase());
+//         shades.light.push(tinycolor(baseHex).lighten(amount).toHexString().toUpperCase());
+//     }
+
+//     return shades;
+// }
+
+function getMultishades(color, count = 6) {
+    const tc = tinycolor(color);
+    const baseHex = tc.toHexString().toUpperCase();
+
+    const shades = {
+        original: baseHex,
+        dark: [],
+        light: []
+    };
+
+    // Try to get 3 unique dark shades
+    let step = 1;
+    while (shades.dark.length < 3 && step <= 10) {
+        const darkColor = tinycolor(baseHex).darken(step * 5).toHexString().toUpperCase();
+        if (darkColor !== baseHex && !shades.dark.includes(darkColor)) {
+            shades.dark.unshift(darkColor);
+        }
+        step++;
+    }
+
+    // Try to get enough light shades to reach total of 6
+    const targetLightCount = 6 - shades.dark.length;
+    step = 1;
+    while (shades.light.length < targetLightCount && step <= 10) {
+        const lightColor = tinycolor(baseHex).lighten(step * 5).toHexString().toUpperCase();
+        if (lightColor !== baseHex && !shades.light.includes(lightColor)) {
+            shades.light.push(lightColor);
+        }
+        step++;
+    }
+
+    // Final fallback: If we still don't have 6 (rare), try to fill remaining from dark side
+    if (shades.dark.length + shades.light.length < 6) {
+        step = (shades.dark.length + 1);
+        while (shades.dark.length + shades.light.length < 6 && step <= 20) {
+            const darkColor = tinycolor(baseHex).darken(step * 5).toHexString().toUpperCase();
+            if (darkColor !== baseHex && !shades.dark.includes(darkColor) && !shades.light.includes(darkColor)) {
+                shades.dark.unshift(darkColor);
+            }
+            step++;
+        }
+    }
+
+    return shades;
+}
+
+function getMoreShades(color, count) {
+    const tc = tinycolor(color).toHsl();
+
+    const shades = {
+        original: tinycolor(color).toHexString().toUpperCase(),
+        dark: [],
+        light: []
+    };
+
+    const half = Math.floor(count / 2);
+
+    // Define lightness boundaries (important!)
+    const minL = 0.1;  // darkest limit
+    const maxL = 0.9;  // lightest limit
+    const baseL = tc.l;
+
+    // Generate darker shades
+    for (let i = half; i >= 1; i--) {
+        const ratio = i / (half + 1);
+        const newL = baseL - (baseL - minL) * ratio;
+
+        shades.dark.push(
+            tinycolor({ h: tc.h, s: tc.s, l: newL })
+                .toHexString()
+                .toUpperCase()
+        );
+    }
+
+    // Generate lighter shades
+    for (let i = 1; i <= half; i++) {
+        const ratio = i / (half + 1);
+        const newL = baseL + (maxL - baseL) * ratio;
+
+        shades.light.push(
+            tinycolor({ h: tc.h, s: tc.s, l: newL })
+                .toHexString()
+                .toUpperCase()
+        );
+    }
+
+    return shades;
+}
+
+function getAllShades(color) {
+    const tc = tinycolor(color).toHsl();
+
+    const shades = [];
+
+    const totalSteps = 20; // 0% to 100% → 20 intervals (21 colors)
+    const stepSize = 1 / totalSteps; // 0.05 = 5%
+
+    for (let i = 0; i <= totalSteps; i++) {
+        const l = i * stepSize;
+
+        const newColor = tinycolor({
+            h: tc.h,
+            s: tc.s,
+            l: l
+        }).toHexString().toUpperCase();
+
+        shades.push({
+            percent: Math.round(l * 100), // 0, 5, 10 ... 100
+            hex: newColor
+        });
+    }
+
+    return {
+        base: tinycolor(color).toHexString().toUpperCase(),
+        allShades: shades
+    };
+}
+
+
+// Get dark shades and light shades
+function getMutlishadesInOneArray(color) {
+    const shades = getMultishades(color);
+    const allShades = [];
+    shades.dark.forEach((shade, index) => {
+        allShades.push(shade);
+    });
+    shades.light.forEach((shade, index) => {
+        allShades.push(shade);
+    });
+    return allShades;
+}
+
+function emptyMultishadesFrameContent() {
+    multishadesFrameContent.innerHTML = "";
+}
+
+multishadesFrameContent.addEventListener("click", async (e) => {
+    const box = e.target.closest(".multishades-clr-box");
+    if (!box) return;
+
+    const color = box.dataset.color;
+    const saveBtn = e.target.closest(".save-clr-btn");
+    const copyBtn = e.target.closest(".copy-clr-btn");
+
+    if (saveBtn) await handleSaveAction(color, saveBtn);
+    if (copyBtn) handleCopyAction(color);
+});
+
+async function handleSaveAction(color, btn) {
+    if (isColorAvailableInStorage(color)) {
+        throwMessage("Already Saved", "#00ff00", "checkmark-circle-outline");
+        saveBtnToSavedState(btn);
+        highlightSavedColor(color);
+    }
+    else if (isColorAvailableInTrash(color)) {
+        const confirmed = await showRestorePopup(color);
+        if (confirmed) {
+            colorMoveToStorageFromTrash(color);
+            renderColors(color);
+            renderTrashColors();
+            saveBtnToSavedState(btn);
+            showSuccessMessage("Resotre Successfully");
+        }
+    }
+    else {
+        colorListCreator(color);
+        saveBtnToSavedState(btn);
+    }
+}
+
+function handleCopyAction(color) {
+    copyText(color);
+}
+
+multishadesFrameContent.addEventListener("mouseover", (e) => {
+    const box = e.target.closest(".multishades-clr-box");
+    if (box) {
+        const color = box.dataset.color;
+        const saveBtn = box.querySelector(".save-clr-btn");
+        const isSaved = isColorAvailableInStorage(color);
+
+        if (isSaved) {
+            saveBtnToSavedState(saveBtn);
+        } else {
+            saveBtnToDefaultState(saveBtn);
+        }
+    }
+});
+
+function saveBtnToSavedState(btn) {
+    btn.style.color = "#00ff00";
+    btn.innerHTML = '<ion-icon name="checkmark-circle-outline"></ion-icon>';
+}
+
+function saveBtnToDefaultState(btn) {
+    btn.style.color = "";
+    btn.innerHTML = '<ion-icon name="download-outline"></ion-icon>';
+}
+
+function multishadesColorBoxLayout(color, number, size = "box-height-90") {
+    let textColor = getContrastColor(color);
+
+    const layout = document.createElement("div");
+    layout.classList.add("multishades-clr-box", "relative", size);
+    layout.dataset.color = color;
+    layout.style.backgroundColor = color;
+
+    const isSaved = isColorAvailableInStorage(color);
+
+    let innnerLayout = `
+        ${number !== undefined ? ` <span class="multishades-clr-number absolute" style="color: ${textColor};">${number + 1}</span>` : ""}
+        <span class="multishades-clr-name" style="color: ${textColor};">${color}</span>
+        <div class="buttons-box">
+            <button class="save-clr-btn" style="color: ${isSaved ? "#00ff00" : ""};">
+                <ion-icon name="${isSaved ? "checkmark-circle-outline" : "download-outline"}"></ion-icon>
+            </button>
+            <button class="copy-clr-btn">
+                <ion-icon name="copy-outline"></ion-icon>
+            </button>
+        </div>
+    `;
+    layout.innerHTML = innnerLayout;
+
+    return layout;
+}
+
+function createSeparator() {
+    const separator = document.createElement("span");
+    separator.classList.add("right-penal-content-separator", "mt-30", "mb-30");
+    return separator;
+}
+
+
+function loadMultishades(color) {
+    // Highlight the selected color box in the list
+    clearMultishadesSelection();
+    const highlightColor = (typeof color === 'string' && color.startsWith('#')) ? color.toUpperCase() : color;
+    const selectedBox = document.querySelector(`.saved-clr[data-id="${highlightColor}"]`);
+    if (selectedBox) selectedBox.classList.add("multishades-selected-clr");
+
+    emptyMultishadesFrameContent();
+    multishadesFrameContent.scrollTo(0, 0);
+
+    const basicShades = getMutlishadesInOneArray(color);
+    basicShades.forEach((shade, index) => {
+        multishadesFrameContent.appendChild(multishadesColorBoxLayout(shade, index, "box-height-90"));
+    });
+
+    // Create and append the "Get All Shades" link button
+    const getAllBtn = document.createElement("button");
+    getAllBtn.id = "get-all-shades-btn";
+    getAllBtn.innerText = "Want All Shades ?";
+    getAllBtn.className = "get-all-shades-link";
+
+    getAllBtn.addEventListener("click", () => {
+        getAllBtn.remove();
+        appendSeparator(multishadesFrameContent);
+        const firstAllShade = renderCompleteShades(color);
+
+        if (firstAllShade) {
+            setTimeout(() => {
+                firstAllShade.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+        }
+    });
+
+    multishadesFrameContent.appendChild(getAllBtn);
+}
+
+function renderCompleteShades(color) {
+    const allViewShades = getAllShades(color);
+    let firstElement = null;
+
+    allViewShades.allShades.forEach((shade, index) => {
+        const layout = multishadesColorBoxLayout(shade.hex, index, "box-height-50");
+        if (index === 0) firstElement = layout;
+        multishadesFrameContent.appendChild(layout);
+    });
+
+    return firstElement;
+}
+
+function appendSeparator(appendIn) {
+    appendIn.appendChild(createSeparator());
+}
+
+window.loadMultishades = loadMultishades;
+
+// Navigation Exposure for external tools (like picker.js)
+window.rightPenalNav = {
+    switchFrame,
+    updateBackButtonVisibility,
+    updateSelectionMode,
+    handleSaveAction,
+    mainFrame,
+    multishadesFrame,
+    pickerFrame,
+    get activeFrame() { return activeFrame; },
+    set activeFrame(val) { activeFrame = val; },
+    get previousFrame() { return previousFrame; },
+    set previousFrame(val) { previousFrame = val; }
+};
+
+// appendSeparator(multishadesFrameContent);

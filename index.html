@@ -7,6 +7,9 @@
       <title>ShadeSphare</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="gradient-color.css">
+      <link rel="stylesheet" href="tailwind-class.css">
+      <link rel="stylesheet" href="right-penal.css">
+      <link rel="stylesheet" href="picker.css">
 
       <link rel="icon" href="assets/shadeSphare-logo.png">
       <link rel="stylesheet" href="filter-system.css">
@@ -22,309 +25,329 @@
       <div class="cursor-glow hidden"></div>
 
       <div class="full-app-wrapper">
-            <div class="app-wrapper">
+            <div class="app-and-gradient-wrapper relative overflow-hidden w-full h-full flex">
+                  <div class="app-wrapper relative">
 
-                  <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
+                        <div class="sidebar-hover-indicator" id="sidebar-hover-indicator"></div>
 
-                  <div class="top-area-options options">
-                        <button class="menu" title="Open Sidebar">
-                              <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
-                        </button>
-                        <button class="merge-section-btn">
-                              <ion-icon name="chevron-collapse-outline"></ion-icon>
-                        </button>
-                        <div class="theme-btns-wrapper">
-                              <button class="theme-btn" id="light-theme-btn">
-                                    <ion-icon name="sunny-outline"></ion-icon>
+                        <div class="top-area-options options">
+                              <button class="menu" title="Open Sidebar">
+                                    <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
                               </button>
-                              <button class="theme-btn" id="dark-theme-btn">
-                                    <ion-icon name="moon-outline"></ion-icon>
+                              <button class="merge-section-btn">
+                                    <ion-icon name="chevron-collapse-outline"></ion-icon>
                               </button>
-                              <button class="theme-btn" id="system-theme-btn">
-                                    <ion-icon name="desktop-outline"></ion-icon>
-                              </button>
+                              <div class="theme-btns-wrapper">
+                                    <button class="theme-btn" id="light-theme-btn">
+                                          <ion-icon name="sunny-outline"></ion-icon>
+                                    </button>
+                                    <button class="theme-btn" id="dark-theme-btn">
+                                          <ion-icon name="moon-outline"></ion-icon>
+                                    </button>
+                                    <button class="theme-btn" id="system-theme-btn">
+                                          <ion-icon name="desktop-outline"></ion-icon>
+                                    </button>
+                              </div>
                         </div>
-                  </div>
 
-                  <!-- menubar / sidebar  -->
-                  <div class="menu-bar">
-                        <div class="menu-options-box" title="">
-                              <div class="all-options">
+                        <!-- menubar / sidebar  -->
+                        <div class="menu-bar">
+                              <div class="menu-options-box imp-absolute" title="">
+                                    <div class="all-options">
 
-                                    <div class="sidebar-buttons-area">
-                                          <button id="menu-close-btn" title="Close Sidebar">
-                                                <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
-                                          </button>
-                                          <button id="lock-navbar-btn" title="Lock sidebar">
-                                                <ion-icon id="nav-lock-icon" name="lock-open-outline"></ion-icon>
-                                          </button>
-                                    </div>
-
-                                    <div class="option-heading">
-                                          <h5>Layout</h5>
-                                    </div>
-                                    <div class="layout-change-options">
-                                          <div class="layout-toggle-container" role="radiogroup"
-                                                aria-label="Layout Type" tabindex="0">
-                                                <div class="layout-toggle-option" data-layout="list" id="list-view"
-                                                      role="radio" aria-checked="true">
-                                                      <ion-icon class="view-icon" name="list-outline"
-                                                            aria-hidden="true"></ion-icon>
-                                                      <span>List</span>
-                                                </div>
-                                                <div class="layout-toggle-option" data-layout="grid" id="grid-view"
-                                                      role="radio" aria-checked="false">
-                                                      <ion-icon class="view-icon" name="grid-outline"
-                                                            aria-hidden="true"></ion-icon>
-                                                      <span>Grid</span>
-                                                </div>
-                                                <div class="layout-toggle-slider" aria-hidden="true"></div>
+                                          <div class="sidebar-buttons-area">
+                                                <button id="menu-close-btn" title="Close Sidebar">
+                                                      <ion-icon id="menu-icon" name="menu-outline"></ion-icon>
+                                                </button>
+                                                <button id="lock-navbar-btn" title="Lock sidebar">
+                                                      <ion-icon id="nav-lock-icon" name="lock-open-outline"></ion-icon>
+                                                </button>
                                           </div>
-                                    </div>
 
-                                    <div class="resize-option">
-                                          <div tabindex="0" onkeydown="if(event.key == 'Enter') this.click()"
-                                                class="option" id="resize-color-list-btn">
-                                                <ion-icon class="sidebar-option-icon no-shrink"
-                                                      name="resize-outline"></ion-icon>
-                                                <span title="Resize" class="option-name">Resize</span>
-                                                <span class="shortcut-tag">Shift + Alt + W</span>
-                                          </div>
-                                    </div>
-                                    <div class="screen-size-options">
-                                          <div class="option" tabindex="0"
-                                                onkeydown="if(event.key == 'Enter') this.click()">
-                                                <ion-icon class="no-shrink screen-size-icon sidebar-option-icon"
-                                                      name="expand-outline"></ion-icon>
-                                                <span title="Toggle full screen" class="option-name">Full screen</span>
-                                                <span class="shortcut-tag">Shift + Alt + F</span>
-                                          </div>
-                                    </div>
-
-                                    <!-- <hr class="end-line" /> -->
-
-                                    <div class="features-options">
                                           <div class="option-heading">
-                                                <h5>Features</h5>
+                                                <h5>Layout</h5>
                                           </div>
-                                          <!-- <div class="theme-preview-options">
-                                                <a href="theme-generator.html" class="option">
-                                                      <i class="ph ph-layout sidebar-option-icon"></i>
-                                                      <ion-icon class="sidebar-option-icon"
-                                                            name="color-palette-outline"></ion-icon>
-                                                      <span>Theme Preview</span>
-                                                </a>
-                                          </div> -->
-                                          <!-- <div class="canvas-option" style="display: none;">
-                                                <a href="canvas.html" class="option">
-                                                      <ion-icon class="sidebar-option-icon"
-                                                            name="layers-outline"></ion-icon>
-                                                      <span>Canvas</span>
-                                                </a>
-                                          </div> -->
-                                          <div class="effects hover-on" id="hover-effect-btn">
-                                                <div id="hover-effect-option" class="all-options-hover-effect option"
-                                                      tabindex="0" onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <i class="ph ph-cursor sidebar-option-icon"></i>
-                                                      <div role="button" class="option-name">Hover Effect</div>
+                                          <div class="layout-change-options">
+                                                <div class="layout-toggle-container" role="radiogroup"
+                                                      aria-label="Layout Type" tabindex="0">
+                                                      <div class="layout-toggle-option" data-layout="list"
+                                                            id="list-view" role="radio" aria-checked="true">
+                                                            <ion-icon class="view-icon" name="list-outline"
+                                                                  aria-hidden="true"></ion-icon>
+                                                            <span>List</span>
+                                                      </div>
+                                                      <div class="layout-toggle-option" data-layout="grid"
+                                                            id="grid-view" role="radio" aria-checked="false">
+                                                            <ion-icon class="view-icon" name="grid-outline"
+                                                                  aria-hidden="true"></ion-icon>
+                                                            <span>Grid</span>
+                                                      </div>
+                                                      <div class="layout-toggle-slider" aria-hidden="true"></div>
                                                 </div>
                                           </div>
-                                          <!-- <hr class="end-line" /> -->
-                                          <div class="option-heading">
-                                                <h5>Others</h5>
-                                          </div>
-                                          <div class="gradient-color-options">
-                                                <div class="option" id="gradient-clr-option" tabindex="0"
-                                                      onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <ion-icon name="color-filter-outline"
-                                                            class="no-shrink sidebar-option-icon"></ion-icon>
-                                                      <span title="Gradient colors" class="option-name">Gradient
-                                                            Colors</span>
-                                                      <!-- <span class="shortcut-tag">Alt + G</span> -->
+
+                                          <div class="resize-option">
+                                                <div tabindex="0" onkeydown="if(event.key == 'Enter') this.click()"
+                                                      class="option" id="resize-color-list-btn">
+                                                      <ion-icon class="sidebar-option-icon no-shrink"
+                                                            name="resize-outline"></ion-icon>
+                                                      <span title="Resize" class="option-name">Resize</span>
+                                                      <span class="shortcut-tag">Shift + Alt + W</span>
                                                 </div>
                                           </div>
-                                          <div class="delete-color-options">
+                                          <div class="screen-size-options">
                                                 <div class="option" tabindex="0"
                                                       onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <ion-icon name="trash"
-                                                            class="delet-all-colors-icon sidebar-option-icon"></ion-icon>
-                                                      <span>Delete all</span>
+                                                      <ion-icon class="no-shrink screen-size-icon sidebar-option-icon"
+                                                            name="expand-outline"></ion-icon>
+                                                      <span title="Toggle full screen" class="option-name">Full
+                                                            screen</span>
+                                                      <span class="shortcut-tag">Shift + Alt + F</span>
                                                 </div>
                                           </div>
-                                          <div class="trash-color-options">
-                                                <div class="option" id="trash-color-option" tabindex="0"
-                                                      onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <ion-icon class="sidebar-option-icon no-shrink"
-                                                            name="trash"></ion-icon>
-                                                      <span title="Trash bin" class="option-name">Trash Bin</span>
-                                                      <span class="shortcut-tag">Shift + Alt + R</span>
-                                                </div>
-                                          </div>
-                                          <div class="shortcut-options">
-                                                <div class="option" id="shortcut-option" tabindex="0"
-                                                      onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <i class="no-shrink ph ph-keyboard sidebar-option-icon"></i>
-                                                      <span title="Shortcut" class="option-name">Shortcuts</span>
-                                                      <span class="shortcut-tag">Shift + Alt + Z</span>
-                                                </div>
-                                          </div>
-                                          <div class="setting-option">
-                                                <div class="option" id="settings" tabindex="0"
-                                                      onkeydown="if(event.key == 'Enter') this.click()">
-                                                      <ion-icon class="no-shrink sidebar-option-icon"
-                                                            name="settings-outline"></ion-icon>
-                                                      <span title="Settings" class="option-name">Settings</span>
-                                                      <span class="shortcut-tag">Shift + Alt + C</span>
-                                                </div>
-                                          </div>
-                                    </div>
-                              </div>
-                              <div class="menu-footer">
-                                    <a href="help.html" target="_blank" id="open-help-link">
-                                          <span>Help</span>
-                                          <ion-icon name="help-circle-outline"></ion-icon>
-                                    </a>
-                              </div>
-                        </div>
-                  </div>
 
-                  <div class="display-container">
-                        <div class="fav-color-list-container">
-                              <div class="color-list-box-options">
-                                    <div class="search-color-box" id="search-color-box">
-                                          <label for="search-bar">
-                                                <ion-icon name="search-outline"></ion-icon>
-                                                <input id="search-bar" type="text" placeholder="Search color"
-                                                      name="no-suggestions" autocomplete="off">
-                                          </label>
-                                          <div class="search-suggestions" id="search-suggestions"></div>
-                                    </div>
-                                    <div id="color-picker" class="bubbling">
-                                          <label id="label-clr-picker" for="clr-picker"
-                                                style="display: flex; font-size: 20px;"><ion-icon
-                                                      name="color-fill"></ion-icon></label>
-                                          <input type="color" id="clr-picker">
-                                    </div>
-                              </div>
-                              <div class="main-content">
-                                    <div class="top-area">
-                                          <div class="heading-area">
-                                                <h1 id="heading" style="justify-content: center;">
-                                                      <!-- <ion-icon name="color-palette-outline"></ion-icon> -->
-                                                      <span id="fav">Favorite</span> <span
-                                                            id="heading-clr-text">Colors</ion-icon></span>
-                                                </h1>
-                                          </div>
-                                    </div>
-                                    <div class="input-area-wrapper" id="input-area-wrapper">
-                                          <span id="color-indicator" class="input-color-indicator hidden"></span>
-                                          <div class="gradient-border rotation-glow" id="gradient-border"></div>
-                                          <div class="input-area">
-                                                <div class="input-holder">
-                                                      <input type="text" class="" id="get-color-input" autofocus
-                                                            placeholder="Enter color(e.g. red, #00ff00)" maxlength="25"
-                                                            minlength="3" autocomplete="off" name="no-suggestions" />
-                                                      <!-- <label id="placeholder" for="get-color-input">Enter Color</label> -->
-                                                      <button id="paste-color-btn" title="Paste">
-                                                            <ion-icon id="paste-icon"
-                                                                  name="clipboard-outline"></ion-icon>
-                                                      </button>
-                                                      <button id="cross-clr-input-value">
-                                                            <ion-icon name="close-outline"></ion-icon>
-                                                      </button>
-                                                      <div class="error-message-div">
-                                                            <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                                            <span id="error-message">This color is already saved</span>
+                                          <!-- <hr class="end-line" /> -->
+
+                                          <div class="features-options">
+                                                <div class="option-heading">
+                                                      <h5>Features</h5>
+                                                </div>
+                                                <!-- <div class="theme-preview-options">
+                                                      <a href="theme-generator.html" class="option">
+                                                            <i class="ph ph-layout sidebar-option-icon"></i>
+                                                            <ion-icon class="sidebar-option-icon"
+                                                                  name="color-palette-outline"></ion-icon>
+                                                            <span>Theme Preview</span>
+                                                      </a>
+                                                </div> -->
+                                                <!-- <div class="canvas-option" style="display: none;">
+                                                      <a href="canvas.html" class="option">
+                                                            <ion-icon class="sidebar-option-icon"
+                                                                  name="layers-outline"></ion-icon>
+                                                            <span>Canvas</span>
+                                                      </a>
+                                                </div> -->
+                                                <div class="effects hover-on" id="hover-effect-btn">
+                                                      <div id="hover-effect-option"
+                                                            class="all-options-hover-effect option" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <i class="ph ph-cursor sidebar-option-icon"></i>
+                                                            <div role="button" class="option-name">Hover Effect</div>
                                                       </div>
                                                 </div>
-                                                <button class="bubbling" id="add-color-btn">Add Color</button>
-                                                <div class="clr-suggestions hidden"></div>
+                                                <!-- <hr class="end-line" /> -->
+                                                <div class="option-heading">
+                                                      <h5>Others</h5>
+                                                </div>
+                                                <div class="right-penal-options">
+                                                      <div class="option" id="open-right-penal-btn" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <i
+                                                                  class="ph ph-square-half sidebar-option-icon no-shrink"></i>
+                                                            <span title="Tools Panel" class="option-name">Sphare Tools
+                                                            </span>
+                                                      </div>
+                                                </div>
+                                                <div class="gradient-color-options">
+                                                      <div class="option" id="gradient-clr-option" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <ion-icon name="eyedrop-outline"
+                                                                  class="no-shrink sidebar-option-icon"></ion-icon>
+                                                            <span title="Gradient colors" class="option-name">Gradient
+                                                                  Colors</span>
+                                                            <!-- <span class="shortcut-tag">Alt + G</span> -->
+                                                      </div>
+                                                </div>
+                                                <div class="delete-color-options">
+                                                      <div class="option" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <ion-icon name="trash"
+                                                                  class="delet-all-colors-icon sidebar-option-icon"></ion-icon>
+                                                            <span>Delete all</span>
+                                                      </div>
+                                                </div>
+                                                <div class="trash-color-options">
+                                                      <div class="option" id="trash-color-option" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <ion-icon class="sidebar-option-icon no-shrink"
+                                                                  name="trash"></ion-icon>
+                                                            <span title="Trash bin" class="option-name">Trash Bin</span>
+                                                            <span class="shortcut-tag">Shift + Alt + R</span>
+                                                      </div>
+                                                </div>
+                                                <div class="shortcut-options">
+                                                      <div class="option" id="shortcut-option" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <i class="no-shrink ph ph-keyboard sidebar-option-icon"></i>
+                                                            <span title="Shortcut" class="option-name">Shortcuts</span>
+                                                            <span class="shortcut-tag">Shift + Alt + Z</span>
+                                                      </div>
+                                                </div>
+                                                <div class="setting-option">
+                                                      <div class="option" id="settings" tabindex="0"
+                                                            onkeydown="if(event.key == 'Enter') this.click()">
+                                                            <ion-icon class="no-shrink sidebar-option-icon"
+                                                                  name="settings-outline"></ion-icon>
+                                                            <span title="Settings" class="option-name">Settings</span>
+                                                            <span class="shortcut-tag">Shift + Alt + C</span>
+                                                      </div>
+                                                </div>
                                           </div>
                                     </div>
-                                    <div class="fav-colors-header">
-                                          <div class="color-counter">
-                                                <p id="total-clrs-text">Total colors: <span id="color-counting">0</span>
-                                                </p>
-                                          </div>
-                                          <div class="filter-btn-container">
-                                                <button id="open-filter-btn" class="fav-filter-btn"
-                                                      title="Filter Colors" onclick="window.openFilterSystem()">
-                                                      <ion-icon name="filter-outline"></ion-icon>
-                                                      <span>Filters</span>
-                                                </button>
-                                          </div>
-                                    </div>
-                                    <div class="saved-colors-list-wrapper overflow-shadow">
-                                          <div class="saved-colors-list">
-                                                <!-- <div class="saved-clr" style="background-color: aqua;">
-                                                      <span class="color-name">aqua</span>
-                                                      <button><ion-icon name="trash-outline"></ion-icon></button>
-                                                </div> -->
-                                          </div>
-                                    </div>
-                                    <div class="resizer-control-overlay" id="resizer-control-overlay">
-                                          <div class="resizer-status">
-                                                <ion-icon name="resize-outline"></ion-icon>
-                                                <span>Resizing Box</span>
-                                          </div>
-                                          <button id="resizer-done-btn" onclick="OffResizer()" class="fav-filter-btn">
-                                                <ion-icon name="checkmark-outline"></ion-icon>
-                                                <span>Done</span>
-                                          </button>
-                                    </div>
-                                    <div class="resizer-handle" id="resizer-handle">
-                                          <ion-icon name="reorder-two-outline"></ion-icon>
+                                    <div class="menu-footer">
+                                          <a href="help.html" target="_blank" id="open-help-link">
+                                                <span>Help</span>
+                                                <ion-icon name="help-circle-outline"></ion-icon>
+                                          </a>
                                     </div>
                               </div>
                         </div>
-                  </div>
 
-                  <!-- choosed color popup container -->
-                  <div class="choosed-color-container">
-                        <div class="choosed-color-box-wrapper">
-                              <!-- <div class="gradient-border rotation-glow"></div> -->
-                              <div class="choosed-color-box">
-                                    <div class="content">
+                        <div class="display-container">
+                              <div class="fav-color-list-container">
+                                    <div class="color-list-box-options">
+                                          <div class="search-color-box" id="search-color-box">
+                                                <label for="search-bar">
+                                                      <ion-icon name="search-outline"></ion-icon>
+                                                      <input id="search-bar" type="text" placeholder="Search color"
+                                                            name="no-suggestions" autocomplete="off">
+                                                </label>
+                                                <div class="search-suggestions" id="search-suggestions"></div>
+                                          </div>
+                                          <div id="color-picker" class="bubbling">
+                                                <label id="label-clr-picker" for="clr-picker"
+                                                      style="display: flex; font-size: 20px;"><ion-icon
+                                                            name="color-fill"></ion-icon></label>
+                                                <input type="color" id="clr-picker">
+                                          </div>
+                                    </div>
+                                    <div class="main-content">
                                           <div class="top-area">
-                                                <div id="color-code-box-wrapper"
-                                                      class="color-code-box-wrapper relative">
-                                                      <input readonly disabled type="text" id="color-code-box"
-                                                            value="rgba(132, 223, 213, .745)" autocomplete="off"
-                                                            placeholder="">
-                                                      <button id="empty-input-btn" class="empty-input-btn absolute">
-                                                            <ion-icon name="close-circle-outline"></ion-icon>
-                                                      </button>
-                                                      <span id="popup-clr-error-message"
-                                                            class="absolute hidden popup-clr-error-message">demo
-                                                            text</span>
+                                                <div class="heading-area">
+                                                      <h1 id="heading" style="justify-content: center;">
+                                                            <!-- <ion-icon name="color-palette-outline"></ion-icon> -->
+                                                            <span id="fav">Favorite</span> <span
+                                                                  id="heading-clr-text">Colors</ion-icon></span>
+                                                      </h1>
                                                 </div>
-                                                <button class="cross-btn">
-                                                      <ion-icon name="close-outline"></ion-icon>
-                                                      <span id="close-txt">Close</span>
+                                          </div>
+                                          <div class="input-area-wrapper" id="input-area-wrapper">
+                                                <span id="color-indicator" class="input-color-indicator hidden"></span>
+                                                <div class="gradient-border rotation-glow" id="gradient-border"></div>
+                                                <div class="input-area">
+                                                      <div class="input-holder">
+                                                            <input type="text" class="" id="get-color-input" autofocus
+                                                                  placeholder="Enter color(e.g. red, #00ff00)"
+                                                                  maxlength="25" minlength="3" autocomplete="off"
+                                                                  name="no-suggestions" />
+                                                            <!-- <label id="placeholder" for="get-color-input">Enter Color</label> -->
+                                                            <button id="paste-color-btn" title="Paste">
+                                                                  <ion-icon id="paste-icon"
+                                                                        name="clipboard-outline"></ion-icon>
+                                                            </button>
+                                                            <button id="cross-clr-input-value">
+                                                                  <ion-icon name="close-outline"></ion-icon>
+                                                            </button>
+                                                            <div class="error-message-div">
+                                                                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                                                  <span id="error-message">This color is already
+                                                                        saved</span>
+                                                            </div>
+                                                      </div>
+                                                      <button class="bubbling" id="add-color-btn">Add Color</button>
+                                                      <div class="clr-suggestions hidden"></div>
+                                                </div>
+                                          </div>
+                                          <div class="fav-colors-header">
+                                                <div class="color-counter">
+                                                      <p id="total-clrs-text">Total colors: <span
+                                                                  id="color-counting">0</span>
+                                                      </p>
+                                                </div>
+                                                <div class="filter-btn-container">
+                                                      <button id="open-filter-btn" class="fav-filter-btn"
+                                                            title="Filter Colors" onclick="window.openFilterSystem()">
+                                                            <ion-icon name="filter-outline"></ion-icon>
+                                                            <span>Filters</span>
+                                                      </button>
+                                                </div>
+                                          </div>
+                                          <div class="saved-colors-list-wrapper overflow-shadow">
+                                                <div class="saved-colors-list">
+                                                      <!-- <div class="saved-clr" style="background-color: aqua;">
+                                                            <span class="color-name">aqua</span>
+                                                            <button><ion-icon name="trash-outline"></ion-icon></button>
+                                                      </div> -->
+                                                </div>
+                                          </div>
+                                          <div class="resizer-control-overlay" id="resizer-control-overlay">
+                                                <div class="resizer-status">
+                                                      <ion-icon name="resize-outline"></ion-icon>
+                                                      <span>Resizing Box</span>
+                                                </div>
+                                                <button id="resizer-done-btn" onclick="OffResizer()"
+                                                      class="fav-filter-btn">
+                                                      <ion-icon name="checkmark-outline"></ion-icon>
+                                                      <span>Done</span>
                                                 </button>
                                           </div>
-                                          <div id="display-color-box">
-                                                <div id="color-preview-box">
-                                                      <input type="color" id="preview-box-color-picker"
-                                                            class="bubbling">
-                                                      <p id="preview-text">Live Preview of selected color</p>
-                                                </div>
+                                          <div class="resizer-handle" id="resizer-handle">
+                                                <ion-icon name="reorder-two-outline"></ion-icon>
                                           </div>
-                                          <div class="buttons-area">
-                                                <div class="default-btns editable-buttons">
-                                                      <button class="btn" id="edit-clr-btn">Edit color</button>
-                                                      <button class="btn border" id="copy-clr-btn">Copy color</button>
-                                                </div>
-                                                <div class="hide-editing-btns editing-btns editable-buttons">
-                                                      <button class="btn" id="back-btn">Back</button>
-                                                      <div role="button" class="btn border" id="save-btn">
-                                                            <span>Save</span>
-                                                            <ion-icon name="caret-up-outline"></ion-icon>
+                                    </div>
+                              </div>
+                        </div>
 
-                                                            <div class="save-btns-popup-wrapper">
-                                                                  <div class="save-btns-popup">
-                                                                        <button id="save">Save</button>
-                                                                        <button id="save-as-copy">Save as Copy</button>
+                        <!-- choosed color popup container -->
+                        <div class="choosed-color-container imp-absolute">
+                              <div class="choosed-color-box-wrapper">
+                                    <!-- <div class="gradient-border rotation-glow"></div> -->
+                                    <div class="choosed-color-box">
+                                          <div class="content">
+                                                <div class="top-area">
+                                                      <div id="color-code-box-wrapper"
+                                                            class="color-code-box-wrapper relative">
+                                                            <input readonly disabled type="text" id="color-code-box"
+                                                                  value="rgba(132, 223, 213, .745)" autocomplete="off"
+                                                                  placeholder="">
+                                                            <button id="empty-input-btn"
+                                                                  class="empty-input-btn absolute">
+                                                                  <ion-icon name="close-circle-outline"></ion-icon>
+                                                            </button>
+                                                            <span id="popup-clr-error-message"
+                                                                  class="absolute hidden popup-clr-error-message">demo
+                                                                  text</span>
+                                                      </div>
+                                                      <button class="cross-btn">
+                                                            <ion-icon name="close-outline"></ion-icon>
+                                                            <span id="close-txt">Close</span>
+                                                      </button>
+                                                </div>
+                                                <div id="display-color-box">
+                                                      <div id="color-preview-box">
+                                                            <input type="color" id="preview-box-color-picker"
+                                                                  class="bubbling">
+                                                            <p id="preview-text">Live Preview of selected color</p>
+                                                      </div>
+                                                </div>
+                                                <div class="buttons-area">
+                                                      <div class="default-btns editable-buttons">
+                                                            <button class="btn" id="edit-clr-btn">Edit color</button>
+                                                            <button class="btn border" id="get-shades-btn">Get
+                                                                  Shades</button>
+                                                      </div>
+                                                      <div class="hide-editing-btns editing-btns editable-buttons">
+                                                            <button class="btn" id="back-btn">Back</button>
+                                                            <div role="button" class="btn border" id="save-btn">
+                                                                  <span>Save</span>
+                                                                  <ion-icon name="caret-up-outline"></ion-icon>
+
+                                                                  <div class="save-btns-popup-wrapper">
+                                                                        <div class="save-btns-popup">
+                                                                              <button id="save">Save</button>
+                                                                              <button id="save-as-copy">Save as
+                                                                                    Copy</button>
+                                                                        </div>
                                                                   </div>
                                                             </div>
                                                       </div>
@@ -333,617 +356,741 @@
                                     </div>
                               </div>
                         </div>
-                  </div>
 
-                  <div class="pop-up-container">
-                        <div class="pop-up">
-                              <div class="title-box">
-                                    <div class="warning-icon-box">
-                                          <ion-icon name="alert-circle-outline" class="warning-icon"></ion-icon>
-                                    </div>
-                                    <p id="title">Are you sure you want to Delete All Colors</p>
-                              </div>
-                              <div class="pop-up-buttons">
-                                    <button class="btn" id="no-dlt-btn" data-work="no-delete">Cancel</button>
-                                    <button class="btn" id="yes-dlt-btn" data-work="yes-delete">Ok</button>
-                              </div>
-                        </div>
-                  </div>
-
-                  <div class="connection-lost-container">
-                        <div class="error-message-content">
-                              <div class="error-icon"></div>
-                              <div class="error-message">
-                                    <span>Oops!</span>
-                                    <span>No Internet Connection</span>
-                              </div>
-                        </div>
-                  </div>
-
-                  <div class="trash-color-container option-container" id="trash-color-container">
-                        <div class="trash-color-box option-box">
-                              <div class="trash-box-header">
-                                    <div id="trash-heading">
-                                          <ion-icon name="trash-outline"></ion-icon>
-                                          <p>Trash Bin</p>
-                                    </div>
-                                    <div class="trash-others">
-                                          <div class="trash-options-dropdown">
-                                                <button id="trash-options-btn" title="Options">
-                                                      <ion-icon name="chevron-down-outline"></ion-icon>
-                                                </button>
-                                                <div class="trash-dropdown-menu">
-                                                      <button id="empty-trash-btn">
-                                                            <ion-icon name="trash-outline"></ion-icon>
-                                                            <span>Empty Trash</span>
-                                                      </button>
-                                                      <button id="restore-all-trash-btn">
-                                                            <ion-icon name="refresh-outline"></ion-icon>
-                                                            <span>Restore All</span>
-                                                      </button>
-                                                </div>
+                        <div class="pop-up-container imp-absolute">
+                              <div class="pop-up">
+                                    <div class="title-box">
+                                          <div class="warning-icon-box">
+                                                <ion-icon name="alert-circle-outline" class="warning-icon"></ion-icon>
                                           </div>
-                                          <span id="trash-clr-counter">
-                                                <span id="trash-clr-counting"></span> / <span
-                                                      id="trash-clr-limit"></span>
-                                          </span>
-                                          <button id="close-trash-box-btn">
+                                          <p id="title">Are you sure you want to Delete All Colors</p>
+                                    </div>
+                                    <div class="pop-up-buttons">
+                                          <button class="btn" id="no-dlt-btn" data-work="no-delete">Cancel</button>
+                                          <button class="btn" id="yes-dlt-btn" data-work="yes-delete">Ok</button>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="connection-lost-container">
+                              <div class="error-message-content">
+                                    <div class="error-icon"></div>
+                                    <div class="error-message">
+                                          <span>Oops!</span>
+                                          <span>No Internet Connection</span>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="trash-color-container option-container imp-absolute" id="trash-color-container">
+                              <div class="trash-color-box option-box">
+                                    <div class="trash-box-header">
+                                          <div id="trash-heading">
+                                                <ion-icon name="trash-outline"></ion-icon>
+                                                <p>Trash Bin</p>
+                                          </div>
+                                          <div class="trash-others">
+                                                <div class="trash-options-dropdown">
+                                                      <button id="trash-options-btn" title="Options">
+                                                            <ion-icon name="chevron-down-outline"></ion-icon>
+                                                      </button>
+                                                      <div class="trash-dropdown-menu">
+                                                            <button id="empty-trash-btn">
+                                                                  <ion-icon name="trash-outline"></ion-icon>
+                                                                  <span>Empty Trash</span>
+                                                            </button>
+                                                            <button id="restore-all-trash-btn">
+                                                                  <ion-icon name="refresh-outline"></ion-icon>
+                                                                  <span>Restore All</span>
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                                <span id="trash-clr-counter">
+                                                      <span id="trash-clr-counting"></span> / <span
+                                                            id="trash-clr-limit"></span>
+                                                </span>
+                                                <button id="close-trash-box-btn">
+                                                      <ion-icon name="close-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="trash-colors-list">
+                                          <!-- <div class="trash-color-list-item">
+                                    <span class="trash-color-name"></span>
+                                    <div class="trash-color-item-options">
+                                          <button class="trash-color-item-btn revert-color-btn">
+                                                <ion-icon class="revert-color-btn-icon" name="refresh-outline"></ion-icon>
+                                          </button>
+                                          <button class="trash-color-item-btn delete-permanently-color-btn">
+                                                <ion-icon class="delete-permanently-color-btn-icon" name="trash-outline"></ion-icon>
+                                          </button>
+                                    </div>
+                              </div> -->
+                                    </div>
+                              </div>
+                        </div>
+
+                        <!-- Restore Confirmation Popup -->
+                        <div class="custom-popup-container imp-absolute" id="restore-popup" style="display:none;">
+                              <div class="custom-popup-box">
+                                    <p id="restore-popup-text">This color is in trash. Restore it?</p>
+                                    <div class="custom-popup-buttons">
+                                          <button id="restore-yes" class="popup-btn popup-btn-yes">Yes</button>
+                                          <button id="restore-no" class="popup-btn popup-btn-no">No</button>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <ul id="custom-context-menu" class="context-menu">
+                              <li id="context-select-option">
+                                    <ion-icon name="checkmark-circle-outline" class="icon"></ion-icon>
+                                    <span>Select</span>
+                              </li>
+                              <li id="context-select-all-option">
+                                    <ion-icon name="checkmark-circle" class="icon"></ion-icon>
+                                    <span>Select All</span>
+                              </li>
+                              <div class="context-separator"></div>
+                              <li id="context-multishades-option">
+                                    <ion-icon name="layers-outline" class="icon"></ion-icon>
+                                    <span>Multishades</span>
+                              </li>
+                              <li id="context-edit-option">
+                                    <ion-icon name="create-outline" class="icon"></ion-icon>
+                                    <span>Edit Color</span>
+                              </li>
+                              <li id="context-pin-option">
+                                    <i class="icon ph ph-push-pin"></i>
+                                    <span>Pin Color</span>
+                              </li>
+                              <div class="context-separator"></div>
+                              <li id="context-copy-hex-option">
+                                    <ion-icon name="copy-outline" class="icon"></ion-icon>
+                                    <span>Copy HEX</span>
+                              </li>
+                              <li id="context-copy-rgb-option">
+                                    <ion-icon name="color-palette-outline" class="icon"></ion-icon>
+                                    <span>Copy RGB</span>
+                              </li>
+                        </ul>
+
+                        <div id="selection-bar" class="selection-bar imp-absolute">
+                              <div class="selection-info">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                    <span>Selected: <span id="selection-count">0 / 0</span></span>
+                              </div>
+                              <div class="selection-actions">
+                                    <button id="select-all-btn" class="action-btn select-all-btn">
+                                          <ion-icon name="checkmark-done-outline"></ion-icon>
+                                          <span>Select All</span>
+                                    </button>
+                                    <button id="delete-selected-btn" class="action-btn delete-btn">
+                                          <ion-icon name="trash-outline"></ion-icon>
+                                          <span>Delete</span>
+                                    </button>
+                                    <button id="cancel-selection-btn" class="action-btn cancel-btn">
+                                          <ion-icon name="close-outline"></ion-icon>
+                                          <span>Cancel</span>
+                                    </button>
+                              </div>
+                        </div>
+
+                        <div id="shortcut-container" class="option-container imp-absolute">
+                              <div id="shortcut-box" class="shortcut-box option-box">
+                                    <div class="shortcut-box-header option-box-header">
+                                          <div class="shortcut-header-heading option-header-heading">
+                                                <i class="ph ph-keyboard"></i>
+                                                <span>Shortcuts</span>
+                                          </div>
+                                          <button id="shortcut-box-close-btn" class="option-box-close-btn">
                                                 <ion-icon name="close-outline"></ion-icon>
                                           </button>
                                     </div>
-                              </div>
-                              <div class="trash-colors-list">
-                                    <!-- <div class="trash-color-list-item">
-                              <span class="trash-color-name"></span>
-                              <div class="trash-color-item-options">
-                                    <button class="trash-color-item-btn revert-color-btn">
-                                          <ion-icon class="revert-color-btn-icon" name="refresh-outline"></ion-icon>
-                                    </button>
-                                    <button class="trash-color-item-btn delete-permanently-color-btn">
-                                          <ion-icon class="delete-permanently-color-btn-icon" name="trash-outline"></ion-icon>
-                                    </button>
-                              </div>
-                        </div> -->
+                                    <ul class="shortcut-list option-list-box">
+                                          <li><span class="operation">Toggle Theme</span><span class="key">shift +
+                                                      alt +
+                                                      D</span></li>
+                                          <li><span class="operation">Toggle Sidebar</span><span class="key">shift + alt
+                                                      +
+                                                      S</span>
+                                          </li>
+                                          <li><span class="operation">Toggle Sidebar Lock</span><span class="key">shift
+                                                      + alt
+                                                      +
+                                                      X</span></li>
+                                          <li><span class="operation">Toggle Full Screen</span><span class="key">shift +
+                                                      alt +
+                                                      F</span></li>
+                                          <li><span class="operation">Toggle Grid View</span><span class="key">shift +
+                                                      alt +
+                                                      G</span></li>
+                                          <li><span class="operation">Toggle Shortcut Guide</span><span
+                                                      class="key">shift +
+                                                      alt +
+                                                      Z</span></li>
+                                          <li><span class="operation">Toggle Settings</span><span class="key">shift +
+                                                      alt +
+                                                      C</span>
+                                          </li>
+                                          <li><span class="operation">Toggle Trash Bin</span><span class="key">shift +
+                                                      alt +
+                                                      R</span></li>
+                                          <li><span class="operation">Toggle Resizer</span><span class="key">shift + alt
+                                                      +
+                                                      W</span>
+                                          </li>
+                                          <li><span class="operation">Toggle Sound Effects</span><span class="key">Shift
+                                                      + alt
+                                                      +
+                                                      Q</span></li>
+                                          <li><span class="operation">Toggle Gradient colors</span><span class="key">alt
+                                                      +
+                                                      G</span></li>
+                                          <li><span class="operation">Search Color</span><span class="key">shift + alt +
+                                                      E</span>
+                                          </li>
+                                          <li><span class="operation">Show Filters</span><span class="key">shift + alt +
+                                                      L</span>
+                                          </li>
+                                          <li><span class="operation">Select All</span><span class="key">shift + alt +
+                                                      A</span></li>
+                                          <li><span class="operation">Focus Add Color Box</span><span
+                                                      class="key">/</span>
+                                          </li>
+                                    </ul>
                               </div>
                         </div>
-                  </div>
 
-                  <!-- Restore Confirmation Popup -->
-                  <div class="custom-popup-container" id="restore-popup" style="display:none;">
-                        <div class="custom-popup-box">
-                              <p id="restore-popup-text">This color is in trash. Restore it?</p>
-                              <div class="custom-popup-buttons">
-                                    <button id="restore-yes" class="popup-btn popup-btn-yes">Yes</button>
-                                    <button id="restore-no" class="popup-btn popup-btn-no">No</button>
-                              </div>
-                        </div>
-                  </div>
-
-                  <ul id="custom-context-menu" class="context-menu">
-                        <li id="context-select-option">
-                              <ion-icon name="checkmark-circle-outline" class="icon"></ion-icon>
-                              <span>Select</span>
-                        </li>
-                        <li id="context-select-all-option">
-                              <ion-icon name="checkmark-circle" class="icon"></ion-icon>
-                              <span>Select All</span>
-                        </li>
-                        <div class="context-separator"></div>
-                        <li id="context-edit-option">
-                              <ion-icon name="create-outline" class="icon"></ion-icon>
-                              <span>Edit Color</span>
-                        </li>
-                        <li id="context-pin-option">
-                              <i class="icon ph ph-push-pin"></i>
-                              <span>Pin Color</span>
-                        </li>
-                        <div class="context-separator"></div>
-                        <li id="context-copy-hex-option">
-                              <ion-icon name="copy-outline" class="icon"></ion-icon>
-                              <span>Copy HEX</span>
-                        </li>
-                        <li id="context-copy-rgb-option">
-                              <ion-icon name="color-palette-outline" class="icon"></ion-icon>
-                              <span>Copy RGB</span>
-                        </li>
-                  </ul>
-
-                  <div id="selection-bar" class="selection-bar">
-                        <div class="selection-info">
-                              <ion-icon name="checkmark-circle-outline"></ion-icon>
-                              <span>Selected: <span id="selection-count">0 / 0</span></span>
-                        </div>
-                        <div class="selection-actions">
-                              <button id="select-all-btn" class="action-btn select-all-btn">
-                                    <ion-icon name="checkmark-done-outline"></ion-icon>
-                                    <span>Select All</span>
-                              </button>
-                              <button id="delete-selected-btn" class="action-btn delete-btn">
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                    <span>Delete</span>
-                              </button>
-                              <button id="cancel-selection-btn" class="action-btn cancel-btn">
-                                    <ion-icon name="close-outline"></ion-icon>
-                                    <span>Cancel</span>
-                              </button>
-                        </div>
-                  </div>
-
-                  <div id="shortcut-container" class="option-container">
-                        <div id="shortcut-box" class="shortcut-box option-box">
-                              <div class="shortcut-box-header option-box-header">
-                                    <div class="shortcut-header-heading option-header-heading">
-                                          <i class="ph ph-keyboard"></i>
-                                          <span>Shortcuts</span>
-                                    </div>
-                                    <button id="shortcut-box-close-btn" class="option-box-close-btn">
-                                          <ion-icon name="close-outline"></ion-icon>
-                                    </button>
-                              </div>
-                              <ul class="shortcut-list option-list-box">
-                                    <li><span class="operation">Toggle Theme</span><span class="key">shift +
-                                                alt +
-                                                D</span></li>
-                                    <li><span class="operation">Toggle Sidebar</span><span class="key">shift + alt +
-                                                S</span>
-                                    </li>
-                                    <li><span class="operation">Toggle Sidebar Lock</span><span class="key">shift + alt
-                                                +
-                                                X</span></li>
-                                    <li><span class="operation">Toggle Full Screen</span><span class="key">shift + alt +
-                                                F</span></li>
-                                    <li><span class="operation">Toggle Grid View</span><span class="key">shift + alt +
-                                                G</span></li>
-                                    <li><span class="operation">Toggle Shortcut Guide</span><span class="key">shift +
-                                                alt +
-                                                Z</span></li>
-                                    <li><span class="operation">Toggle Settings</span><span class="key">shift + alt +
-                                                C</span>
-                                    </li>
-                                    <li><span class="operation">Toggle Trash Bin</span><span class="key">shift + alt +
-                                                R</span></li>
-                                    <li><span class="operation">Toggle Resizer</span><span class="key">shift + alt +
-                                                W</span>
-                                    </li>
-                                    <li><span class="operation">Toggle Sound Effects</span><span class="key">Shift + alt
-                                                +
-                                                Q</span></li>
-                                    <li><span class="operation">Toggle Gradient colors</span><span class="key">alt +
-                                                G</span></li>
-                                    <li><span class="operation">Search Color</span><span class="key">shift + alt +
-                                                E</span>
-                                    </li>
-                                    <li><span class="operation">Show Filters</span><span class="key">shift + alt +
-                                                L</span>
-                                    </li>
-                                    <li><span class="operation">Select All</span><span class="key">shift + alt +
-                                                A</span></li>
-                                    <li><span class="operation">Focus Add Color Box</span><span class="key">/</span>
-                                    </li>
-                              </ul>
-                        </div>
-                  </div>
-
-                  <!-- Filter System Frame -->
-                  <div id="filter-container" class="option-container">
-                        <div id="filter-box" class="filter-box option-box">
-                              <div class="filter-header">
-                                    <h2><ion-icon name="filter-outline"></ion-icon> Filter Colors</h2>
-                                    <button id="filter-close-btn" class="filter-close-btn">
-                                          <ion-icon name="close-outline"></ion-icon>
-                                          <span id="filter-close-txt" class="close-txt">Close</span>
-                                    </button>
-                              </div>
-                              <div class="filter-main">
-                                    <div class="mobile-filter-toggle">
-                                          <button id="mobile-filter-toggle-btn">
-                                                <ion-icon name="options-outline"></ion-icon>
-                                                <span id="mobile-filter-toggle-text">Show Filters</span>
+                        <!-- Filter System Frame -->
+                        <div id="filter-container" class="option-container imp-absolute">
+                              <div id="filter-box" class="filter-box option-box">
+                                    <div class="filter-header">
+                                          <h2><ion-icon name="filter-outline"></ion-icon> Filter Colors</h2>
+                                          <button id="filter-close-btn" class="filter-close-btn">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                                <span id="filter-close-txt" class="close-txt">Close</span>
                                           </button>
                                     </div>
-                                    <aside class="filter-sidebar">
-                                          <div class="filter-category">
-                                                <h4>Format</h4>
-                                                <div class="filter-options" data-category="format">
-                                                      <div class="filter-chip" data-value="hex">HEX Code</div>
-                                                      <div class="filter-chip" data-value="rgb">RGB Values</div>
-                                                      <div class="filter-chip" data-value="hsl">HSL Format</div>
-                                                      <div class="filter-chip" data-value="name">Color Name</div>
-                                                </div>
-                                          </div>
-                                          <div class="filter-category">
-                                                <h4>Brightness</h4>
-                                                <div class="filter-options" data-category="brightness">
-                                                      <div class="filter-chip" data-value="dark">Dark Colors</div>
-                                                      <div class="filter-chip" data-value="light">Light Colors</div>
-                                                </div>
-                                          </div>
-                                          <div class="filter-category">
-                                                <h4>Vibrancy</h4>
-                                                <div class="filter-options" data-category="tone">
-                                                      <div class="filter-chip" data-value="vibrant">Vibrant</div>
-                                                      <div class="filter-chip" data-value="muted">Muted</div>
-                                                      <div class="filter-chip" data-value="grayscale">Grayscale</div>
-                                                </div>
-                                          </div>
-                                    </aside>
-                                    <main class="filter-results-pane">
-                                          <div class="results-header">
-                                                <span id="filter-results-count">Results: 0 colors found</span>
-                                          </div>
-                                          <div id="filter-results-grid" class="filter-results-grid">
-                                                <!-- Filtered color previews will appear here -->
-                                                <div class="filter-empty-state">
-                                                      <ion-icon name="color-wand-outline"></ion-icon>
-                                                      <p>Select filters to see results</p>
-                                                </div>
-                                          </div>
-                                    </main>
-                              </div>
-                              <div class="filter-footer">
-                                    <div class="active-filters-preview" id="active-filters-preview">
-                                          <span style="color: var(--filter-category-title); font-size: 13px;">Combinations
-                                                active...</span>
-                                    </div>
-                                    <div class="footer-actions">
-                                          <button id="btn-clear-filters" class="btn-clear"><span>Clear
-                                                      All</span></button>
-                                          <button id="btn-apply-filters" class="btn-apply hidden">Apply Filters</button>
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-
-                  <div id="settings-container" class="option-container">
-                        <div id="settings-box" class="option-box">
-                              <div id="settings-box-header" class="option-box-header">
-                                    <div id="settings-header-heading" class="option-header-heading">
-                                          <ion-icon name="settings-outline"></ion-icon>
-                                          <span>Settings</span>
-                                    </div>
-                                    <button id="settings-close-btn" class="option-box-close-btn" title="Close Settings">
-                                          <ion-icon name="close-outline"></ion-icon>
-                                    </button>
-                              </div>
-                              <ul id="settings-list" class="option-list-box">
-
-                                    <!-- toggling buttons options -->
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Auto Grid View</span>
-                                                <span class="setting-decs">Switches to Grid view automatically on large
-                                                      or
-                                                      full screens</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="auto-grid-view">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item" id="auto-sidebar-setting-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Auto Sidebar</span>
-                                                <span class="setting-decs">Opens sidebar when you move mouse to left
-                                                      edge</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="cursor-sidebar-btn">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Auto Theme Mode</span>
-                                                <span class="setting-decs">Automatically switches to Dark Mode (8 PM - 9
-                                                      AM)</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="auto-theme-mode">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Mute Sound</span>
-                                                <span class="setting-decs">Mute sound of the app</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="mute-sound-btn">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Search Suggestions</span>
-                                                <span class="setting-decs">Show suggestions while typing</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="suggestions-toggle-btn">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <span class="setting-title">Quick Preview</span>
-                                                <span class="setting-decs">Enable quick preview mode</span>
-                                          </div>
-                                          <button class="settings-option-switch" id="quick-preview-toggle">
-                                                <span class="thumb"></span>
-                                          </button>
-                                    </li>
-                                    <!-- end of toggling buttons options -->
-
-                                    <!-- range level options -->
-                                    <li class="settings-list-item" id="birghtness-option">
-                                          <div class="setting-text">
-                                                <div class="setting-title">Brightness</div>
-                                                <div class="setting-decs">Adjust the Brightness of the app</div>
-                                          </div>
-                                          <input type="range" name="" max="100" min="40" value="100"
-                                                id="brightness-slider">
-                                    </li>
-                                    <!-- end of range level otpions -->
-
-                                    <!-- switch buttons options -->
-                                    <li class="settings-list-item">
-                                          <div class="setting-text">
-                                                <div class="setting-title">Reset Size</div>
-                                                <div class="setting-decs">Reset the size of color list box</div>
-                                          </div>
-                                          <button class="fav-filter-btn" id="reset-size-btn"
-                                                onclick="resetFavColorBoxSize()">
-                                                <ion-icon name="refresh-outline"></ion-icon>
-                                                <span>Reset</span>
-                                          </button>
-                                    </li>
-                                    <li class="settings-list-item" style="display: none;">
-                                          <div class="setting-text">
-                                                <div class="setting-title">Wallpaper</div>
-                                                <div class="setting-decs">Choose and set the Wallpaper</div>
-                                          </div>
-                                          <select name="" id="bg-change">
-                                                <option value="">choose</option>
-                                                <option value="linear-gradient(45deg, #bb86fc, #00ffff, #1070d1)">
-                                                      Option1</option>
-                                                <option value="linear-gradient(45deg, #0F2027, #203A43, #2C5364)">
-                                                      Option2</option>
-                                                <option value="linear-gradient(to right, #ff7e5f, #feb47b)">Sunset
-                                                </option>
-                                                <option value="linear-gradient(to right, #00c9ff, #92fe9d)">Purple-Blue
-                                                </option>
-                                                <option value="linear-gradient(to right, #11998e, #38ef7d)">Green
-                                                </option>
-                                          </select>
-                                    </li>
-                                    <!-- end of switch buttons option -->
-                              </ul>
-                        </div>
-                  </div>
-            </div>
-
-            <!-- gradient colors section -->
-            <div class="gradient-color-wrapper">
-                  <!-- Quick Save Notification Popup (Fixed while scrolling) -->
-                  <div class="quick-save-popup-overlay" id="quick-save-popup">
-                        <div class="input-area-wrapper" id="quick-save-wrapper">
-                              <div class="gradient-border" id="quick-save-border"></div>
-                              <div class="magic-import-island">
-                                    <input type="text" id="quick-save-gradient-input"
-                                          placeholder="Magic Paste CSS Code..." autocomplete="off">
-                                    <button id="quick-paste-gradient-btn" class="magic-btn" title="Paste Magic">
-                                          <ion-icon name="clipboard-outline"></ion-icon>
-                                    </button>
-                                    <button id="quick-clear-gradient-btn" class="magic-btn" title="Clear All">
-                                          <ion-icon name="close-outline"></ion-icon>
-                                    </button>
-                                    <button id="quick-save-gradient-btn" class="magic-action-btn" title="Cast Gradient">
-                                          <ion-icon name="sparkles"></ion-icon>
-                                    </button>
-                              </div>
-                        </div>
-                  </div>
-
-                  <div class="gradient-scroll-container"> <!-- New Scrollable Layer -->
-                        <div class="gradient-color-container" id="gradient-color-container">
-                              <div class="gradient-color-section">
-                                    <div class="gradient-color-header">
-                                          <div class="gradient-color-logo">
-                                                <h1>ShadeSphare</h1>
-                                          </div>
-                                          <div class="options-area">
-                                                <button class="merge-section-btn">
-                                                      <ion-icon name="chevron-collapse-outline"></ion-icon>
-                                                </button>
-                                                <button class="back-to-home-btn" id="back-to-home-btn">
-                                                      <ion-icon name="arrow-back-circle"></ion-icon>
-                                                      <span>Back</span>
+                                    <div class="filter-main">
+                                          <div class="mobile-filter-toggle">
+                                                <button id="mobile-filter-toggle-btn">
+                                                      <ion-icon name="options-outline"></ion-icon>
+                                                      <span id="mobile-filter-toggle-text">Show Filters</span>
                                                 </button>
                                           </div>
-                                    </div>
-                                    <div class="get-gradient-color-form">
-                                          <div class="gradient-colors-input-section">
-                                                <div class="gradient-colors-input-area">
-                                                      <div class="per-input-area">
-                                                            <span class="input-title">Color 1</span>
-                                                            <div
-                                                                  class="gradient-input-field get-gradient-input-field hover-focus">
-                                                                  <input type="color" class="gradient-type-clr-input"
-                                                                        value="#20002C">
-                                                                  <input id="color-1" type="text" value="#20002C"
-                                                                        placeholder="Type any color" required>
-                                                                  <button class="clear-input-value-btn">
-                                                                        <ion-icon
-                                                                              name="close-circle-outline"></ion-icon>
-                                                                  </button>
-                                                                  <input id="color-1a" type="text"
-                                                                        class="color-stops-input"
-                                                                        placeholder="e.g. 20%">
-                                                            </div>
+                                          <aside class="filter-sidebar">
+                                                <div class="filter-category">
+                                                      <h4>Format</h4>
+                                                      <div class="filter-options" data-category="format">
+                                                            <div class="filter-chip" data-value="hex">HEX Code</div>
+                                                            <div class="filter-chip" data-value="rgb">RGB Values</div>
+                                                            <div class="filter-chip" data-value="hsl">HSL Format</div>
+                                                            <div class="filter-chip" data-value="name">Color Name</div>
                                                       </div>
-                                                      <div class="per-input-area">
-                                                            <span class="input-title">Color 2</span>
-                                                            <div
-                                                                  class="gradient-input-field get-gradient-input-field hover-focus">
-                                                                  <input type="color" class="gradient-type-clr-input"
-                                                                        value="#CBB4D4">
-                                                                  <input id="color-2" type="text" value="#CBB4D4"
-                                                                        placeholder="Type any color" required>
-                                                                  <button class="clear-input-value-btn">
-                                                                        <ion-icon
-                                                                              name="close-circle-outline"></ion-icon>
-                                                                  </button>
-                                                                  <input id="color-2a" type="text"
-                                                                        class="color-stops-input"
-                                                                        placeholder="e.g. 20%">
+                                                </div>
+                                                <div class="filter-category">
+                                                      <h4>Brightness</h4>
+                                                      <div class="filter-options" data-category="brightness">
+                                                            <div class="filter-chip" data-value="dark">Dark Colors</div>
+                                                            <div class="filter-chip" data-value="light">Light Colors
                                                             </div>
                                                       </div>
                                                 </div>
-                                                <button class="add-gradient-input hover-focus" id="add-more-color">Add
-                                                      more</button>
-                                          </div>
-                                          <div class="preview-gradient-box-section">
-                                                <div class="gradient-dir-type-inputs">
-                                                      <div class="per-input-area">
-                                                            <span class="input-title">Direction</span>
-                                                            <div class="gradient-input-field hover-focus">
-                                                                  <input id="color-direction" type="text"
-                                                                        value="to right"
-                                                                        placeholder="e.g. 45deg, to right" required>
-                                                                  <button class="clear-direction-value-btn">
-                                                                        <ion-icon
-                                                                              name="close-circle-outline"></ion-icon>
-                                                                  </button>
+                                                <div class="filter-category">
+                                                      <h4>Vibrancy</h4>
+                                                      <div class="filter-options" data-category="tone">
+                                                            <div class="filter-chip" data-value="vibrant">Vibrant</div>
+                                                            <div class="filter-chip" data-value="muted">Muted</div>
+                                                            <div class="filter-chip" data-value="grayscale">Grayscale
                                                             </div>
                                                       </div>
-                                                      <div class="per-input-area">
-                                                            <span class="input-title">Type</span>
-                                                            <div class="gradient-input-field hover-focus">
-                                                                  <div class="gradient-type-select-tag">
-                                                                        <select name="" id="color-type">
-                                                                              <option value="linear-gradient">
-                                                                                    linear-gradient
-                                                                              </option>
-                                                                              <option value="radial-gradient">
-                                                                                    radial-gradient
-                                                                              </option>
-                                                                              <option value="conic-gradient">
-                                                                                    conic-gradient
-                                                                              </option>
-                                                                              <option value="repeating-linear-gradient">
-                                                                                    repeating-linear-gradient</option>
-                                                                              <option value="repeating-radial-gradient">
-                                                                                    repeating-radial-gradient</option>
-                                                                              <option value="repeating-conic-gradient">
-                                                                                    repeating-conic-gradient</option>
-                                                                        </select>
+                                                </div>
+                                          </aside>
+                                          <main class="filter-results-pane">
+                                                <div class="results-header">
+                                                      <span id="filter-results-count">Results: 0 colors found</span>
+                                                </div>
+                                                <div id="filter-results-grid" class="filter-results-grid">
+                                                      <!-- Filtered color previews will appear here -->
+                                                      <div class="filter-empty-state">
+                                                            <ion-icon name="color-wand-outline"></ion-icon>
+                                                            <p>Select filters to see results</p>
+                                                      </div>
+                                                </div>
+                                          </main>
+                                    </div>
+                                    <div class="filter-footer">
+                                          <div class="active-filters-preview" id="active-filters-preview">
+                                                <span style="color: var(--filter-category-title); font-size: 13px;">Combinations
+                                                      active...</span>
+                                          </div>
+                                          <div class="footer-actions">
+                                                <button id="btn-clear-filters" class="btn-clear"><span>Clear
+                                                            All</span></button>
+                                                <button id="btn-apply-filters" class="btn-apply hidden">Apply
+                                                      Filters</button>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div id="settings-container" class="option-container imp-absolute">
+                              <div id="settings-box" class="option-box">
+                                    <div id="settings-box-header" class="option-box-header">
+                                          <div id="settings-header-heading" class="option-header-heading">
+                                                <ion-icon name="settings-outline"></ion-icon>
+                                                <span>Settings</span>
+                                          </div>
+                                          <button id="settings-close-btn" class="option-box-close-btn"
+                                                title="Close Settings">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                          </button>
+                                    </div>
+                                    <ul id="settings-list" class="option-list-box">
+
+                                          <!-- toggling buttons options -->
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Auto Grid View</span>
+                                                      <span class="setting-decs">Switches to Grid view automatically on
+                                                            large
+                                                            or
+                                                            full screens</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="auto-grid-view">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item" id="auto-sidebar-setting-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Auto Sidebar</span>
+                                                      <span class="setting-decs">Opens sidebar when you move mouse to
+                                                            left
+                                                            edge</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="cursor-sidebar-btn">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Auto Theme Mode</span>
+                                                      <span class="setting-decs">Automatically switches to Dark Mode (8
+                                                            PM - 9
+                                                            AM)</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="auto-theme-mode">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Mute Sound</span>
+                                                      <span class="setting-decs">Mute sound of the app</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="mute-sound-btn">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Search Suggestions</span>
+                                                      <span class="setting-decs">Show suggestions while typing</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="suggestions-toggle-btn">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <span class="setting-title">Quick Preview</span>
+                                                      <span class="setting-decs">Enable quick preview mode</span>
+                                                </div>
+                                                <button class="settings-option-switch" id="quick-preview-toggle">
+                                                      <span class="thumb"></span>
+                                                </button>
+                                          </li>
+                                          <!-- end of toggling buttons options -->
+
+                                          <!-- range level options -->
+                                          <li class="settings-list-item" id="birghtness-option">
+                                                <div class="setting-text">
+                                                      <div class="setting-title">Brightness</div>
+                                                      <div class="setting-decs">Adjust the Brightness of the app</div>
+                                                </div>
+                                                <input type="range" name="" max="100" min="40" value="100"
+                                                      id="brightness-slider">
+                                          </li>
+                                          <!-- end of range level otpions -->
+
+                                          <!-- switch buttons options -->
+                                          <li class="settings-list-item">
+                                                <div class="setting-text">
+                                                      <div class="setting-title">Reset Size</div>
+                                                      <div class="setting-decs">Reset the size of color list box</div>
+                                                </div>
+                                                <button class="fav-filter-btn" id="reset-size-btn"
+                                                      onclick="resetFavColorBoxSize()">
+                                                      <ion-icon name="refresh-outline"></ion-icon>
+                                                      <span>Reset</span>
+                                                </button>
+                                          </li>
+                                          <li class="settings-list-item" style="display: none;">
+                                                <div class="setting-text">
+                                                      <div class="setting-title">Wallpaper</div>
+                                                      <div class="setting-decs">Choose and set the Wallpaper</div>
+                                                </div>
+                                                <select name="" id="bg-change">
+                                                      <option value="">choose</option>
+                                                      <option value="linear-gradient(45deg, #bb86fc, #00ffff, #1070d1)">
+                                                            Option1</option>
+                                                      <option value="linear-gradient(45deg, #0F2027, #203A43, #2C5364)">
+                                                            Option2</option>
+                                                      <option value="linear-gradient(to right, #ff7e5f, #feb47b)">Sunset
+                                                      </option>
+                                                      <option value="linear-gradient(to right, #00c9ff, #92fe9d)">
+                                                            Purple-Blue
+                                                      </option>
+                                                      <option value="linear-gradient(to right, #11998e, #38ef7d)">Green
+                                                      </option>
+                                                </select>
+                                          </li>
+                                          <!-- end of switch buttons option -->
+                                    </ul>
+                              </div>
+                        </div>
+                  </div>
+
+                  <!-- gradient colors section -->
+                  <div class="gradient-color-wrapper imp-absolute">
+                        <!-- Quick Save Notification Popup (Fixed while scrolling) -->
+                        <div class="quick-save-popup-overlay" id="quick-save-popup">
+                              <div class="input-area-wrapper" id="quick-save-wrapper">
+                                    <div class="gradient-border" id="quick-save-border"></div>
+                                    <div class="magic-import-island">
+                                          <input type="text" id="quick-save-gradient-input"
+                                                placeholder="Magic Paste CSS Code..." autocomplete="off">
+                                          <button id="quick-paste-gradient-btn" class="magic-btn" title="Paste Magic">
+                                                <ion-icon name="clipboard-outline"></ion-icon>
+                                          </button>
+                                          <button id="quick-clear-gradient-btn" class="magic-btn" title="Clear All">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                          </button>
+                                          <button id="quick-save-gradient-btn" class="magic-action-btn"
+                                                title="Cast Gradient">
+                                                <ion-icon name="sparkles"></ion-icon>
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="gradient-scroll-container"> <!-- New Scrollable Layer -->
+                              <div class="gradient-color-container" id="gradient-color-container">
+                                    <div class="gradient-color-section">
+                                          <div class="gradient-color-header">
+                                                <div class="gradient-color-logo">
+                                                      <h1>ShadeSphare</h1>
+                                                </div>
+                                                <div class="options-area">
+                                                      <button class="merge-section-btn">
+                                                            <ion-icon name="chevron-collapse-outline"></ion-icon>
+                                                      </button>
+                                                      <button class="back-to-home-btn" id="back-to-home-btn">
+                                                            <ion-icon name="arrow-back-circle"></ion-icon>
+                                                            <span>Back</span>
+                                                      </button>
+                                                </div>
+                                          </div>
+                                          <div class="get-gradient-color-form">
+                                                <div class="gradient-colors-input-section">
+                                                      <div class="gradient-colors-input-area">
+                                                            <div class="per-input-area">
+                                                                  <span class="input-title">Color 1</span>
+                                                                  <div
+                                                                        class="gradient-input-field get-gradient-input-field hover-focus">
+                                                                        <input type="color"
+                                                                              class="gradient-type-clr-input"
+                                                                              value="#20002C">
+                                                                        <input id="color-1" type="text" value="#20002C"
+                                                                              placeholder="Type any color" required>
+                                                                        <button class="clear-input-value-btn">
+                                                                              <ion-icon
+                                                                                    name="close-circle-outline"></ion-icon>
+                                                                        </button>
+                                                                        <input id="color-1a" type="text"
+                                                                              class="color-stops-input"
+                                                                              placeholder="e.g. 20%">
+                                                                  </div>
+                                                            </div>
+                                                            <div class="per-input-area">
+                                                                  <span class="input-title">Color 2</span>
+                                                                  <div
+                                                                        class="gradient-input-field get-gradient-input-field hover-focus">
+                                                                        <input type="color"
+                                                                              class="gradient-type-clr-input"
+                                                                              value="#CBB4D4">
+                                                                        <input id="color-2" type="text" value="#CBB4D4"
+                                                                              placeholder="Type any color" required>
+                                                                        <button class="clear-input-value-btn">
+                                                                              <ion-icon
+                                                                                    name="close-circle-outline"></ion-icon>
+                                                                        </button>
+                                                                        <input id="color-2a" type="text"
+                                                                              class="color-stops-input"
+                                                                              placeholder="e.g. 20%">
                                                                   </div>
                                                             </div>
                                                       </div>
+                                                      <button class="add-gradient-input hover-focus"
+                                                            id="add-more-color">Add
+                                                            more</button>
                                                 </div>
-                                                <div class="preview-gradient-color-box">
-                                                      <button id="preview-on-frame-btn">
-                                                            <ion-icon name="scan-outline"></ion-icon>
-                                                      </button>
-                                                </div>
+                                                <div class="preview-gradient-box-section">
+                                                      <div class="gradient-dir-type-inputs">
+                                                            <div class="per-input-area">
+                                                                  <span class="input-title">Direction</span>
+                                                                  <div class="gradient-input-field hover-focus">
+                                                                        <input id="color-direction" type="text"
+                                                                              value="to right"
+                                                                              placeholder="e.g. 45deg, to right"
+                                                                              required>
+                                                                        <button class="clear-direction-value-btn">
+                                                                              <ion-icon
+                                                                                    name="close-circle-outline"></ion-icon>
+                                                                        </button>
+                                                                  </div>
+                                                            </div>
+                                                            <div class="per-input-area">
+                                                                  <span class="input-title">Type</span>
+                                                                  <div class="gradient-input-field hover-focus">
+                                                                        <div class="gradient-type-select-tag">
+                                                                              <select name="" id="color-type">
+                                                                                    <option value="linear-gradient">
+                                                                                          linear-gradient
+                                                                                    </option>
+                                                                                    <option value="radial-gradient">
+                                                                                          radial-gradient
+                                                                                    </option>
+                                                                                    <option value="conic-gradient">
+                                                                                          conic-gradient
+                                                                                    </option>
+                                                                                    <option
+                                                                                          value="repeating-linear-gradient">
+                                                                                          repeating-linear-gradient
+                                                                                    </option>
+                                                                                    <option
+                                                                                          value="repeating-radial-gradient">
+                                                                                          repeating-radial-gradient
+                                                                                    </option>
+                                                                                    <option
+                                                                                          value="repeating-conic-gradient">
+                                                                                          repeating-conic-gradient
+                                                                                    </option>
+                                                                              </select>
+                                                                        </div>
+                                                                  </div>
+                                                            </div>
+                                                      </div>
+                                                      <div class="preview-gradient-color-box">
+                                                            <button id="preview-on-frame-btn">
+                                                                  <ion-icon name="scan-outline"></ion-icon>
+                                                            </button>
+                                                      </div>
 
-                                                <div class="gradient-save-controls">
-                                                      <button id="quick-save-trigger-btn" class="hover-focus"
-                                                            title="Quick Import CSS">
-                                                            <ion-icon name="flash-outline"></ion-icon>
-                                                      </button>
-                                                      <button id="save-gradient-clr-btn" class="hover-focus"><span>Save
-                                                                  Gradient</span></button>
+                                                      <div class="gradient-save-controls">
+                                                            <button id="quick-save-trigger-btn" class="hover-focus"
+                                                                  title="Quick Import CSS">
+                                                                  <ion-icon name="flash-outline"></ion-icon>
+                                                            </button>
+                                                            <button id="save-gradient-clr-btn"
+                                                                  class="hover-focus"><span>Save
+                                                                        Gradient</span></button>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <div class="saved-gradient-box">
+                                                <div class="saved-gradient-box-header">
+                                                      <h2 class="saved-gradient-header-heading">Saved Gradients</h2>
+                                                </div>
+                                                <div class="saved-gradients-list">
+                                                      <!-- <div class="saved-gradient-color" data-color-code="linear-gradient(to right, #00ffff, #bb86fc)">
+                                                      <div class="saved-gradient-color-option-bar">
+                                                            <div class="saved-gradient-color-option-bar-btn-area">
+                                                                  <button class="preview-gradient-on-frame-btn">
+                                                                        <ion-icon name="scan-outline"></ion-icon>
+                                                                  </button>
+                                                                  <button class="copy-option" title="Copy CSS">
+                                                                        <ion-icon name="copy-outline"></ion-icon>
+                                                                  </button>
+                                                            </div>
+                                                      </div>
+                                                </div> -->
                                                 </div>
                                           </div>
                                     </div>
-                                    <div class="saved-gradient-box">
-                                          <div class="saved-gradient-box-header">
-                                                <h2 class="saved-gradient-header-heading">Saved Gradients</h2>
+                              </div>
+
+                              <div class="gradient-preview-frame">
+                                    <button id="gradient-preview-frame-close-btn">
+                                          <ion-icon name="close-outline"></ion-icon>
+                                    </button>
+                              </div>
+                        </div>
+
+                        <div class="tool-kit hidden">
+                              <div class="options-1 options">
+                                    <div class="option">
+                                          <ion-icon name="home-outline"></ion-icon>
+                                          <span>Home</span>
+                                    </div>
+                                    <div class="option">
+                                          <ion-icon name="home-outline"></ion-icon>
+                                          <span>Gradients</span>
+                                    </div>
+                                    <div class="option">
+                                          <ion-icon name="chevron-collapse-outline"></ion-icon>
+                                          <span>Split</span>
+                                    </div>
+                              </div>
+                              <div class="options-2 options"></div>
+                        </div>
+
+                        <div class="gradient-color-choosed-container imp-absolute">
+                              <div class="choosed-gradient-dialog-box">
+                                    <div class="gradient-dialog-box-header">
+                                          <button id="dialog-cross-btn" class="dialog-cross-btn">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                          </button>
+                                    </div>
+                                    <div class="gradient-dialog-box-content">
+                                          <div class="dialog-color-field-section">
+                                                <!-- <div class="dialog-color-field">
+                                                <span class="color-indicator"></span>
+                                                <span class="color-name">#BB86FC</span>
+                                                <button class="per-color-copy-btn">
+                                                      <ion-icon name="copy-outline"></ion-icon>
+                                                </button>
+                                          </div> -->
                                           </div>
-                                          <div class="saved-gradients-list">
-                                                <!-- <div class="saved-gradient-color" data-color-code="linear-gradient(to right, #00ffff, #bb86fc)">
-                                                <div class="saved-gradient-color-option-bar">
-                                                      <div class="saved-gradient-color-option-bar-btn-area">
-                                                            <button class="preview-gradient-on-frame-btn">
-                                                                  <ion-icon name="scan-outline"></ion-icon>
+                                          <div class="dialog-color-preview-section">
+                                                <button class="dialog-preview-on-frame-btn">
+                                                      <ion-icon name="scan-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="dialog-box-footer">
+                                          <div class="gradient-color-CSS-field">
+                                                <span class="gradient-color-string">linear-gradient(to right, #DCFCFF,
+                                                      #8AB4FF)</span>
+                                                <button class="copy-gradient-color-string"
+                                                      id="copy-gradient-color-string">
+                                                      <ion-icon name="copy-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                          <div class="dialog-footer-buttons-area">
+                                                <button class="delete-gradient-color-btn">Delete</button>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="simple-preview-frame imp-absolute">
+                              <button id="simple-preview-frame-close-btn">
+                                    <ion-icon name="close-outline"></ion-icon>
+                                </button>
+                        </div>
+                  </div>
+            </div>
+
+            <div class="right-penal-wrapper closed relative flex flex-grow flex-shrink-0 p-10">
+                  <div id="right-penal-gradient-shadow" class="gradient-shadow opacity- absolute inset-0 w-full h-full">
+                  </div>
+
+                  <div class="right-penal relative w-full h-full">
+                        <div class="frame-holder h-full">
+                              <div class="frame main-frame h-full hidden">
+                                    <div class="frame-header">
+                                          <button class="mobile-open-close-btn hidden">
+                                                <ion-icon name="menu-outline"></ion-icon>
+                                          </button>
+                                          <button class="close-main-frame-btn close-right-penal-btn ">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                          </button>
+                                    </div>
+                                    <div class="main-frame-content h-full">
+                                          <div class="toolbox-header">
+                                                <h1>Sphare Tools</h1>
+                                                <p>Enhance your color workflow</p>
+                                          </div>
+                                          <div class="main-frame-content-btns tool-grid h-full w-full">
+                                                <button class="multishades-btn px-10">
+                                                      <ion-icon name="layers-outline"></ion-icon>
+                                                      <span>Multishades</span>
+                                                </button>
+
+                                                <button class="smart-picker-btn px-10" onclick="startSmartPicker()">
+                                                      <ion-icon name="eyedrop-outline"></ion-icon>
+                                                      <span>Smart Picker</span>
+                                                </button>
+
+                                                <!-- <button class="disabled px-10">
+                                                      <ion-icon name="color-palette-outline"></ion-icon>
+                                                      <span>Schemes</span>
+                                                </button> -->
+                                          </div>
+                                    </div>
+                              </div>
+                              <div id="multishades-frame" class="frame multishades-frame h-full flex flex-col">
+                                    <div class="frame-header">
+                                          <button class="mobile-open-close-btn hidden">
+                                                <ion-icon name="menu-outline"></ion-icon>
+                                          </button>
+                                          <div class="btns flex">
+                                                <button class="mobile-back-btn">
+                                                      <ion-icon name="arrow-back-outline"></ion-icon>
+                                                </button>
+                                                <button class="close-right-penal-btn">
+                                                      <ion-icon name="close-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="overflow-shadow h-full">
+                                          <div class="multishades-frame-content">
+                                                <!-- <div class="multishades-clr-box">
+                                                      <span class="multishades-clr-name">#000000</span>
+                                                      <div class="buttons-box">
+                                                            <button class="save-clr-btn">
+                                                                  <ion-icon name="download-outline"></ion-icon>
                                                             </button>
-                                                            <button class="copy-option" title="Copy CSS">
+                                                            <button class="copy-clr-btn">
                                                                   <ion-icon name="copy-outline"></ion-icon>
                                                             </button>
                                                       </div>
-                                                </div>
-                                          </div> -->
+                                                </div> -->
                                           </div>
                                     </div>
                               </div>
-                        </div>
-
-                        <div class="gradient-preview-frame">
-                              <button id="gradient-preview-frame-close-btn">
-                                    <ion-icon name="close-outline"></ion-icon>
-                              </button>
-                        </div>
-                  </div>
-
-                  <div class="tool-kit hidden">
-                        <div class="options-1 options">
-                              <div class="option">
-                                    <ion-icon name="home-outline"></ion-icon>
-                                    <span>Home</span>
-                              </div>
-                              <div class="option">
-                                    <ion-icon name="home-outline"></ion-icon>
-                                    <span>Gradients</span>
-                              </div>
-                              <div class="option">
-                                    <ion-icon name="chevron-collapse-outline"></ion-icon>
-                                    <span>Split</span>
-                              </div>
-                        </div>
-                        <div class="options-2 options"></div>
-                  </div>
-
-            </div>
-
-            <div class="simple-preview-frame">
-                  <button id="simple-preview-frame-close-btn">
-                        <ion-icon name="close-outline"></ion-icon>
-                  </button>
-            </div>
-
-            <div class="gradient-color-choosed-container">
-                  <div class="choosed-gradient-dialog-box">
-                        <div class="gradient-dialog-box-header">
-                              <button id="dialog-cross-btn" class="dialog-cross-btn">
-                                    <ion-icon name="close-outline"></ion-icon>
-                              </button>
-                        </div>
-                        <div class="gradient-dialog-box-content">
-                              <div class="dialog-color-field-section">
-                                    <!-- <div class="dialog-color-field">
-                                    <span class="color-indicator"></span>
-                                    <span class="color-name">#BB86FC</span>
-                                    <button class="per-color-copy-btn">
-                                          <ion-icon name="copy-outline"></ion-icon>
-                                    </button>
-                              </div> -->
-                              </div>
-                              <div class="dialog-color-preview-section">
-                                    <button class="dialog-preview-on-frame-btn">
-                                          <ion-icon name="scan-outline"></ion-icon>
-                                    </button>
-                              </div>
-                        </div>
-                        <div class="dialog-box-footer">
-                              <div class="gradient-color-CSS-field">
-                                    <span class="gradient-color-string">linear-gradient(to right, #DCFCFF,
-                                          #8AB4FF)</span>
-                                    <button class="copy-gradient-color-string" id="copy-gradient-color-string">
-                                          <ion-icon name="copy-outline"></ion-icon>
-                                    </button>
-                              </div>
-                              <div class="dialog-footer-buttons-area">
-                                    <button class="delete-gradient-color-btn">Delete</button>
+                              <div id="picker-frame" class="frame picker-frame h-full flex flex-col hidden">
+                                    <div class="frame-header">
+                                          <button class="mobile-open-close-btn hidden">
+                                                <ion-icon name="menu-outline"></ion-icon>
+                                          </button>
+                                          <div class="btns flex">
+                                                <button class="mobile-back-btn">
+                                                      <ion-icon name="arrow-back-outline"></ion-icon>
+                                                </button>
+                                                <button class="close-right-penal-btn">
+                                                      <ion-icon name="close-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="picker-frame-content flex-grow overflow-y-auto">
+                                          <!-- Dynamic Content from picker.js -->
+                                    </div>
                               </div>
                         </div>
                   </div>
             </div>
-
 
             <div class="splash-screen hidden">
                   <div class="splash-inner-section">
@@ -977,6 +1124,7 @@
 
             <!-- External Libraries -->
             <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
+            <script src="ntc.js"></script>
 
 
             <script src="script.js" defer></script>
@@ -985,6 +1133,8 @@
             <script src="colors-list.js" defer></script>
             <script src="merge-mode.js" defer></script>
             <script src="filter-system.js" defer></script>
+            <script src="right-penal.js" defer></script>
+            <script src="picker.js" defer></script>
 
             <!-- ztext.js -->
             <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
@@ -1002,6 +1152,8 @@
             <!-- Tippy.js JS -->
             <script src="https://unpkg.com/@popperjs/core@2"></script>
             <script src="https://unpkg.com/tippy.js@6"></script>
+
+            <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 </body>
 

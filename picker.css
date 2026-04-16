@@ -1,0 +1,211 @@
+.picker-frame-content {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* 1. Color Naming Box */
+.picker-name-box {
+    width: 100%;
+    height: 140px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0px 10px var(--shadow-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.picker-name-box h2 {
+    font-size: 22px;
+    font-weight: 900;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* 2. Shades Section */
+.picker-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-color);
+    opacity: 0.45;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    padding-left: 2px;
+}
+
+.picker-shades-container {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.shades-slider-wrapper {
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+}
+
+.shades-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    gap: 10px;
+}
+
+.shades-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.shade-item {
+    flex: 0 0 60%;
+    height: 80px;
+    scroll-snap-align: center;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.slider-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--frame-secondry-bg-clr);
+    border: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.slider-nav-btn.prev {
+    left: -10px;
+}
+
+.slider-nav-btn.next {
+    right: -10px;
+}
+
+.slider-nav-btn:hover {
+    opacity: .7;
+    /* background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-50%) scale(1.1); */
+}
+
+/* 3. Formats Section */
+.picker-formats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.format-row {
+    background: var(--frame-secondry-bg-clr);
+    /* padding: 15px 20px; */
+    padding: 10px;
+    padding-left: 15px;
+    border-radius: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.format-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.format-label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    opacity: 0.4;
+    letter-spacing: 1px;
+}
+
+.format-value {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.format-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.format-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 25px;
+    border: none;
+    background: var(--frame-primary-bg-clr);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.format-btn:hover {
+    opacity: .7;
+    /* background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px); */
+}
+
+.format-btn.active {
+    color: #00ff00;
+}
+
+/* 4. Re-select Button */
+.picker-reselect-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 45px;
+    border: none;
+    background: var(--frame-secondry-bg-clr);
+    color: var(--text-color);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.picker-reselect-btn:hover {
+    opacity: 1;
+    background: var(--frame-primary-bg-clr);
+}

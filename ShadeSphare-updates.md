@@ -20,7 +20,7 @@ ShadeSphare updates:-
 
 ✅ 6\. update bottom right logo (ShadeSphare).
 
-7\. implement the 'Right panel'.    **pending**
+✅ 7\. implement the 'Right panel'.
 
 ✅ 8\. add single input field of gradient.
 
@@ -95,5 +95,7 @@ ShadeSphare updates:-
 ✅ 43\. update the context menu UI.
 
 44\. update help/documentation page with theme mode.
+
+45\. add find color button(in fiters color box) in filters for saved color section.
 
 **// CLONE THE PREVIOUS ALL SHADESPHARE FOLDERS**
