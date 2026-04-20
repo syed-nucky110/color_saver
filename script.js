@@ -236,7 +236,30 @@ function setTooltip(selector, text) {
 setTooltip('#clr-picker', "Pick Color");
 setTooltip('#preview-box-color-picker', "Pick Color");
 setTooltip('#label-clr-picker', "Pick Color");
-setTooltip('.input-color-indicator', 'Color Indicator')
+setTooltip('.input-color-indicator', 'Color Indicator');
+
+
+// Global Keyboard Shortcuts
+document.addEventListener('keyup', (e) => {
+      // Don't trigger shortcuts if user is typing in an input or textarea
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      const key = e.key.toLowerCase();
+
+      if (key === 'm') {
+            const mBtn = document.querySelector('.multishades-btn');
+            return; // stop the function from running
+            if (mBtn) mBtn.click();
+      } else if (key === 's') {
+            if (typeof startSmartPicker === 'function') {
+                  return; // stop the function from running
+                  startSmartPicker();
+            }
+      }
+      else if (key === "/") {
+            addColorInput.focus();
+      }
+});
 
 // Search functionality
 function handleSearch(event) {
@@ -1694,11 +1717,17 @@ addColorInput.addEventListener("input", () => {
 });
 
 function showColorIndicator(color) {
+      // if (!isColorValid(color)) {
+      //       return hideColorIndicator();
+      // }
+
       colorIndicator.style.backgroundColor = color;
       colorIndicator.classList.remove("hidden");
 }
 
 function hideColorIndicator() {
+      if (colorIndicator.classList.contains("hidden")) return;
+
       colorIndicator.style.backgroundColor = "transparent";
       colorIndicator.classList.add("hidden");
 }
@@ -1765,6 +1794,8 @@ addColorBtn.addEventListener("click", async () => {
 
       playSound(lockSound)
 
+      hideColorIndicator();
+
       // addColorBtn.style.animation = "bubbling 520ms cubic-bezier(0.22, 0.61, 0.36, 1)";
 
 
@@ -1787,6 +1818,7 @@ addColorBtn.addEventListener("click", async () => {
                   colorMoveToStorageFromTrash(newColor);
                   renderColors(newColor);
                   renderTrashColors();
+                  hideColorIndicator();
             }
             return;
       }
@@ -1972,7 +2004,13 @@ function createColorBox(color, animate = false, skipReposition = false, cachedPi
             savedColorList.prepend(colorBox);
       }
 
-      savedColorList.scrollTop = 0;
+      colorBox.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // Hide color indicator when it is visible
+      hideColorIndicator();
+
+      // Hide error message when it is visible
+      hideErrorMessage();
 }
 
 function saveColorInStorage(getColor) {
@@ -2376,11 +2414,15 @@ window.addEventListener("keyup", (event) => {
       }
 })
 
-window.addEventListener('keyup', (event) => {
-      if (event.key.toLowerCase() === "/") {
-            addColorInput.focus();
-      }
-})
+/* 
+     moved the logic in the 'Global Keyboard Shortcuts' section 
+*/
+
+// window.addEventListener('keyup', (event) => {
+//       if (event.key.toLowerCase() === "/") {
+//             addColorInput.focus();
+//       }
+// })
 
 function OnResizer() {
       const screenSize = localStorage.getItem("screen-size") || "";

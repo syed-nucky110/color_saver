@@ -151,7 +151,7 @@
                                                 <div class="gradient-color-options">
                                                       <div class="option" id="gradient-clr-option" tabindex="0"
                                                             onkeydown="if(event.key == 'Enter') this.click()">
-                                                            <ion-icon name="eyedrop-outline"
+                                                            <ion-icon name="color-filter-outline"
                                                                   class="no-shrink sidebar-option-icon"></ion-icon>
                                                             <span title="Gradient colors" class="option-name">Gradient
                                                                   Colors</span>
@@ -997,7 +997,7 @@
                         <div class="simple-preview-frame imp-absolute">
                               <button id="simple-preview-frame-close-btn">
                                     <ion-icon name="close-outline"></ion-icon>
-                                </button>
+                              </button>
                         </div>
                   </div>
             </div>
@@ -1054,6 +1054,11 @@
                                                 </button>
                                           </div>
                                     </div>
+                                    <div class="multishades-input-box">
+                                          <input type="color" id="multishades-color-input" title="Pick a color">
+                                          <input type="text" id="multishades-text-input" placeholder="Enter color..."
+                                                spellcheck="false" autocomplete="off" autosuggest="off">
+                                    </div>
                                     <div class="overflow-shadow h-full">
                                           <div class="multishades-frame-content">
                                                 <!-- <div class="multishades-clr-box">
@@ -1084,76 +1089,93 @@
                                                 </button>
                                           </div>
                                     </div>
-                                    <div class="picker-frame-content flex-grow overflow-y-auto">
-                                          <!-- Dynamic Content from picker.js -->
+                                    <div class="overflow-shadow">
+                                          <div class="picker-frame-content flex-grow overflow-y-auto">
+                                                <!-- Dynamic Content from picker.js -->
+                                          </div>
+                                    </div>
+                                    <div class="history-section-wrapper">
+                                          <div class="history-section">
+                                                <div class="history-section-header">
+                                                      <div class="history-section-header-title">History</div>
+                                                      <div class="history-section-header-actions">
+                                                            <button class="history-section-header-action-btn"
+                                                                  onclick="clearPickerHistory()">
+                                                                  <ion-icon name="trash-outline"></ion-icon>
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                                <div class="history-section-content">
+                                                      <!-- Dynamic Content from picker.js -->
+                                                </div>
+                                          </div>
                                     </div>
                               </div>
                         </div>
                   </div>
-            </div>
 
-            <div class="splash-screen hidden">
-                  <div class="splash-inner-section">
-                        <div id="splash-mask" class="splash-mask"></div>
-                        <div class="splash-logo">
-                              <div class="color-circle"></div>
+                  <div class="splash-screen hidden">
+                        <div class="splash-inner-section">
+                              <div id="splash-mask" class="splash-mask"></div>
+                              <div class="splash-logo">
+                                    <div class="color-circle"></div>
+                              </div>
+                              <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
+                                    class="splash-text">ShadeSphare</div>
                         </div>
-                        <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
-                              class="splash-text">ShadeSphare</div>
                   </div>
-            </div>
 
-            <!-- Message container for toast notifications -->
-            <div id="message-container"></div>
+                  <!-- Message container for toast notifications -->
+                  <div id="message-container"></div>
 
-            <!-- <div class="gradient-selected-color-popup">
+                  <!-- <div class="gradient-selected-color-popup">
             
       </div> -->
 
-            <audio src="assets/sound/menu.mp3" id="menu-sound" preload="auto"></audio>
-            <audio src="assets/sound/pop-up.mp3" id="popup-sound" preload="auto"></audio>
-            <audio src="assets/sound/sharp.mp3" id="sharp-sound" preload="auto"></audio>
-            <audio src="assets/sound/alert.mp3" id="alert-sound" preload="auto"></audio>
-            <audio src="assets/sound/light-switch.mp3" id="light-switch-sound" preload="auto"></audio>
-            <audio src="assets/sound/pop-402324.mp3" id="pop-sound" preload="auto"></audio>
-            <audio src="assets/sound/swoosh.mp3" id="swoosh-sound" preload="auto"></audio>
-            <audio src="assets/sound/toggle-switch.mp3" id="toggle-switch-sound" preload="auto"></audio>
-            <audio src="assets/sound/mouse-click.mp3" id="mouse-click-sound" preload="auto"></audio>
-            <audio src="assets/sound/lock.mp3" id="lock-sound" preload="auto"></audio>
-            <audio src="assets/sound/typing-click.mp3" id="typing-click-sound" preload="auto"></audio>
+                  <audio src="assets/sound/menu.mp3" id="menu-sound" preload="auto"></audio>
+                  <audio src="assets/sound/pop-up.mp3" id="popup-sound" preload="auto"></audio>
+                  <audio src="assets/sound/sharp.mp3" id="sharp-sound" preload="auto"></audio>
+                  <audio src="assets/sound/alert.mp3" id="alert-sound" preload="auto"></audio>
+                  <audio src="assets/sound/light-switch.mp3" id="light-switch-sound" preload="auto"></audio>
+                  <audio src="assets/sound/pop-402324.mp3" id="pop-sound" preload="auto"></audio>
+                  <audio src="assets/sound/swoosh.mp3" id="swoosh-sound" preload="auto"></audio>
+                  <audio src="assets/sound/toggle-switch.mp3" id="toggle-switch-sound" preload="auto"></audio>
+                  <audio src="assets/sound/mouse-click.mp3" id="mouse-click-sound" preload="auto"></audio>
+                  <audio src="assets/sound/lock.mp3" id="lock-sound" preload="auto"></audio>
+                  <audio src="assets/sound/typing-click.mp3" id="typing-click-sound" preload="auto"></audio>
 
-            <!-- External Libraries -->
-            <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
-            <script src="ntc.js"></script>
+                  <!-- External Libraries -->
+                  <script src="https://cdn.jsdelivr.net/npm/tinycolor2@1.4.2/dist/tinycolor-min.js"></script>
+                  <script src="ntc.js"></script>
 
 
-            <script src="script.js" defer></script>
-            <script src="autoTheme.js" defer></script>
-            <script src="gradient-color.js" defer></script>
-            <script src="colors-list.js" defer></script>
-            <script src="merge-mode.js" defer></script>
-            <script src="filter-system.js" defer></script>
-            <script src="right-penal.js" defer></script>
-            <script src="picker.js" defer></script>
+                  <script src="script.js" defer></script>
+                  <script src="autoTheme.js" defer></script>
+                  <script src="gradient-color.js" defer></script>
+                  <script src="colors-list.js" defer></script>
+                  <script src="merge-mode.js" defer></script>
+                  <script src="filter-system.js" defer></script>
+                  <script src="right-penal.js" defer></script>
+                  <script src="picker.js" defer></script>
 
-            <!-- ztext.js -->
-            <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
+                  <!-- ztext.js -->
+                  <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>
 
-            <!-- phosphor icons -->
-            <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
+                  <!-- phosphor icons -->
+                  <script src="https://cdn.jsdelivr.net/npm/phosphor-icons@1.4.2/src/index.min.js"></script>
 
-            <!-- ion-icon icons -->
-            <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+                  <!-- ion-icon icons -->
+                  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+                  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-            <!-- Tippy.js CSS -->
-            <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+                  <!-- Tippy.js CSS -->
+                  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
 
-            <!-- Tippy.js JS -->
-            <script src="https://unpkg.com/@popperjs/core@2"></script>
-            <script src="https://unpkg.com/tippy.js@6"></script>
+                  <!-- Tippy.js JS -->
+                  <script src="https://unpkg.com/@popperjs/core@2"></script>
+                  <script src="https://unpkg.com/tippy.js@6"></script>
 
-            <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+                  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
 </body>
 

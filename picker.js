@@ -1,5 +1,5 @@
 // Smart Color Picker Logic
-(function() {
+(function () {
     // Helper: Hex to RGB
     function hexToRgb(hex) {
         const r = parseInt(hex.slice(1, 3), 16);
@@ -33,15 +33,25 @@
     }
 
     async function startSmartPicker() {
-        if (!window.EyeDropper) {
-            alert("Your browser doesn't support the EyeDropper API. Please use Chrome or Edge.");
+        // Just open the frame in start mode
+        loadPickerFrame(null);
+    }
+
+    // Initialize EyeDropper once for better performance
+    const eyeDropper = window.EyeDropper ? new EyeDropper() : null;
+
+    async function launchEyeDropper() {
+        if (!eyeDropper) {
+            if (!window.EyeDropper) {
+                alert("Your browser doesn't support the EyeDropper API. Please use Chrome or Edge.");
+            }
             return;
         }
 
-        const eyeDropper = new EyeDropper();
         try {
             const result = await eyeDropper.open();
-            loadPickerFrame(result.sRGBHex);
+            // Once picked, render the details for that color
+            renderPickerDetails(result.sRGBHex);
         } catch (e) {
             console.log("Picker cancelled or failed");
         }
@@ -54,20 +64,49 @@
         if (!nav) return;
 
         // Populate Content
-        renderPickerDetails(hex);
+        if (hex) {
+            renderPickerDetails(hex);
+        } else {
+            renderPickerStart();
+        }
 
         // Open Frame
         nav.switchFrame(nav.activeFrame, pickerFrame, "forward");
-        nav.previousFrame = nav.mainFrame; 
+        nav.previousFrame = nav.mainFrame;
         nav.activeFrame = pickerFrame;
         nav.updateBackButtonVisibility();
     }
 
+    function renderPickerStart() {
+        const content = document.querySelector(".picker-frame-content");
+        if (!content) return;
+
+        content.innerHTML = `
+            <div class="picker-placeholder">
+                <p>Use the Smart Picker to capture colors from your screen</p>
+                <button class="picker-placeholder-btn" onclick="launchEyeDropper()">
+                    <ion-icon name="eyedrop-outline"></ion-icon>
+                    Open Picker
+                </button>
+            </div>
+        `;
+    }
+
     function renderPickerDetails(hex) {
         const content = document.querySelector(".picker-frame-content");
-        const rgb = hexToRgb(hex);
-        const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-        
+        if (!content) return;
+
+        // Ensure we handle the hex being null/empty from any call
+        if (!hex) {
+            renderPickerStart();
+            return;
+        }
+
+        // Integration of History Tracking
+        if (typeof updatePickerHistory === 'function') {
+            updatePickerHistory(hex);
+        }
+
         // 1. Color Naming via ntc.js
         let colorName = "Unknown Color";
         if (window.ntc) {
@@ -79,22 +118,24 @@
         let shadesHtml = "";
         if (window.getMoreShades) {
             const shadesObj = getMoreShades(hex, 10);
-            const allShades = [...shadesObj.dark, shadesObj.original, ...shadesObj.light];
-            
-            shadesHtml = allShades.map(s => `
-                <div class="shade-item" style="background-color: ${s}; color: ${getContrastColor(s)}">
+            const allShades = [...shadesObj.dark, ...shadesObj.light];
+
+            shadesHtml = allShades.map((s, index) => `
+                <div class="shade-item" style="background-color: ${s}; color: ${getContrastColor(s)}" onclick="copyText('${s}')" title="Click to Copy">
                     ${s}
                 </div>
             `).join("");
         }
 
-        const isSavedHex = isColorAvailableInStorage(hex);
+        const color = tinycolor(hex);
+        const rgb = color.toRgb();
+        const hsl = color.toHsl();
         const rgbStr = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-        const hslStr = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        const hslStr = `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%)`;
 
         content.innerHTML = `
             <!-- 4. Re-select Button (Moved to top) -->
-            <button class="picker-reselect-btn" onclick="startSmartPicker()">
+            <button class="picker-reselect-btn" onclick="launchEyeDropper()">
                 <ion-icon name="eyedrop-outline"></ion-icon>
                 Pick Another Color
             </button>
@@ -161,11 +202,11 @@
 
     // Global Exposure & Event Handlers
     window.startSmartPicker = startSmartPicker;
-    
+
     window.scrollShades = (direction) => {
         const slider = document.getElementById('shades-slider');
         if (!slider) return;
-        
+
         // Calculate scroll amount based on item width (60% + 10px gap)
         const itemWidth = slider.clientWidth * 0.6 + 10;
         slider.scrollBy({
@@ -178,7 +219,7 @@
     window.addEventListener('keydown', (e) => {
         const pickerFrame = document.querySelector("#picker-frame");
         const isActive = pickerFrame && !pickerFrame.classList.contains("hidden");
-        
+
         if (!isActive) return;
 
         if (e.key === "ArrowRight") {
@@ -207,5 +248,91 @@
             navigator.clipboard.writeText(val);
         }
     };
+
+    let pickerHistory = [];
+
+    // Initialize or load from session storage
+    try {
+        const saved = sessionStorage.getItem("picker_history");
+        if (saved) pickerHistory = JSON.parse(saved);
+    } catch (e) { }
+
+    function updatePickerHistory(hex) {
+        hex = hex.toUpperCase();
+        pickerHistory = pickerHistory.filter(c => c !== hex);
+        pickerHistory.unshift(hex);
+        if (pickerHistory.length > 20) pickerHistory.pop();
+
+        sessionStorage.setItem("picker_history", JSON.stringify(pickerHistory));
+        renderHistorySection();
+    }
+
+    function renderHistorySection() {
+        const container = document.querySelector(".history-section-content");
+        if (!container) return;
+
+        if (pickerHistory.length === 0) {
+            container.innerHTML = `<span style="font-size: 10px; opacity: 0.4;">No history yet</span>`;
+            return;
+        }
+
+        container.innerHTML = pickerHistory.map(h => `
+            <div class="history-swatch" 
+                 style="background-color: ${h}" 
+                 onclick="window.renderPickerDetails('${h}')" 
+                 title="${h}">
+            </div>
+        `).join("");
+
+        // Update mask state immediately
+        updateScrollMask(container);
+    }
+
+    function updateScrollMask(el) {
+        if (!el) return;
+        const scrollLeft = el.scrollLeft;
+        const scrollWidth = el.scrollWidth;
+        const clientWidth = el.clientWidth;
+
+        const isAtStart = scrollLeft <= 2;
+        const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 2;
+        const canScroll = scrollWidth > clientWidth;
+
+        if (!canScroll) {
+            el.style.setProperty('--mask-left', 'black');
+            el.style.setProperty('--mask-right', 'black');
+            return;
+        }
+
+        el.style.setProperty('--mask-left', isAtStart ? 'black' : 'transparent');
+        el.style.setProperty('--mask-right', isAtEnd ? 'black' : 'transparent');
+    }
+
+    // Attach listener using delegation or after content is available
+    document.addEventListener("mouseover", (e) => {
+        if (e.target.closest(".history-section-content")) {
+            const el = e.target.closest(".history-section-content");
+            if (!el.dataset.hasScrollListener) {
+                el.addEventListener("scroll", () => updateScrollMask(el));
+                el.dataset.hasScrollListener = "true";
+            }
+        }
+    }, { once: false });
+
+    window.clearPickerHistory = () => {
+        if (confirm("Clear your pick history?")) {
+            pickerHistory = [];
+            sessionStorage.setItem("picker_history", JSON.stringify(pickerHistory));
+            renderHistorySection();
+        }
+    };
+
+    // Global Exposure
+    window.renderPickerDetails = renderPickerDetails;
+    window.startSmartPicker = startSmartPicker;
+    window.launchEyeDropper = launchEyeDropper;
+
+    // Initialize History on Load
+    renderHistorySection();
 
 })();

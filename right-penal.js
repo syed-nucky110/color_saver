@@ -72,7 +72,9 @@ function showMultishadesPlaceholder() {
     placeholder.className = "multishades-placeholder";
     placeholder.innerHTML = `
         <ion-icon name="layers-outline"></ion-icon>
-        <p>Choose a color to get multishades</p>
+        <p>Select a color to get multishades</p>
+        <strong><p>Or</p></strong>
+        <p>Type manually</p>
     `;
     multishadesFrameContent.appendChild(placeholder);
 }
@@ -466,6 +468,12 @@ function loadMultishades(color) {
     emptyMultishadesFrameContent();
     multishadesFrameContent.scrollTo(0, 0);
 
+    // Synchronize the input box if it exists
+    const colorInput = document.getElementById("multishades-color-input");
+    const textInput = document.getElementById("multishades-text-input");
+    if (colorInput && color) colorInput.value = color;
+    if (textInput && color) textInput.value = color.toUpperCase();
+
     const basicShades = getMutlishadesInOneArray(color);
     basicShades.forEach((shade, index) => {
         multishadesFrameContent.appendChild(multishadesColorBoxLayout(shade, index, "box-height-90"));
@@ -530,3 +538,40 @@ window.rightPenalNav = {
 };
 
 // appendSeparator(multishadesFrameContent);
+// Multishades Input Box Logic
+const mColorInput = document.getElementById("multishades-color-input");
+const mTextInput = document.getElementById("multishades-text-input");
+
+if (mColorInput && mTextInput) {
+    mColorInput.addEventListener("change", (e) => {
+        const val = e.target.value;
+        mTextInput.value = val.toUpperCase();
+        loadMultishades(val);
+    });
+
+    mTextInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            const val = e.target.value.trim();
+            if (!val) return;
+
+            const color = tinycolor(val);
+
+            if (color.isValid()) {
+                const hex = color.toHexString();
+                mColorInput.value = hex;
+                loadMultishades(hex);
+                e.target.value = hex.toUpperCase();
+                e.target.blur(); // Optional: remove focus after enter
+            }
+        }
+    });
+
+    // Handle blur for cleanup
+    mTextInput.addEventListener("blur", (e) => {
+        const val = e.target.value.trim();
+        const color = tinycolor(val);
+        if (color.isValid()) {
+            e.target.value = color.toHexString().toUpperCase();
+        }
+    });
+}

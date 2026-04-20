@@ -1773,7 +1773,8 @@ input[type="color"]:focus-visible {
 
 .gradient-color-options .option ion-icon {
       color: #bb86fc !important;
-      -webkit-text-fill-color: #bb86fc !important; /* Ensure visibility */
+      -webkit-text-fill-color: #bb86fc !important;
+      /* Ensure visibility */
       background: none !important;
       -webkit-background-clip: initial !important;
       display: inline-block;
@@ -2111,6 +2112,7 @@ input[type="color"]:focus-visible {
       max-width: calc(100% - 10px);
       width: 600px;
       border-radius: 100px;
+      z-index: 10;
 }
 
 span.input-color-indicator {
@@ -2544,6 +2546,7 @@ button#cross-clr-input-value {
       font-weight: 500;
       overflow: hidden;
       transition: all 0.2s ease;
+      z-index: 0;
 }
 
 .fav-filter-btn span,
@@ -2942,6 +2945,7 @@ body.selection-active .delete-clr-container {
       right: 55px;
       width: 45px;
       height: 45px;
+      z-index: 0;
 }
 
 .move-trash-btn:hover {

@@ -511,6 +511,7 @@ const toggleMagicMode = (forceClose = false) => {
             }, 100);
             quickSaveTriggerBtn.querySelector('ion-icon').setAttribute('name', 'close-outline');
             playSound(swooshSound);
+            disableSaveGradientBtn();
       } else {
             // Close the popup without saving
             quickSaveInput.value = '';
@@ -518,6 +519,7 @@ const toggleMagicMode = (forceClose = false) => {
             quickSavePopup.classList.remove('valid-gradient');
             quickSaveTriggerBtn.querySelector('ion-icon').setAttribute('name', 'flash-outline');
             playSound(swooshSound);
+            enableSaveGradientBtn();
       }
 };
 
