@@ -577,6 +577,26 @@ input {
       z-index: 200;
 }
 
+.eye-dropper-clr-picker-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+.eye-dropper-clr-picker-box button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      --btn-size: 30px;
+      width: var(--btn-size);
+      height: var(--btn-size);
+      background-color: var(--primary-bg-color);
+      background-color: transparent;
+      color: var(--color-picker-clr);
+      font-size: 18px;
+      transition: all .3s ease;
+}
+
 .search-color-box {
       position: relative;
 }
@@ -3225,6 +3245,7 @@ body.selection-active .delete-clr-container {
 }
 
 .content #display-color-box {
+      position: relative;
       background-color: rgba(132, 223, 213, .745);
       /* border-radius: 10px; */
       border-radius: 25px;
@@ -3247,6 +3268,33 @@ body.selection-active .delete-clr-container {
       }
 }
 
+.edit-revert-color-btn-area {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+}
+
+.edit-revert-color-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      color: #ffffff;
+      font-size: 15px;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #bb86fc 5%, var(--accent-color));
+      box-shadow: 0 0 7px #313131;
+}
+
+#edit-revert-color-name-tag {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgb(255, 99, 99);
+      border: 1px solid #00000088;
+}
+
 #display-color-box #color-preview-box {
       display: none;
       position: relative;
@@ -3256,7 +3304,7 @@ body.selection-active .delete-clr-container {
       align-items: center;
       border: 1px solid white;
       width: 100%;
-      height: 100px;
+      height: 120px;
       box-shadow: 0 0 15px black;
       padding: 10px;
       /* animation: smoothApply .3s ease-in-out; */

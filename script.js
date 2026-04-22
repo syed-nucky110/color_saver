@@ -220,6 +220,7 @@ const themeBtns = document.querySelectorAll(".theme-btn");
 const lightThemeBtn = document.getElementById("light-theme-btn");
 const darkThemeBtn = document.getElementById("dark-theme-btn");
 const systemThemeBtn = document.getElementById("system-theme-btn");
+const eyeDropperClrPicker = document.getElementById("eye-dropper-clr-picker");
 
 // function to set tooltip
 function setTooltip(selector, text) {
@@ -883,6 +884,48 @@ const deleteSelectedBtn = document.getElementById("delete-selected-btn");
 const cancelSelectionBtn = document.getElementById("cancel-selection-btn");
 const selectAllBtn = document.getElementById("select-all-btn");
 const contextMultishadesOption = document.getElementById("context-multishades-option");
+const editRevertColorBtn = document.getElementById("edit-revert-color-btn");
+
+// const demoEditedColor = {
+//       previousColor: '#000000',
+//       editedColor: '#ffffff'
+// }
+
+// setEditedColor(demoEditedColor);
+
+
+// remove edit revert color button
+editRevertColorBtn.remove();
+
+function isColorEdited(color) {
+      const editedColors = getEditedColors();
+      for (let i = 0; i < editedColors.length; i++) {
+            if (editedColors[i].previousColor == color) {
+                  return true;
+            }
+      }
+      return false;
+}
+
+function setEditedColor(color) {
+      const editedColors = getEditedColors();
+      editedColors.push(color);
+      sessionStorage.setItem("edited-colors", JSON.stringify(editedColors));
+}
+
+function removeEditedColor(color) {
+      const editedColors = getEditedColors();
+      const index = editedColors.indexOf(color);
+      if (index > -1) {
+            editedColors.splice(index, 1);
+            sessionStorage.setItem("edited-colors", JSON.stringify(editedColors));
+      }
+}
+
+function getEditedColors() {
+      const editedColors = JSON.parse(sessionStorage.getItem("edited-colors")) || [];
+      return editedColors;
+}
 
 let seletionModOn = false;
 let selectedColors = []; // array to store selected colors
@@ -1682,6 +1725,38 @@ function hideGradientBorder() {
 addColorInput.addEventListener("focus", showGradientBorder);
 addColorInput.addEventListener("blur", hideGradientBorder);
 
+// Native EyeDropper API logic for the new button
+eyeDropperClrPicker.addEventListener("click", async () => {
+      // 1. Check if browser supports the API
+      if (!window.EyeDropper) {
+            throwMessage("EyeDropper is not supported in this browser.", "#ff4747", "warning-outline");
+            return;
+      }
+
+      // 2. Create the EyeDropper instance
+      const eyeDropper = new EyeDropper();
+
+      try {
+            // 3. Open the picker (returns a Promise)
+            const result = await eyeDropper.open();
+
+            // 4. Get the selected color
+            const pickedColor = result.sRGBHex.toUpperCase();
+
+            // 5. Populate input and trigger input event to show color indicator
+            addColorInput.value = pickedColor;
+
+            addColorInput.dispatchEvent(new Event("input"));
+
+            // Put focus back on the input for a seamless experience
+            focusInput(false);
+
+      } catch (error) {
+            // 6. Handle user cancellation (pressing escape)
+            console.log("EyeDropper cancelled by user.");
+      }
+});
+
 // update color counter
 savedColorCounting.textContent = allColors.length;
 
@@ -2018,8 +2093,10 @@ function saveColorInStorage(getColor) {
       updateColorCounter();
 }
 
-function focusInput() {
-      addColorInput.value = "";
+function focusInput(doEmpty = true) {
+      if (doEmpty) {
+            addColorInput.value = "";
+      }
       addColorInput.focus();
 }
 
