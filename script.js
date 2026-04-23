@@ -804,7 +804,7 @@ function removeFullScreen() {
       localStorage.setItem("screen-size", "normal");
 
       disarrangeDispalycontainerSize();
-      // restoreContainerSize(); // Restore saved size when exiting fullscreen
+      restoreContainerSize(); // Restore saved size when exiting fullscreen
 }
 
 function enableDisableBtn() {
@@ -3399,7 +3399,7 @@ window.addEventListener("mousemove", (event) => {
 const observer = new ResizeObserver(entries => {
       if (localStorage.getItem("autoGridView") == "enable") {
             for (let entry of entries) {
-                  if (entry.contentRect.width >= 700) {
+                  if (entry.contentRect.width >= 550) {
                         // localStorage.setItem("layout-type", "grid");
                         setLayoutType("grid");
                   } else {
