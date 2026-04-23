@@ -936,7 +936,7 @@ window.addEventListener("keyup", (event) => {
             seletionModOn = true;
             selectionBar.style.display = "flex";
             document.body.classList.add("selection-active");
-            selectAllColors();
+            toggleSelectAllColors();
       }
 })
 
@@ -945,6 +945,18 @@ contextSeletOption.addEventListener("click", () => {
       seletionModOn = true;
       selectionBar.style.display = "flex"; // show bar
       document.body.classList.add("selection-active");
+
+      // Automatically select the color that triggered the context menu
+      if (choosedCurrentColorBox) {
+            const colorId = choosedCurrentColorBox.getAttribute("data-id");
+            if (!choosedCurrentColorBox.classList.contains("selected")) {
+                  choosedCurrentColorBox.classList.add("selected");
+                  if (!selectedColors.includes(colorId)) {
+                        selectedColors.push(colorId);
+                  }
+            }
+      }
+
       updateSelectionCount();
 });
 
@@ -952,11 +964,11 @@ contextSeletAllOption.addEventListener("click", () => {
       seletionModOn = true;
       selectionBar.style.display = "flex"; // show bar
       document.body.classList.add("selection-active");
-      selectAllColors();
+      toggleSelectAllColors();
 });
 
 selectAllBtn.addEventListener("click", () => {
-      selectAllColors();
+      toggleSelectAllColors();
 });
 
 contextEditOption.addEventListener("click", () => {
@@ -1004,17 +1016,34 @@ function selectAllColors() {
       const savedColors = document.querySelectorAll(".saved-clr");
 
       savedColors.forEach(colorBox => {
-            const color = colorBox.getAttribute("data-id"); // assume har colorBox me ek data-color attribute hai
+            const color = colorBox.getAttribute("data-id");
 
-            // Agar pehle se selected nahi hai to add karo
             if (!colorBox.classList.contains("selected")) {
                   colorBox.classList.add("selected");
                   selectedColors.push(color);
             }
       });
 
-      updateColorCounter(); // count update karna ho to
-      updateSelectionCount(); // count update karna ho to
+      updateSelectionCount();
+}
+
+function deselectAllColors() {
+      const savedColors = document.querySelectorAll(".saved-clr");
+      selectedColors = [];
+      savedColors.forEach(colorBox => {
+            colorBox.classList.remove("selected");
+      });
+      updateSelectionCount();
+}
+
+function toggleSelectAllColors() {
+      const total = document.querySelectorAll(".saved-clr").length;
+
+      if (selectedColors.length === total && total > 0) {
+            deselectAllColors();
+      } else {
+            selectAllColors();
+      }
 }
 
 
@@ -1022,6 +1051,32 @@ function selectAllColors() {
 function updateSelectionCount() {
       const total = document.querySelectorAll(".saved-clr").length;
       selectionCount.innerText = `${selectedColors.length} / ${total}`;
+
+      // Check if all colors are selected
+      const isAllSelected = selectedColors.length === total && total > 0;
+
+      // Update Selection Bar Button
+      const barBtnText = selectAllBtn.querySelector("span");
+      const barBtnIcon = selectAllBtn.querySelector("ion-icon");
+
+      // Update Context Menu Option
+      const ctxOptionText = contextSeletAllOption.querySelector("span");
+      const ctxOptionIcon = contextSeletAllOption.querySelector("ion-icon");
+
+      if (isAllSelected) {
+            if (barBtnText) barBtnText.innerText = "Deselect All";
+            if (barBtnIcon) barBtnIcon.setAttribute("name", "close-circle-outline");
+
+            if (ctxOptionText) ctxOptionText.innerText = "Deselect All";
+            if (ctxOptionIcon) ctxOptionIcon.setAttribute("name", "close-circle-outline");
+      } else {
+            if (barBtnText) barBtnText.innerText = "Select All";
+            if (barBtnIcon) barBtnIcon.setAttribute("name", "checkmark-done-outline");
+
+            if (ctxOptionText) ctxOptionText.innerText = "Select All";
+            if (ctxOptionIcon) ctxOptionIcon.setAttribute("name", "checkmark-done-outline");
+      }
+      if (ctxOptionIcon && ctxOptionIcon.classList.contains('icon')) ctxOptionIcon.classList.add('icon')
 }
 
 // Delete only selected colors with Trash Limit check
