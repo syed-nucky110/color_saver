@@ -3780,8 +3780,13 @@ body.selection-active .delete-clr-container {
 }
 
 .success-message-layout ion-icon {
-      color: #00ff00;
+      /* color: #00ff00; */
+      color: #ffffff;
       font-size: 25px;
+}
+
+.success-message-layout span {
+      color: #ffffff;
 }
 
 .selected {

@@ -234,10 +234,11 @@ function setTooltip(selector, text) {
 }
 
 // Calling functions to set tooltip
-setTooltip('#clr-picker', "Pick Color");
+setTooltip('#clr-picker', "Choose Color");
 setTooltip('#preview-box-color-picker', "Pick Color");
-setTooltip('#label-clr-picker', "Pick Color");
+setTooltip('#label-clr-picker', "Choose Color");
 setTooltip('.input-color-indicator', 'Color Indicator');
+setTooltip('#eye-dropper-clr-picker', 'Pick Color');
 
 
 // Global Keyboard Shortcuts
@@ -1484,7 +1485,7 @@ function showSuccessMessage(text) {
                         popupWrapper.remove();
                   }
             });
-      }, 2500); // visible for 1s 5ms
+      }, 2500); // visible for 2s 500ms
 }
 
 function fallbackCopy(text) {
@@ -2134,7 +2135,7 @@ function createColorBox(color, animate = false, skipReposition = false, cachedPi
             savedColorList.prepend(colorBox);
       }
 
-      colorBox.scrollIntoView({ behavior: "smooth", block: "start" });
+      colorBox.scrollIntoView({ behavior: "instant", block: "start" });
 
       // Hide color indicator when it is visible
       hideColorIndicator();

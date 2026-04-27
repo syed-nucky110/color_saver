@@ -487,12 +487,16 @@ function loadMultishades(color) {
 
     getAllBtn.addEventListener("click", () => {
         getAllBtn.remove();
-        appendSeparator(multishadesFrameContent);
+        const separator = appendSeparator(multishadesFrameContent);
         const firstAllShade = renderCompleteShades(color);
 
-        if (firstAllShade) {
+        // Scroll to the separator instead of the first shade 
+        // to ensure we see the 'boundary' and avoid clipping at the top.
+        const scrollTarget = separator || firstAllShade;
+
+        if (scrollTarget) {
             setTimeout(() => {
-                firstAllShade.scrollIntoView({
+                scrollTarget.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -517,7 +521,9 @@ function renderCompleteShades(color) {
 }
 
 function appendSeparator(appendIn) {
-    appendIn.appendChild(createSeparator());
+    const separator = createSeparator();
+    appendIn.appendChild(separator);
+    return separator;
 }
 
 window.loadMultishades = loadMultishades;
