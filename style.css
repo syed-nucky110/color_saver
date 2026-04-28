@@ -487,6 +487,8 @@ input {
             height .3s ease,
             width .3s ease;
       container: wrapper/inline-size;
+      position: relative;
+      z-index: 1000;
 }
 
 .display-container {
@@ -3069,16 +3071,16 @@ body.selection-active .delete-clr-container {
             transform: translateY(0) rotate(0deg);
       }
 
-      10% {
-            transform: translateY(20vh) rotate(-10deg);
+      30% {
+            transform: translateY(30vh) rotate(-5deg);
       }
 
       60% {
-            transform: translateY(60vh) rotate(-13deg);
+            transform: translateY(60vh) rotate(-10deg);
       }
 
       100% {
-            transform: translateY(100vh) rotate(-13deg);
+            transform: translateY(100vh) rotate(-10deg);
       }
 }
 
@@ -3252,6 +3254,7 @@ body.selection-active .delete-clr-container {
       box-shadow: 0 0 5px black;
       padding: 10px;
       height: 100%;
+      overflow: hidden;
       animation: .3s ease;
       animation: smooth-closer .4s ease;
 }
@@ -3308,7 +3311,7 @@ body.selection-active .delete-clr-container {
       box-shadow: 0 0 15px black;
       padding: 10px;
       /* animation: smoothApply .3s ease-in-out; */
-      animation: smooth-closer .3s ease-in-out;
+      animation: smoothDown .5s ease-in-out;
       transition:
             opacity .3s ease-in-out,
             background-color .5s ease;

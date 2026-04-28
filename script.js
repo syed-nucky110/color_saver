@@ -1417,13 +1417,13 @@ function closeColorEditor() {
 
       hideClrPopUpErrorMessage();
 
-      // choosedColorBox.style.animation = "drop .7s ease";
-      choosedColorBox.style.animation = "smoothHide 0.2s ease";
+      choosedColorBox.style.animation = "drop .3s linear";
+      // choosedColorBox.style.animation = "smoothHide 0.2s ease";
       disableEditing();
       setTimeout(() => {
             choosedColorContainer.style.display = "none";
             choosedColorBox.style.animation = "";
-      }, 190);
+      }, 290);
 
       colorNameInput.disabled = true;
 }
@@ -2855,7 +2855,7 @@ window.addEventListener("keyup", (event) => {
 
 trashBinBtn.addEventListener("click", () => {
       openTrashColorBox();
-      hideMenuBar();
+      // hideMenuBar();
 });
 
 trashColorContainer.addEventListener("click", (event) => {
@@ -2985,11 +2985,12 @@ function openTrashColorBox() {
 }
 
 function closeTrashColorBox() {
-      trashColorBox.style.animation = "bounce .6s ease";
+      // trashColorBox.style.animation = "bounce .6s ease";
+      trashColorBox.style.animation = "drop .3s linear";
       setTimeout(() => {
             trashColorContainer.style.display = "none";
             trashColorBox.style.animation = "";
-      }, 300);
+      }, 295);
       isTrashOpen = !isTrashOpen;
 }
 
@@ -3251,11 +3252,12 @@ function toggleShortcutBox() {
             shorcutContainer.style.display = "flex";
       }
       else {
-            shortcutBox.style.animation = "bounce .6s ease";
+            // shortcutBox.style.animation = "bounce .6s ease";
+            shortcutBox.style.animation = "drop .3s linear";
             setTimeout(() => {
                   shorcutContainer.style.display = "none";
                   shortcutBox.style.animation = "";
-            }, 300);
+            }, 295);
       }
 }
 
@@ -3385,11 +3387,13 @@ function toggleSettingsBox() {
             settingsContainer.style.display = "flex";
       }
       else {
-            settingsBox.style.animation = "bounce .6s ease";
+            // settingsBox.style.animation = "bounce .6s ease";
+            settingsBox.style.animation = "drop .3s linear";
             setTimeout(() => {
                   settingsContainer.style.display = "none";
                   settingsBox.style.animation = "";
-            }, 300);
+            }, 295);
+            // }, 300);
       }
 }
 
