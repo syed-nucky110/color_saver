@@ -245,6 +245,7 @@
       right: 0;
       /* height: fit-content; */
       width: 80dvw !important;
+      max-width: calc(100% - 40px);
       transform: translateX(-50%);
       margin: 0;
       backdrop-filter: blur(10px);
@@ -262,6 +263,10 @@
 }
 
 .sidebar-mode #preview-on-frame-btn {
+      display: none;
+}
+
+.sidebar-mode #quick-save-trigger-btn {
       display: none;
 }
 

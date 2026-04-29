@@ -3066,7 +3066,7 @@ body.selection-active .delete-clr-container {
       }
 }
 
-@keyframes drop {
+@keyframes drop-anti-clockwise {
       0% {
             transform: translateY(0) rotate(0deg);
       }
@@ -3081,6 +3081,24 @@ body.selection-active .delete-clr-container {
 
       100% {
             transform: translateY(100vh) rotate(-10deg);
+      }
+}
+
+@keyframes drop-clockwise {
+      0% {
+            transform: translateY(0) rotate(0deg);
+      }
+
+      30% {
+            transform: translateY(30vh) rotate(5deg);
+      }
+
+      60% {
+            transform: translateY(60vh) rotate(10deg);
+      }
+
+      100% {
+            transform: translateY(100vh) rotate(10deg);
       }
 }
 

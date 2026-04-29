@@ -102,6 +102,40 @@ const ColorStore = (() => {
 //       event.preventDefault();
 // });
 
+
+function getDropAnimation(container, box, time = 230) {
+
+      let animationName = getDropAnimationName();
+
+      // hide container and box after animation completed
+      setTimeout(() => {
+            container.style.display = "none";
+            box.style.animation = "";
+            box.style.transformOrigin = "";
+      }, time - 10);
+
+      // return animation
+      return `${animationName} ${time}ms linear`;
+}
+
+function getDropAnimationName() {
+      let animationNames = [
+            "drop-clockwise",
+            "drop-anti-clockwise"
+      ]
+
+      return animationNames[Math.floor(Math.random() * animationNames.length)];
+}
+
+function getTrasnformOrigin() {
+      let origines = [
+            'top left',
+            'top right',
+      ]
+
+      return origines[Math.floor(Math.random() * origines.length)];
+}
+
 let cursorGlow = document.querySelector('.cursor-glow');
 document.addEventListener('mousemove', (event) => {
       cursorGlow.style.opacity = 1;
@@ -248,6 +282,8 @@ document.addEventListener('keyup', (e) => {
 
       const key = e.key.toLowerCase();
 
+      e.preventDefault();
+
       if (key === 'm') {
             const mBtn = document.querySelector('.multishades-btn');
             return; // stop the function from running
@@ -262,6 +298,8 @@ document.addEventListener('keyup', (e) => {
             addColorInput.focus();
       }
 });
+
+
 
 // Search functionality
 function handleSearch(event) {
@@ -1417,13 +1455,13 @@ function closeColorEditor() {
 
       hideClrPopUpErrorMessage();
 
-      choosedColorBox.style.animation = "drop .3s linear";
-      // choosedColorBox.style.animation = "smoothHide 0.2s ease";
+      choosedColorBox.style.animation = getDropAnimation(choosedColorContainer, choosedColorBox);
       disableEditing();
-      setTimeout(() => {
-            choosedColorContainer.style.display = "none";
-            choosedColorBox.style.animation = "";
-      }, 290);
+      // choosedColorBox.style.animation = "smoothHide 0.2s ease";
+      // setTimeout(() => {
+      //       choosedColorContainer.style.display = "none";
+      //       choosedColorBox.style.animation = "";
+      // }, 190);
 
       colorNameInput.disabled = true;
 }
@@ -2985,12 +3023,12 @@ function openTrashColorBox() {
 }
 
 function closeTrashColorBox() {
+      trashColorBox.style.animation = getDropAnimation(trashColorContainer, trashColorBox, 200);
       // trashColorBox.style.animation = "bounce .6s ease";
-      trashColorBox.style.animation = "drop .3s linear";
-      setTimeout(() => {
-            trashColorContainer.style.display = "none";
-            trashColorBox.style.animation = "";
-      }, 295);
+      // setTimeout(() => {
+      //       trashColorContainer.style.display = "none";
+      //       trashColorBox.style.animation = "";
+      // }, 195);
       isTrashOpen = !isTrashOpen;
 }
 
@@ -3252,12 +3290,12 @@ function toggleShortcutBox() {
             shorcutContainer.style.display = "flex";
       }
       else {
+            shortcutBox.style.animation = getDropAnimation(shorcutContainer, shortcutBox);
             // shortcutBox.style.animation = "bounce .6s ease";
-            shortcutBox.style.animation = "drop .3s linear";
-            setTimeout(() => {
-                  shorcutContainer.style.display = "none";
-                  shortcutBox.style.animation = "";
-            }, 295);
+            // setTimeout(() => {
+            //       shorcutContainer.style.display = "none";
+            //       shortcutBox.style.animation = "";
+            // }, 145);
       }
 }
 
@@ -3388,11 +3426,10 @@ function toggleSettingsBox() {
       }
       else {
             // settingsBox.style.animation = "bounce .6s ease";
-            settingsBox.style.animation = "drop .3s linear";
-            setTimeout(() => {
-                  settingsContainer.style.display = "none";
-                  settingsBox.style.animation = "";
-            }, 295);
+            settingsBox.style.animation = getDropAnimation(settingsContainer, settingsBox);
+            // setTimeout(() => {
+            //       settingsContainer.style.display = "none";
+            //       settingsBox.style.animation = "";
             // }, 300);
       }
 }

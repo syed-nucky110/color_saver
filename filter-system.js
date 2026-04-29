@@ -43,7 +43,7 @@ window.addEventListener('click', (e) => {
 if (mobileFilterToggleBtn) {
     mobileFilterToggleBtn.addEventListener('click', () => {
         filterSidebar.classList.toggle('shutter-open');
-        
+
         if (filterSidebar.classList.contains('shutter-open')) {
             mobileFilterToggleText.innerText = "Hide Filters";
         } else {
@@ -60,7 +60,7 @@ filterChips.forEach(chip => {
 
         // Toggle active state within the same category
         const siblingChips = chip.parentElement.querySelectorAll('.filter-chip');
-        
+
         if (chip.classList.contains('active')) {
             chip.classList.remove('active');
             activeFilters[category] = null;
@@ -69,9 +69,9 @@ filterChips.forEach(chip => {
             chip.classList.add('active');
             activeFilters[category] = value;
         }
-        
+
         // Instant preview in the right pane
-        applyFilters(); 
+        applyFilters();
     });
 });
 
@@ -107,7 +107,7 @@ function applyFilters() {
     colorBoxes.forEach(box => {
         const colorValue = box.dataset.color || box.style.backgroundColor;
         const color = typeof tinycolor !== 'undefined' ? tinycolor(colorValue) : null;
-        
+
         if (!color || !color.isValid()) return;
 
         let matches = true;
@@ -115,7 +115,7 @@ function applyFilters() {
         if (activeFilters.format) {
             const desiredFormat = activeFilters.format; // 'hex', 'rgb', 'hsl', 'name'
             const actualFormat = color.getFormat(); // 'hex', 'rgb', 'hsl', 'name'
-            
+
             if (desiredFormat !== actualFormat) {
                 // Special case for color names like 'red' being parsed differently sometimes
                 if (desiredFormat === 'name' && actualFormat !== 'name') matches = false;
@@ -164,7 +164,7 @@ function renderResults(colors) {
     }
 
     resultsCount.innerText = `Results: ${colors.length} colors found`;
-    
+
     resultsGrid.innerHTML = colors.map(clr => {
         const contrastColor = typeof getContrastColor === 'function' ? getContrastColor(clr.value) : '#fff';
         return `
@@ -209,7 +209,7 @@ function applyFiltersToMainApp() {
     colorBoxes.forEach(box => {
         const colorValue = box.dataset.color || box.style.backgroundColor;
         const color = typeof tinycolor !== 'undefined' ? tinycolor(colorValue) : null;
-        
+
         if (!color || !color.isValid()) {
             box.style.display = 'flex'; // Show if error
             visibleCount++;
@@ -255,7 +255,7 @@ function applyFiltersToMainApp() {
 function updateFilterBadges() {
     const preview = document.getElementById('active-filters-preview');
     const activeEntries = Object.entries(activeFilters).filter(([_, v]) => v !== null);
-    
+
     if (activeEntries.length === 0) {
         preview.innerHTML = '<span style="color: var(--filter-category-title); font-size: 13px;">No filters active</span>';
         return;
