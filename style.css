@@ -1906,35 +1906,6 @@ input[type="color"]:focus-visible {
       align-items: center;
 }
 
-.effects .hover-effect-visible-check {
-      color: rgba(0, 0, 0, 0.467);
-      font-size: 25px;
-}
-
-.effects #hover-effect-option {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      gap: 15px;
-      width: 100%;
-      padding: 8px;
-}
-
-#hover-effect-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px;
-}
-
-#hover-effect-option {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      padding: 5px;
-}
 
 .features {
       padding: 8px;
@@ -1956,11 +1927,6 @@ input[type="color"]:focus-visible {
       background-color: var(--nav-option-bg-color);
 }
 
-.effects .all-options-hover-effect:hover {
-      backdrop-filter: brightness(50%);
-      -webkit-backdrop-filter: brightness(50%);
-      background-color: var(--nav-option-bg-color);
-}
 
 .shortcut-options {
       padding: 8px;
@@ -2836,20 +2802,6 @@ button#cross-clr-input-value {
       border-radius: 100px;
 }
 
-.hover-effect {
-      transition: translate 0.05s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.hover-effect:hover {
-      /* outline: 2px solid var(--text-color); */
-      /* outline-offset: 2px; */
-      transform: scale(1.03);
-      /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); */
-}
-
-.hover-effect:active {
-      transform: scale(0.98);
-}
 
 .saved-clr .color-name {
       font-size: 20px;
