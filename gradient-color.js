@@ -375,7 +375,7 @@ function openGradientMode() {
             AppWrapper.style.transform = "scale(0.8)";
             AppWrapper.style.opacity = "0";
             gradientWrapper.style.opacity = "1";
-            document.querySelector('head title').textContent = "ShadeSphare - Gradients"
+            document.querySelector('head title').textContent = "Gradient - ShadeSphare"
             gradientWrapper.style.transform = "scale(1)";
       }, 100);
 }

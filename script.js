@@ -2468,13 +2468,12 @@ function connectionCheck() {
 }
 
 function connectionLost() {
-      return throwMessage("Connection Lost", "#ff0000", "warning-outline");
+      return throwMessage("Connection Lost", "#ff0000", "ph-wifi-slash", "Check your internet connection");
       // connectionLostContainer.style.display = "flex";
 }
 
 function connectionFound() {
-      // return throwMessage("Connection Recovered", "#00ff00", "checkmark-circle-outline");
-      connectionLostContainer.style.display = "none";
+      // connectionLostContainer.style.display = "none";
 }
 
 let checkIcon = document.querySelector("#hover-effect-check-icon");
@@ -2598,7 +2597,7 @@ window.addEventListener("keyup", (event) => {
 function OnResizer() {
       const screenSize = localStorage.getItem("screen-size") || "";
       if (screenSize === "full") {
-            return throwMessage("Exit Fullscreen First", "white");
+            return throwMessage("Cannot use", "#ffffff", 'alert-circle-outline', 'Exit Full screen first to use');
       }
       resizeBtn.classList.add("selected-nav-option")
       favColorListContainer.classList.add("resizable");
@@ -2731,23 +2730,45 @@ if (quickPreviewToggleThumb) {
 }
 
 // throwMessage("Error message handling");
-function throwMessage(text, color, icon = "alert-circle-outline") {
+function throwMessage(text, color, icon = "alert-circle-outline", description = undefined) {
 
       playSound(alertSound);
 
-      // If the message is already showing, remove it before showing a new one
+      // make icon without outline if it is already outline
       if (icon.includes("outline")) {
             icon = icon.replace("-outline", "");
       }
 
       let box = document.createElement("div");
-      let textBox = document.createElement("p");
-      let setIcon = document.createElement("ion-icon");
+      let textBox = document.createElement("div");
+      let msgTitle = document.createElement('div');
+      let msgDescription = document.createElement('p')
+
+      let setIcon;
+
+      // create icon according to icon library name (icon name must contain 'ph-' for ph-icon library)
+      if (icon.includes("ph-")) {
+            setIcon = document.createElement("i");
+      } else {
+            setIcon = document.createElement("ion-icon");
+      }
+      let closeBtn = document.createElement("div");
 
       box.classList.add("message-layout", "bubbling");
+      textBox.classList.add('msg-text-area');
+      msgTitle.classList.add('msg-title');
+      msgDescription.classList.add('msg-desc');
+      setIcon.classList.add('msg-icon');
+      closeBtn.classList.add("msg-close-btn");
 
-      box.addEventListener('click', () => {
-            box.style.animation = bubblingAnimation;
+      closeBtn.innerHTML = "<ion-icon name='close-outline'></ion-icon>";
+
+      closeBtn.addEventListener("click", () => {
+            box.style.animation = "swipeRight .3s ease";
+
+            box.addEventListener("animationend", () => {
+                  box.remove();
+            })
       })
 
       box.addEventListener('animationend', (e) => {
@@ -2756,26 +2777,63 @@ function throwMessage(text, color, icon = "alert-circle-outline") {
             }
       })
 
-      textBox.innerText = text;
-      textBox.style.color = "white";
-      setIcon.style.color = color;
-      setIcon.setAttribute("name", icon);
+      msgTitle.innerText = text;
+      msgDescription.innerText = description != undefined ? description : "";
 
+      msgTitle.style.color = "#ffffff";
+      msgDescription.style.color = "#ffffff";
+      setIcon.style.color = color;
+
+      // set icon according to icon library name
+      if (icon.includes("ph-")) {
+            setIcon.classList.add("ph", icon);
+      } else {
+            setIcon.setAttribute("name", icon);
+      }
+
+      textBox.append(msgTitle);
+      if (description != undefined) textBox.append(msgDescription);
       box.append(setIcon);
       box.append(textBox);
+      box.append(closeBtn);
       document.body.append(box);
 
       box.style.animation = "swipeDown .3s ease";
 
-      setTimeout(() => {
+      let timeoutId;
+      let startTime = Date.now();
+      let remainingTime = 5000;
+
+      const removeMessage = () => {
             box.style.animation = "swipeRight .3s ease";
-
             box.addEventListener("animationend", () => {
-                  box.remove();
-            })
-      }, 2000);
-}
+                  if (box) box.remove();
+            });
+      };
 
+      const startTimer = () => {
+            timeoutId = setTimeout(removeMessage, remainingTime);
+      };
+
+      const pauseTimer = () => {
+            clearTimeout(timeoutId);
+            remainingTime -= (Date.now() - startTime);
+      };
+
+      const resumeTimer = () => {
+            startTime = Date.now();
+            startTimer();
+      };
+
+      // Start the timer initially
+      startTimer();
+
+      // Pause the timer when the user hovers over the message
+      box.addEventListener("mouseenter", pauseTimer);
+
+      // Resume the timer when the hover goes back (mouse leaves)
+      box.addEventListener("mouseleave", resumeTimer);
+}
 
 document.addEventListener("keyup", (event) => {
       if (event.shiftKey && event.altKey && event.key.toLowerCase() === "d") {

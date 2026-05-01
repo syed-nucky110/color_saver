@@ -194,6 +194,8 @@
       --shortcuts-key-clr: #191919;
       --shortcuts-key-bg-clr: #212121;
       --color-picker-clr: #212121;
+      --setting-list-item-hover-bg: #F0F0F0;
+
       /* --accent-color: #0fffff; */
       --accent-color: #00BC7D;
       --accent-color-rgb: 0, 188, 125;
@@ -249,6 +251,7 @@
       --shortcuts-key-clr: rgba(255, 255, 255, 0.824);
       --shortcuts-key-bg-clr: rgba(0, 0, 0, 0.508);
       --color-picker-clr: gray;
+      --setting-list-item-hover-bg: #363636;
       /* --accent-color: #00ffff; */
       --accent-color-rgb: 0, 188, 125;
       /* Match the active accent-color */
@@ -3843,7 +3846,8 @@ body.selection-active .delete-clr-container {
       right: 32px; */
       top: 20px;
       right: 20px;
-      padding: 16px 30px;
+      padding: 10px 20px;
+      min-height: 60px;
       justify-content: center;
       align-items: center;
       /* background: linear-gradient(135deg, rgba(35, 37, 38, 0.95), rgb(110, 112, 114)); */
@@ -3855,6 +3859,8 @@ body.selection-active .delete-clr-container {
       overflow: hidden;
       /* border-left: 5px solid var(--accent-color); */
       z-index: 999999999;
+      user-select: none;
+      -webkit-user-select: none;
 }
 
 .message-layout::before {
@@ -3875,7 +3881,11 @@ body.selection-active .delete-clr-container {
       height: 5px;
       width: 0%;
       background-color: var(--accent-color);
-      animation: loading-less 1.8s linear;
+      animation: loading-less 4.9s linear;
+}
+
+.message-layout:hover::after {
+      animation-play-state: paused;
 }
 
 @keyframes loading-less {
@@ -3888,8 +3898,42 @@ body.selection-active .delete-clr-container {
       }
 }
 
-.message-layout ion-icon {
+.message-layout ion-icon.msg-icon {
       font-size: 25px;
+      flex-shrink: 0;
+}
+
+.msg-close-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+}
+
+.msg-text-area .msg-desc {
+      font-size: 13px;
+      opacity: 0.5;
+      margin-top: 2px;
+      /* color: #ffffff77; */
+}
+
+.msg-close-btn ion-icon {
+      font-size: 18px;
+      color: white;
+}
+
+@media (max-width: 768px) {
+      .message-layout {
+            font-size: 15px;
+            max-width: 90%;
+      }
+
+      .message-layout ion-icon.msg-icon {
+            font-size: 20px;
+      }
+
+      .msg-desc {
+            font-size: 12px !important;
+      }
 }
 
 @keyframes swipeDown {
@@ -4810,6 +4854,11 @@ i {
       gap: 10px;
       justify-content: space-between;
       align-items: center;
+      transition: all .2s ease;
+}
+
+#settings-list .settings-list-item:hover {
+      background-color: var(--setting-list-item-hover-bg);
 }
 
 @media (max-width: 786px) {
