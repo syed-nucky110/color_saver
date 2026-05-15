@@ -2472,6 +2472,42 @@ function connectionFound() {
       // connectionLostContainer.style.display = "none";
 }
 
+let checkIcon = document.querySelector("#hover-effect-check-icon");
+let hoverEffectBtn = document.getElementById("hover-effect-btn");
+
+
+// window.addEventListener("resize", () => {
+//       if (window.innerWidth <= 768) {
+//             hoverEffectBtn.classList.remove("hover-on");
+//       } else {
+//             hoverEffectBtn.classList.add("hover-on");
+//       }
+//       changeHover();
+// });
+
+function changeHover() {
+      let colorBoxs = document.querySelectorAll(".saved-clr");
+
+      hoverEffectBtn.classList.toggle("hover-on");
+      const hoverEffectOption = document.getElementById("hover-effect-option");
+      if (hoverEffectOption) {
+            hoverEffectOption.classList.toggle("selected-nav-option");
+      }
+
+      if (hoverEffectBtn.classList.contains("hover-on")) {
+            // checkIcon.style.color = "";
+            colorBoxs.forEach(box => {
+                  box.classList.remove("hover-effect");
+            });
+      }
+      else {
+            // checkIcon.style.color = "#00ff00";
+            colorBoxs.forEach(box => {
+                  box.classList.add("hover-effect");
+            });
+      }
+}
+
 let resizerIsOn = false;
 let resizeBtn = document.getElementById("resize-color-list-btn");
 
@@ -2731,15 +2767,8 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
       box.addEventListener('animationend', (e) => {
             if (e.animationName === "bubbling") {
                   box.style.animation = "";
-            } else if (e.animationName === "loading-less") {
-                  box.style.animation = "swipeRight .3s ease";
-                  box.addEventListener("animationend", (e2) => {
-                        if (e2.animationName === "swipeRight" && box) {
-                              box.remove();
-                        }
-                  });
             }
-      });
+      })
 
       msgTitle.innerText = text;
       msgDescription.innerText = description != undefined ? description : "";
@@ -2763,6 +2792,40 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
       document.body.append(box);
 
       box.style.animation = "swipeDown .3s ease";
+
+      let timeoutId;
+      let startTime = Date.now();
+      let remainingTime = 5000;
+
+      const removeMessage = () => {
+            box.style.animation = "swipeRight .3s ease";
+            box.addEventListener("animationend", () => {
+                  if (box) box.remove();
+            });
+      };
+
+      const startTimer = () => {
+            timeoutId = setTimeout(removeMessage, remainingTime);
+      };
+
+      const pauseTimer = () => {
+            clearTimeout(timeoutId);
+            remainingTime -= (Date.now() - startTime);
+      };
+
+      const resumeTimer = () => {
+            startTime = Date.now();
+            startTimer();
+      };
+
+      // Start the timer initially
+      startTimer();
+
+      // Pause the timer when the user hovers over the message
+      box.addEventListener("mouseenter", pauseTimer);
+
+      // Resume the timer when the hover goes back (mouse leaves)
+      box.addEventListener("mouseleave", resumeTimer);
 }
 
 document.addEventListener("keyup", (event) => {
@@ -3600,7 +3663,7 @@ sidebarAllOptions.forEach(option => {
 // sessionStorage clears when browser tab/window is closed, localStorage persists
 function initializeSplashScreen() {
       const hasVisitedInSession = sessionStorage.getItem('hasVisited');
-      // showSplashScreen();
+      // showSplashScreen(); // temporary #########
       // return;  // temporary #########
 
       if (!hasVisitedInSession) {

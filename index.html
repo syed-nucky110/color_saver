@@ -11,6 +11,7 @@
       <link rel="stylesheet" href="right-penal.css">
       <link rel="stylesheet" href="picker.css">
       <link rel="stylesheet" href="color-palette.css">
+      <link rel="stylesheet" href="web-color-picker.css">
 
       <link rel="icon" href="assets/shadeSphare-logo.png">
       <link rel="stylesheet" href="filter-system.css">
@@ -19,8 +20,7 @@
 <body>
       <!-- logo -->
       <div class="logo" draggable="true">
-            <img src="assets/shadeSphare-logo.png" alt="">
-            <p>ShadeSphare</p>
+            <img src="assets/logo/shadeSphare-M-logo-mix.png" alt="">
       </div>
 
       <div class="cursor-glow hidden"></div>
@@ -654,7 +654,8 @@
                                           </li>
                                           <li class="settings-list-item" id="auto-sidebar-setting-item">
                                                 <div class="setting-text">
-                                                      <span class="setting-title">Auto Sidebar</span>
+                                                      <span class="setting-title recom">Auto
+                                                            Sidebar</span>
                                                       <span class="setting-decs">Opens sidebar when you move mouse to
                                                             left
                                                             edge</span>
@@ -750,6 +751,8 @@
                                     </ul>
                               </div>
                         </div>
+
+
                   </div>
 
                   <!-- gradient colors section -->
@@ -997,6 +1000,25 @@
                               fasldjflkasjdflksajdflkj
                         </div>
                   </div>
+
+                  <div id="web-color-picker-container"
+                        class="web-color-picker-container absolute h-full w-full inset-0 hidden opacity-0">
+                        <div id="iframe-holder" class="iframe-holder">
+                              <div class="iframe-options">
+                                    <button class="move-left-right-btn" title="Toggle place at left/right">
+                                          <ion-icon name="chevron-back-outline"></ion-icon>
+                                    </button>
+                                    <div class="iframe-options-main-options">
+                                          <button id="iframe-full-size-toggle-btn">
+                                                <ion-icon name="expand-outline"></ion-icon>
+                                          </button>
+                                          <button id="iframe-close-btn">
+                                                <ion-icon name="close-outline"></ion-icon>
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
             </div>
 
             <div class="right-penal-wrapper closed relative flex flex-grow flex-shrink-0 p-10">
@@ -1030,10 +1052,10 @@
                                                       <span>Smart Picker</span>
                                                 </button>
 
-                                                <!-- <button class="disabled px-10">
-                                                      <ion-icon name="color-palette-outline"></ion-icon>
-                                                      <span>Schemes</span>
-                                                </button> -->
+                                                <button class="web-color-picker-btn px-10">
+                                                      <ion-icon name="browsers-outline"></ion-icon>
+                                                      <span>Web Color Picker</span>
+                                                </button>
                                           </div>
                                     </div>
                               </div>
@@ -1108,17 +1130,124 @@
                                           </div>
                                     </div>
                               </div>
+                              <div id="web-color-picker-frame"
+                                    class="frame web-color-picker-frame h-full w-full flex flex-col hidden">
+                                    <div class="frame-header">
+                                          <button class="mobile-open-close-btn hidden">
+                                                <ion-icon name="menu-outline"></ion-icon>
+                                          </button>
+                                          <div class="btns flex">
+                                                <button class="mobile-back-btn">
+                                                      <ion-icon name="arrow-back-outline"></ion-icon>
+                                                </button>
+                                                <button class="close-right-penal-btn">
+                                                      <ion-icon name="close-outline"></ion-icon>
+                                                </button>
+                                          </div>
+                                    </div>
+                                    <div class="web-color-picker-url-input-wrapper as-placeholder">
+                                          <div class="wcp-input-area">
+                                                <div class="input-box">
+                                                      <input type="text" placeholder="https://www.example.com"
+                                                            id="web-url-input" class="web-url-input" autocomplete="off"
+                                                            suggestion-off>
+                                                      <button id="search-site-btn" class="search-site-btn">
+                                                            <ion-icon name="search-outline"></ion-icon>
+                                                      </button>
+                                                </div>
+                                          </div>
+                                          <div class="note"><i>Note:</i>The <span class="warn-tag">Restricted</span>
+                                                websites are not elegible to
+                                                preview e.g. Google, Facebook etc.</div>
+                                    </div>
+                                    <div class="overflow-shadow h-full web-color-picker-frame-content-wrapper">
+                                          <div class="web-color-picker-frame-content h-full pt-10 px-10">
+                                                <button id="pick-clr-from-web-btn" class="pick-clr-from-web-btn">
+                                                      <ion-icon name="eyedrop-outline"></ion-icon>
+                                                      <span>Pick Color</span>
+                                                </button>
+                                                <div id="picked-clr-from-web-section"
+                                                      class="picked-clr-from-web-section">
+                                                      <div class="section-title">Picked Colors</div>
+                                                      <div class="picked-clr-from-web-section-content">
+                                                            <!-- <div class="picked-color-item">
+                                                                  <div class="picked-color-box">
+                                                                        <span class="picked-color-indicator"></span>
+                                                                        <div class="picked-color-headings">
+                                                                              <span class="picked-color-series">Color
+                                                                                    1</span>
+                                                                              <div class="picked-color-name">#000000
+                                                                              </div>
+                                                                        </div>
+                                                                        <div class="picked-color-options">
+                                                                              <button class="picked-color-copy">
+                                                                                    <ion-icon
+                                                                                          name="copy-outline"></ion-icon>
+                                                                              </button>
+                                                                              <button class="picked-color-save">
+                                                                                    <ion-icon
+                                                                                          name="download-outline"></ion-icon>
+                                                                              </button>
+                                                                              <button class="picked-color-remove">
+                                                                                    <ion-icon
+                                                                                          name="close-outline"></ion-icon>
+                                                                              </button>
+                                                                        </div>
+                                                                  </div>
+                                                            </div> -->
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          <button id="bottom-picker-btn" class="pick-clr-from-web-btn absolute">
+                                                <ion-icon name="add-outline"></ion-icon>
+                                                <span>Add more color</span>
+                                          </button>
+                                    </div>
+                                    <div class="wcp-url-history-wrapper">
+                                          <div class="wcp-url-history-section">
+                                                <div class="wcp-url-history-header">
+                                                      <div class="wcp-url-history-header-title">History</div>
+                                                      <div class="wcp-url-history-header-actions">
+                                                            <button class="wcp-url-history-clear-btn">
+                                                                  <ion-icon name="trash-outline"></ion-icon>
+                                                            </button>
+                                                      </div>
+                                                </div>
+                                                <div class="wcp-url-history-content-wrapper overflow-shadow h-full">
+                                                      <div class="wcp-url-history-content">
+                                                            <!-- <div class="wcp-url-history-item">
+                                                                  <div class="wcp-url-history-item-icon">
+                                                                        <ion-icon name="globe-outline"></ion-icon>
+                                                                  </div>
+                                                                  <div class="wcp-url-history-item-content">
+                                                                        <div class="wcp-url-history-item-title">Example
+                                                                              Domain
+                                                                        </div>
+                                                                        <div class="wcp-url-history-item-url">
+                                                                              https://www.example.com</div>
+                                                                  </div>
+                                                                  <div class="goto-site-icon">
+                                                                        <ion-icon name="open-outline"></ion-icon>
+                                                                  </div>
+                                                            </div> -->
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
                         </div>
                   </div>
 
                   <div class="splash-screen hidden">
                         <div class="splash-inner-section">
                               <div id="splash-mask" class="splash-mask"></div>
-                              <div class="splash-logo">
-                                    <div class="color-circle"></div>
+                              <div class="splash-logo-wrapper">
+                                    <div class="splash-logo">
+                                          <!-- <div class="color-circle"></div> -->
+                                    </div>
+                                    <!-- <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer"
+                                          data-z-fade="true" class="splash-text">ShadeSphare</div> -->
                               </div>
-                              <div data data-z-depth="30px" data-z-layers="30" data-z-event="pointer" data-z-fade="true"
-                                    class="splash-text">ShadeSphare</div>
                         </div>
                   </div>
 
@@ -1166,6 +1295,7 @@
                   <script src="right-penal.js" defer></script>
                   <script src="picker.js" defer></script>
                   <script src="color-palette.js" defer></script>
+                  <script src="web-color-picker.js" defer></script>
 
                   <!-- ztext.js -->
                   <script src="https://bennettfeely.com/ztext/js/ztext.min.js"></script>

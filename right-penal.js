@@ -4,6 +4,8 @@ const frameHolder = document.querySelector(".frame-holder");
 const mainFrame = document.querySelector(".main-frame");
 const multishadesFrame = document.querySelector(".multishades-frame");
 const pickerFrame = document.querySelector("#picker-frame");
+const webColorPickerFrame = document.querySelector(".web-color-picker-frame");
+
 const multishadesFrameContent = document.querySelector(".multishades-frame-content");
 const mobileOpenCloseBtn = document.querySelectorAll(".mobile-open-close-btn");
 const closeRightPenalBtn = document.querySelectorAll(".close-right-penal-btn");
@@ -91,7 +93,13 @@ function closeRightPenal() {
     previousFrame = null;
     resetFrames();
     clearMultishadesSelection();
+
+    // Reset Web Color Picker state if function exists
+    if (typeof resetWebColorPickerState === 'function') {
+        resetWebColorPickerState();
+    }
 }
+
 
 function clearMultishadesSelection() {
     document.querySelectorAll(".saved-clr.multishades-selected-clr").forEach(el => {
@@ -176,10 +184,13 @@ function resetFrames() {
     mainFrame.classList.add("hidden");
     multishadesFrame.classList.add("hidden");
     if (pickerFrame) pickerFrame.classList.add("hidden");
+    if (webColorPickerFrame) webColorPickerFrame.classList.add("hidden");
     mainFrame.classList.remove("frame-prev");
     multishadesFrame.classList.remove("frame-prev");
     if (pickerFrame) pickerFrame.classList.remove("frame-prev");
+    if (webColorPickerFrame) webColorPickerFrame.classList.remove("frame-prev");
 }
+
 
 function openMultishadesDirectly(color) {
     rightPenalWrapper.classList.remove("closed");
@@ -459,6 +470,11 @@ function createSeparator() {
 
 
 function loadMultishades(color) {
+
+    // Right penal handler for mobile device
+    if (rightPenalWrapper.classList.contains('mobile-close')) {
+        rightPenalWrapper.classList.remove('mobile-close');
+    }
     // Highlight the selected color box in the list
     clearMultishadesSelection();
     const highlightColor = (typeof color === 'string' && color.startsWith('#')) ? color.toUpperCase() : color;
@@ -537,11 +553,13 @@ window.rightPenalNav = {
     mainFrame,
     multishadesFrame,
     pickerFrame,
+    webColorPickerFrame,
     get activeFrame() { return activeFrame; },
     set activeFrame(val) { activeFrame = val; },
     get previousFrame() { return previousFrame; },
     set previousFrame(val) { previousFrame = val; }
 };
+
 
 // appendSeparator(multishadesFrameContent);
 // Multishades Input Box Logic

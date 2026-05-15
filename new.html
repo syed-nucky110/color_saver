@@ -1,903 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebDynoLabs - Coming Soon</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none !important;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        body {
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-            background: #000000;
-            cursor: none !important;
-        }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .headline {
-            font-size: clamp(2rem, 5vw, 4.5rem);
-            font-weight: 900;
-            color: #ff0000;
-            margin-bottom: 2.5rem;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 
-                0 0 10px #ff0000,
-                0 0 20px #ff0000,
-                0 0 40px #ff0000,
-                2px 2px 0 #000,
-                -2px -2px 0 #000;
-        }
-
-        .headline-text {
-            padding-right: 8px;
-        }
-
-        .tagline {
-            font-size: clamp(1rem, 2.5vw, 1.8rem);
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 3rem;
-            position: relative;
-            padding: 25px 50px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            box-shadow: 
-                inset 0 0 30px rgba(255, 0, 0, 0.3),
-                0 0 30px rgba(255, 0, 0, 0.5),
-                0 0 50px rgba(255, 0, 0, 0.3);
-        }
-
-        .tagline::before {
-            content: '';
+        iframe {
+            box-shadow: 0 0 12px #00000022;
+            width: 1000px;
+            max-width: calc(100% - 40px);
+            aspect-ratio: 3.5 / 2.1;
+            /* height: 600px; */
+            border-radius: 25px;
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 0, 0, 0.8) 50%, 
-                transparent 100%);
-            animation: electricShock 2s infinite;
-            z-index: -1;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-
-        .tagline::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 48%, #ff0000 49%, #ff0000 51%, transparent 52%);
-            background-size: 8px 8px;
-            opacity: 0.1;
-            animation: scan 8s linear infinite;
-        }
-
-        @keyframes electricShock {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        @keyframes scan {
-            0% { background-position: 0 0; }
-            100% { background-position: 100px 100px; }
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .loader {
             display: flex;
-            gap: 20px;
-            align-items: center;
             justify-content: center;
-            position: relative;
-        }
-
-        .loader::before {
-            content: '';
+            align-items: center;
             position: absolute;
-            width: 150px;
-            height: 3px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                #ff0000 20%, 
-                #ff0000 80%, 
-                transparent 100%);
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.3;
-        }
-
-        .loader-dot {
-            width: 12px;
-            height: 12px;
-            background: #ff0000;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            box-shadow: 
-                0 0 20px #ff0000, 
-                0 0 40px #ff0000,
-                inset 0 0 10px rgba(255, 0, 0, 0.8);
-            animation: pulse 1.2s infinite;
-            position: relative;
-        }
-
-        .loader-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-
-        .loader-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loader-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.8) rotate(180deg);
-                opacity: 0.4;
-            }
-        }
-
-        .glitch {
-            animation: glitch 5s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 90%, 100% {
-                transform: translate(0);
-            }
-            91% {
-                transform: translate(-2px, 2px);
-            }
-            92% {
-                transform: translate(2px, -2px);
-            }
-            93% {
-                transform: translate(-2px, 2px);
-            }
-            94% {
-                transform: translate(2px, -2px);
-            }
-        }
-
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(transparent, rgba(255, 0, 0, 0.5));
-            animation: scanline 4s linear infinite;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        @keyframes scanline {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-
-        /* Custom Cursor Styles */
-        .cursor-glow {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            border: 3px solid #ff0000;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.15s ease, height 0.15s ease;
-            box-shadow: 
-                0 0 20px #ff0000,
-                0 0 40px #ff0000,
-                0 0 60px rgba(255, 0, 0, 0.5),
-                inset 0 0 20px rgba(255, 0, 0, 0.3);
-            animation: cursorPulse 2s infinite;
-        }
-
-        @keyframes cursorPulse {
-            0%, 100% {
-                box-shadow: 
-                    0 0 20px #ff0000,
-                    0 0 40px #ff0000,
-                    0 0 60px rgba(255, 0, 0, 0.5),
-                    inset 0 0 20px rgba(255, 0, 0, 0.3);
-            }
-            50% {
-                box-shadow: 
-                    0 0 30px #ff0000,
-                    0 0 60px #ff0000,
-                    0 0 90px rgba(255, 0, 0, 0.7),
-                    inset 0 0 30px rgba(255, 0, 0, 0.5);
-            }
-        }
-
-        .cursor-dot {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: transparent;
-            border: 2px solid #ff0000;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px #ff0000;
-        }
-
-        .cursor-trail {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: #ff0000;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9997;
-            box-shadow: 0 0 10px #ff0000;
-            animation: trailFade 0.6s forwards;
-        }
-
-        @keyframes trailFade {
-            to {
-                opacity: 0;
-                transform: scale(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .tagline {
-                padding: 20px 30px;
-            }
-            .headline {
-                letter-spacing: 1px;
-            }
-            .cursor-glow, .cursor-dot {
-                display: none;
-            }
-            * {
-                cursor: default !important;
-            }
-            .keyboard {
-                display: none !important;
-            }
-        }
-
-        /* Keyboard Styles */
-        .keyboard {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 4;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.85);
-            border-radius: 8px;
-            border: 1px solid #ff0000;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-
-        .keyboard:hover {
             opacity: 1;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: opacity .5s ease-out;
         }
 
-        .keyboard-label {
-            text-align: center;
-            color: #ff0000;
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            text-shadow: 0 0 5px currentColor;
+        .loader.hide {
+            display: none !important;
         }
 
-        .keyboard-row {
-            display: flex;
-            gap: 4px;
-            justify-content: center;
+        .loader.fade-out {
+            opacity: 0;
         }
 
-        .key {
-            width: 30px;
-            height: 30px;
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid #ff0000;
-            border-radius: 4px;
-            color: #ff0000;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 8px rgba(255, 0, 0, 0.2);
-            transition: all 0.1s ease;
-            text-shadow: 0 0 3px currentColor;
+        .clock {
+            width: 80px;
+            height: 80px;
+            background-color: #333;
+            position: relative;
+            border-radius: 50%;
         }
 
-        .key.space {
-            width: 120px;
+        .big-niddle,
+        .small-niddle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(50% - 5px);
+            height: 1px;
+            background-color: #ffffff;
+            transform-origin: left center;
+            animation: clock-animation .60s linear infinite;
         }
 
-        .key.active {
-            transform: translateY(2px);
-            background: var(--active-color, #ff0000);
-            color: #000;
-            box-shadow: 
-                0 0 20px var(--active-color, #ff0000),
-                0 0 40px var(--active-color, #ff0000),
-                inset 0 0 10px rgba(0, 0, 0, 0.5);
-            text-shadow: none;
+        .small-niddle {
+            width: calc(50% - 15px);
+            height: 2px;
+            background-color: #000000;
+            animation: clock-animation 6s linear infinite;
         }
 
-        @keyframes keyGlow {
-            0%, 100% {
-                box-shadow: 0 0 10px currentColor;
+        @keyframes clock-animation {
+            from {
+                transform: rotate(0deg);
             }
-            50% {
-                box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="cursor-glow"></div>
-    <div class="cursor-dot"></div>
-    <div class="scanline"></div>
-    <div id="canvas-container"></div>
-    
-    <!-- Keyboard -->
-    <div class="keyboard">
-        <div class="keyboard-label">System Active</div>
-        <div class="keyboard-row">
-            <div class="key" data-key="Q">Q</div>
-            <div class="key" data-key="W">W</div>
-            <div class="key" data-key="E">E</div>
-            <div class="key" data-key="R">R</div>
-            <div class="key" data-key="T">T</div>
-            <div class="key" data-key="Y">Y</div>
-            <div class="key" data-key="U">U</div>
-            <div class="key" data-key="I">I</div>
-        </div>
-        <div class="keyboard-row">
-            <div class="key" data-key="A">A</div>
-            <div class="key" data-key="S">S</div>
-            <div class="key" data-key="D">D</div>
-            <div class="key" data-key="F">F</div>
-            <div class="key" data-key="G">G</div>
-            <div class="key" data-key="H">H</div>
-            <div class="key" data-key="J">J</div>
-            <div class="key" data-key="K">K</div>
-        </div>
-        <div class="keyboard-row">
-            <div class="key" data-key="Z">Z</div>
-            <div class="key" data-key="X">X</div>
-            <div class="key" data-key="C">C</div>
-            <div class="key" data-key="V">V</div>
-            <div class="key" data-key="B">B</div>
-            <div class="key" data-key="N">N</div>
-            <div class="key" data-key="M">M</div>
-        </div>
-        <div class="keyboard-row">
-            <div class="key space" data-key="SPACE">SPACE</div>
-        </div>
-    </div>
-    
-    <div class="content glitch">
-        <div class="headline">
-            <span class="headline-text"></span>
-        </div>
-        
-        <div class="tagline">
-            WebDynoLabs is coming in the universe of tech
-        </div>
-        
-        <div class="loader">
-            <div class="loader-dot"></div>
-            <div class="loader-dot"></div>
-            <div class="loader-dot"></div>
+    <iframe src="https://www.wearemountainman.com/" frameborder="0"></iframe>
+
+    <div class="loader">
+        <div class="clock">
+            <div class="big-niddle"></div>
+            <div class="small-niddle"></div>
         </div>
     </div>
 
     <script>
-        // Three.js Scene Setup
-        const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0x000000, 1, 100);
-        
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 1);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        
-        camera.position.z = 50;
+        const iframe = document.querySelector('iframe');
+        const loader = document.querySelector('.loader');
 
-        // Create dangerous particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particleCount = 2000;
-        const posArray = new Float32Array(particleCount * 3);
-        const velocities = new Float32Array(particleCount * 3);
-        
-        for(let i = 0; i < particleCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 150;
-            velocities[i] = (Math.random() - 0.5) * 0.2;
-        }
-        
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.2,
-            color: 0xff0000,
-            transparent: true,
-            opacity: 0.9,
-            blending: THREE.AdditiveBlending
-        });
-        
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Create dangerous grid
-        const gridSize = 50;
-        const divisions = 50;
-        const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xff0000, 0x330000);
-        gridHelper.rotation.x = Math.PI / 2;
-        gridHelper.position.z = -20;
-        scene.add(gridHelper);
-
-        // Create sharp geometric lines
-        const lineGroup = new THREE.Group();
-        
-        for(let i = 0; i < 15; i++) {
-            const points = [];
-            const segments = 30;
-            
-            for(let j = 0; j < segments; j++) {
-                const angle = (j / segments) * Math.PI * 2;
-                const radius = 20 + Math.random() * 10;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-                const z = (Math.random() - 0.5) * 30;
-                points.push(new THREE.Vector3(x, y, z));
-            }
-            
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-            const lineMaterial = new THREE.LineBasicMaterial({
-                color: 0xff0000,
-                transparent: true,
-                opacity: 0.4,
-                linewidth: 2
-            });
-            
-            const line = new THREE.Line(lineGeometry, lineMaterial);
-            lineGroup.add(line);
-        }
-        
-        scene.add(lineGroup);
-
-        // Add danger symbols (spinning triangles)
-        const triangleGroup = new THREE.Group();
-        for(let i = 0; i < 20; i++) {
-            const geometry = new THREE.BufferGeometry();
-            const vertices = new Float32Array([
-                0, 1, 0,
-                -0.866, -0.5, 0,
-                0.866, -0.5, 0
-            ]);
-            geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-            
-            const material = new THREE.LineBasicMaterial({
-                color: 0xff0000,
-                transparent: true,
-                opacity: 0.3
-            });
-            
-            const triangle = new THREE.LineLoop(geometry, material);
-            triangle.position.set(
-                (Math.random() - 0.5) * 100,
-                (Math.random() - 0.5) * 100,
-                (Math.random() - 0.5) * 50
-            );
-            triangle.scale.setScalar(2 + Math.random() * 3);
-            triangleGroup.add(triangle);
-        }
-        scene.add(triangleGroup);
-
-        // Animation loop
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.01;
-            
-            // Aggressive particle movement
-            particlesMesh.rotation.y += 0.003;
-            particlesMesh.rotation.x += 0.002;
-            
-            const positions = particlesGeometry.attributes.position.array;
-            for(let i = 0; i < positions.length; i += 3) {
-                positions[i] += velocities[i];
-                positions[i + 1] += velocities[i + 1];
-                positions[i + 2] += velocities[i + 2];
-                
-                // Wrap around
-                if(Math.abs(positions[i]) > 75) velocities[i] *= -1;
-                if(Math.abs(positions[i + 1]) > 75) velocities[i + 1] *= -1;
-                if(Math.abs(positions[i + 2]) > 75) velocities[i + 2] *= -1;
-            }
-            particlesGeometry.attributes.position.needsUpdate = true;
-            
-            // Sharp line rotations
-            lineGroup.rotation.z += 0.005;
-            lineGroup.rotation.y = Math.sin(time * 0.5) * 0.2;
-            
-            // Grid distortion
-            gridHelper.position.z = -20 + Math.sin(time) * 5;
-            
-            // Spinning danger triangles
-            triangleGroup.rotation.y += 0.01;
-            triangleGroup.children.forEach((triangle, i) => {
-                triangle.rotation.z += 0.02 + (i * 0.001);
-            });
-            
-            renderer.render(scene, camera);
-        }
-        
-        animate();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Static headline
-        const headlineElement = document.querySelector('.headline-text');
-        headlineElement.textContent = "WEBSITE UNDER CONSTRUCTION";
-
-        // Aggressive GSAP animations
-        gsap.to('.tagline', {
-            boxShadow: 'inset 0 0 50px rgba(255, 0, 0, 0.5), 0 0 50px rgba(255, 0, 0, 0.8), 0 0 100px rgba(255, 0, 0, 0.5)',
-            duration: 0.3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'power4.inOut'
-        });
-
-        // Random glitch effect
-        setInterval(() => {
-            if(Math.random() > 0.7) {
-                document.querySelector('.content').style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
-                setTimeout(() => {
-                    document.querySelector('.content').style.transform = 'translate(0, 0)';
-                }, 50);
-            }
-        }, 2000);
-
-        // CUSTOM CURSOR EFFECT
-        const cursorGlow = document.querySelector('.cursor-glow');
-        const cursorDot = document.querySelector('.cursor-dot');
-        let mouseX = 0;
-        let mouseY = 0;
-        let cursorX = 0;
-        let cursorY = 0;
-
-        // Track mouse position
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            // Update dot position immediately
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
-
-            // Create trail effect
-            if (Math.random() > 0.7) {
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.left = mouseX + 'px';
-                trail.style.top = mouseY + 'px';
-                document.body.appendChild(trail);
-
-                setTimeout(() => {
-                    trail.remove();
-                }, 600);
-            }
-        });
-
-        // Smooth cursor glow follow
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            
-            cursorGlow.style.left = cursorX + 'px';
-            cursorGlow.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // Click effect
-        document.addEventListener('mousedown', () => {
-            cursorGlow.style.width = '70px';
-            cursorGlow.style.height = '70px';
-            cursorGlow.style.borderWidth = '4px';
-        });
-
-        document.addEventListener('mouseup', () => {
-            cursorGlow.style.width = '50px';
-            cursorGlow.style.height = '50px';
-            cursorGlow.style.borderWidth = '3px';
-        });
-
-        // COLOR THEME SYSTEM
-        const colorThemes = [
-            { name: 'red', primary: '#ff0000', secondary: 'rgba(255, 0, 0', hex: 0xff0000 },
-            { name: 'aqua', primary: '#00ffff', secondary: 'rgba(0, 255, 255', hex: 0x00ffff },
-            { name: 'green', primary: '#00ff00', secondary: 'rgba(0, 255, 0', hex: 0x00ff00 },
-            { name: 'purple', primary: '#ff00ff', secondary: 'rgba(255, 0, 255', hex: 0xff00ff }
-        ];
-        let currentThemeIndex = 0;
-
-        function applyTheme(theme) {
-            // Update headline
-            document.querySelector('.headline').style.color = theme.primary;
-            document.querySelector('.headline').style.textShadow = `0 0 10px ${theme.primary}, 0 0 20px ${theme.primary}, 0 0 40px ${theme.primary}, 2px 2px 0 #000, -2px -2px 0 #000`;
-
-            // Update tagline
-            const tagline = document.querySelector('.tagline');
-            tagline.style.borderColor = theme.primary;
-            tagline.style.boxShadow = `inset 0 0 30px ${theme.secondary}, 0.3), 0 0 30px ${theme.secondary}, 0.5), 0 0 50px ${theme.secondary}, 0.3)`;
-
-            // Update loader dots
-            document.querySelectorAll('.loader-dot').forEach(el => {
-                el.style.background = theme.primary;
-                el.style.boxShadow = `0 0 20px ${theme.primary}, 0 0 40px ${theme.primary}, inset 0 0 10px ${theme.secondary}, 0.8)`;
-            });
-
-            // Update scanline
-            document.querySelector('.scanline').style.background = `linear-gradient(transparent, ${theme.secondary}, 0.5))`;
-
-            // Update cursor
-            cursorGlow.style.borderColor = theme.primary;
-            cursorDot.style.borderColor = theme.primary;
-            cursorDot.style.boxShadow = `0 0 15px ${theme.primary}`;
-
-            // Update dynamic styles
-            let dynamicStyle = document.getElementById('dynamic-theme-styles');
-            if (!dynamicStyle) {
-                dynamicStyle = document.createElement('style');
-                dynamicStyle.id = 'dynamic-theme-styles';
-                document.head.appendChild(dynamicStyle);
-            }
-
-            dynamicStyle.textContent = `
-                .tagline::before {
-                    background: linear-gradient(90deg, transparent 0%, ${theme.secondary}, 0.8) 50%, transparent 100%) !important;
-                }
-                .tagline::after {
-                    background: linear-gradient(45deg, transparent 48%, ${theme.primary} 49%, ${theme.primary} 51%, transparent 52%) !important;
-                }
-                .loader::before {
-                    background: linear-gradient(90deg, transparent 0%, ${theme.primary} 20%, ${theme.primary} 80%, transparent 100%) !important;
-                }
-                .cursor-trail {
-                    background: ${theme.primary} !important;
-                    box-shadow: 0 0 10px ${theme.primary} !important;
-                }
-                @keyframes cursorPulse {
-                    0%, 100% {
-                        box-shadow: 0 0 20px ${theme.primary}, 0 0 40px ${theme.primary}, 0 0 60px ${theme.secondary}, 0.5), inset 0 0 20px ${theme.secondary}, 0.3);
-                    }
-                    50% {
-                        box-shadow: 0 0 30px ${theme.primary}, 0 0 60px ${theme.primary}, 0 0 90px ${theme.secondary}, 0.7), inset 0 0 30px ${theme.secondary}, 0.5);
-                    }
-                }
-            `;
-
-            // Update Three.js materials
-            particlesMaterial.color.setHex(theme.hex);
-            gridHelper.material.color.setHex(theme.hex);
-            
-            lineGroup.children.forEach(line => {
-                line.material.color.setHex(theme.hex);
-            });
-            
-            triangleGroup.children.forEach(triangle => {
-                triangle.material.color.setHex(theme.hex);
-            });
-
-            // Update GSAP animation
-            gsap.killTweensOf('.tagline');
-            gsap.to('.tagline', {
-                boxShadow: `inset 0 0 50px ${theme.secondary}, 0.5), 0 0 50px ${theme.secondary}, 0.8), 0 0 100px ${theme.secondary}, 0.5)`,
-                duration: 0.3,
-                repeat: -1,
-                yoyo: true,
-                ease: 'power4.inOut'
-            });
-        }
-
-        // Double click to change colors
-        document.addEventListener('dblclick', () => {
-            currentThemeIndex = (currentThemeIndex + 1) % colorThemes.length;
-            const newTheme = colorThemes[currentThemeIndex];
-            
-            // Transition effect
-            const transition = document.createElement('div');
-            transition.style.position = 'fixed';
-            transition.style.top = '0';
-            transition.style.left = '0';
-            transition.style.width = '100%';
-            transition.style.height = '100%';
-            transition.style.background = newTheme.primary;
-            transition.style.opacity = '0';
-            transition.style.zIndex = '9999';
-            transition.style.pointerEvents = 'none';
-            document.body.appendChild(transition);
-
-            gsap.to(transition, {
-                opacity: 1,
-                duration: 0.2,
-                onComplete: () => {
-                    applyTheme(newTheme);
-                    updateKeyboardColors(newTheme);
-                    gsap.to(transition, {
-                        opacity: 0,
-                        duration: 0.3,
-                        onComplete: () => transition.remove()
-                    });
-                }
-            });
-        });
-
-        // KEYBOARD FUNCTIONALITY
-        const keys = document.querySelectorAll('.key');
-        const keyboard = document.querySelector('.keyboard');
-
-        function updateKeyboardColors(theme) {
-            keyboard.style.borderColor = theme.primary;
-            keyboard.style.boxShadow = `0 0 30px ${theme.secondary}, 0.4)`;
-            
-            // Update label color
-            const label = document.querySelector('.keyboard-label');
-            if (label) {
-                label.style.color = theme.primary;
-                label.style.textShadow = `0 0 5px ${theme.primary}`;
-            }
-            
-            // Update CSS variable for active key color
-            document.documentElement.style.setProperty('--active-color', theme.primary);
-            
-            // Create dynamic style for active keys
-            let keyStyle = document.getElementById('key-active-style');
-            if (!keyStyle) {
-                keyStyle = document.createElement('style');
-                keyStyle.id = 'key-active-style';
-                document.head.appendChild(keyStyle);
-            }
-            
-            keyStyle.textContent = `
-                .key.active {
-                    transform: translateY(2px);
-                    background: ${theme.primary} !important;
-                    color: #000 !important;
-                    box-shadow: 
-                        0 0 20px ${theme.primary},
-                        0 0 40px ${theme.primary},
-                        inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
-                    text-shadow: none !important;
-                }
-            `;
-            
-            keys.forEach(key => {
-                key.style.borderColor = theme.primary;
-                key.style.color = theme.primary;
-                key.style.boxShadow = `0 0 8px ${theme.secondary}, 0.2)`;
-                key.style.textShadow = `0 0 3px ${theme.primary}`;
-            });
-        }
-
-        // Initialize keyboard with default red color
-        updateKeyboardColors(colorThemes[0]);
-
-        function activateRandomKey() {
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
-            randomKey.classList.add('active');
-            
+        iframe.onload = () => {
+            loader.classList.add('fade-out');
             setTimeout(() => {
-                randomKey.classList.remove('active');
-            }, 150);
+                loader.classList.add('hide');
+            }, 500);
         }
 
-        // Randomly click keys
-        setInterval(() => {
-            activateRandomKey();
-        }, 300 + Math.random() * 400);
-
-        // Real keyboard press detection
-        document.addEventListener('keydown', (e) => {
-            const key = e.key.toUpperCase();
-            const keyElement = document.querySelector(`[data-key="${key}"]`) || 
-                              (e.code === 'Space' ? document.querySelector('[data-key="SPACE"]') : null);
-            
-            if (keyElement && !keyElement.classList.contains('active')) {
-                keyElement.classList.add('active');
-            }
-        });
-
-        document.addEventListener('keyup', (e) => {
-            const key = e.key.toUpperCase();
-            const keyElement = document.querySelector(`[data-key="${key}"]`) || 
-                              (e.code === 'Space' ? document.querySelector('[data-key="SPACE"]') : null);
-            
-            if (keyElement) {
-                keyElement.classList.remove('active');
-            }
-        });
-
-        // Mouse click on keys
-        keys.forEach(key => {
-            key.addEventListener('mousedown', () => {
-                key.classList.add('active');
-            });
-            
-            key.addEventListener('mouseup', () => {
-                setTimeout(() => {
-                    key.classList.remove('active');
-                }, 150);
-            });
-        });
     </script>
 </body>
+
 </html>

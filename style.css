@@ -17,7 +17,8 @@
       inset: 0;
       width: 100vw;
       height: 100vh;
-      background-color: black;
+      /* background-color: black; */
+      background-color: var(--inverce-of-text-color);
       z-index: 99999999;
       display: flex;
       flex-direction: column;
@@ -47,9 +48,10 @@
       position: absolute;
       inset: 0;
       opacity: 1;
-      background-color: #121212;
+      /* background-color: #121212; */
+      background-color: var(--splash-mask-bg-clr);
       transition: opacity 1s ease;
-      animation: hide-mask 1s ease .1s forwards;
+      animation: hide-mask 1.7s ease .5s forwards;
 }
 
 @keyframes hide-mask {
@@ -66,11 +68,23 @@
       opacity: 0 !important;
 } */
 
+.splash-logo-wrapper {
+      position: relative;
+      width: fit-content;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      z-index: 1;
+}
+
 .splash-inner-section::before {
       content: "";
       position: absolute;
       inset: 15px;
-      background-color: #121212;
+      /* background-color: #121212; */
+      background-color: var(--splash-mask-bg-clr);
       filter: blur(25px);
       z-index: 0;
 }
@@ -96,16 +110,21 @@
 
 .splash-logo {
       position: relative;
-      width: 120px;
-      height: 120px;
-      background: white;
-      border-radius: 50%;
+      width: 300px;
+      height: 100px;
+      background: var(--shadesphare-logo-L) no-repeat center/contain;
       display: flex;
       align-items: center;
       justify-content: center;
-      /* box-shadow: 0 8px 32px 0 rgba(16, 112, 209, 0.15); */
-      animation: splashLogoPop 1.2s cubic-bezier(.4, 0, .2, 1);
+      animation: splashLogoPop 0.7s ease;
       z-index: 2;
+}
+
+@media (max-width: 1079px) {
+      .splash-logo {
+            width: 200px !important;
+            height: 80px !important;
+      }
 }
 
 @property --deg2 {
@@ -126,17 +145,17 @@
 
 @keyframes splashLogoPop {
       0% {
-            transform: scale(0.5);
+            /* transform: scale(0.5); */
             opacity: 0;
       }
 
       60% {
-            transform: scale(1.1);
-            opacity: 1;
+            /* transform: scale(1.1); */
+            opacity: 0;
       }
 
       100% {
-            transform: scale(1);
+            /* transform: scale(1); */
             opacity: 1;
       }
 }
@@ -144,13 +163,14 @@
 .splash-logo .color-circle {
       width: 70px;
       height: 70px;
-      background: url(assets/android-icon-144x144.png) center/cover no-repeat;
+      /* background: url(assets/android-icon-144x144.png) center/cover no-repeat; */
+      background: url(assets/shadeSphare-logo.png) center/cover no-repeat;
       border-radius: 16px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .splash-text {
-      margin-top: 24px;
+      /* margin-top: 24px; */
       position: relative;
       font-size: 2.2rem;
       font-weight: 700;
@@ -176,9 +196,13 @@
 }
 
 :root {
+      --shadesphare-logo-L: url(assets/logo/shadesphare-L-logo-dark.png);
+      --shadesphare-logo-M: url(assets/logo/shadesphare-M-logo-dark.png);
+      --splash-mask-bg-clr: #ffffff;
       --primary-bg-color: #ffffff;
       --secondry-bg-color: #ffffff;
-      --shadow-color: gray;
+      /* --shadow-color: gray; */
+      --shadow-color: #00000044;
       --text-color: #000000;
       --primery-padding: 10px;
       --theme-icon-color: #ffffff;
@@ -230,6 +254,9 @@
 }
 
 .dark-theme {
+      --shadesphare-logo-L: url(assets/logo/shadesphare-L-logo-light.png);
+      --shadesphare-logo-M: url(assets/logo/shadesphare-M-logo-light.png);
+      --splash-mask-bg-clr: #121212;
       /* --primary-bg-color: #121212; */
       /* --secondry-bg-color: #090909; */
       --primary-bg-color: #212121;
@@ -282,7 +309,7 @@
 
 body,
 html {
-      background-color: var(--primary-bg-color) !important;
+      background-color: var(--splash-mask-bg-clr) !important;
       /* background-color: #000000 !important; */
       overflow: hidden;
       position: relative;
@@ -3480,6 +3507,11 @@ body.selection-active .delete-clr-container {
 }
 
 @media (max-width: 480px) {
+      .fav-color-list-container {
+            min-width: 100% !important;
+            min-height: 100% !important;
+      }
+
       /* .fav-color-list-container {
             padding: 0;
             padding-top: 60px;
@@ -4826,9 +4858,24 @@ i {
 }
 
 .setting-text .setting-title {
+      position: relative;
+      width: fit-content;
       font-size: 1.1rem;
       font-weight: 500;
       color: var(--text-color);
+}
+
+.setting-text .recom.setting-title::after {
+      content: "Recommended";
+      position: absolute;
+      left: calc(100% + 10px);
+      padding: 3px 5px;
+      font-size: 12px;
+      color: #ffffff;
+      background-color: var(--accent-color);
+      border-radius: 5px;
+      top: 50%;
+      transform: translateY(-50%);
 }
 
 .setting-text .setting-decs {
