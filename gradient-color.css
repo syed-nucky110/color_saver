@@ -74,7 +74,8 @@
 }
 
 .gradient-color-header {
-      background-color: #000000;
+      /* background-color: #00000053; */
+      backdrop-filter: blur(3px);
       position: sticky;
       top: 0;
       display: flex;
@@ -89,12 +90,12 @@
 }
 
 .small-gradient-color-header {
-      width: 70% !important;
+      width: 90% !important;
       margin: 0 auto;
-      border-radius: 100px;
-      transform: translateY(10px);
+      /* border-radius: 100px; */
+      /* transform: translateY(10px); */
       background-color: transparent !important;
-      border: 2px solid #ffffff66;
+      /* border: 2px solid #ffffff66; */
       transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -176,6 +177,12 @@
 
 .gradient-color-logo {
       display: flex;
+      background: url(assets/logo/shadesphare-M-logo-mix.png);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      width: 220px;
+      height: 45px;
 }
 
 .gradient-color-logo h1 {

@@ -3,6 +3,7 @@
 // ===============================================
 
 // Main gradient wrapper and form elements
+let gradientScrollContainer = document.querySelector('.gradient-scroll-container')
 let gradientWrapper = document.querySelector('.gradient-color-wrapper')
 let getGradientForm = document.querySelector('.get-gradient-color-form')
 
@@ -18,7 +19,6 @@ let gradientColorsList = document.querySelector('.saved-gradients-list')
 
 // Navigation and option elements
 let gradientColorsOption = document.getElementById('gradient-clr-option')
-let gradientLogo = document.querySelector('.gradient-color-logo h1')
 let backToHome = document.getElementById('back-to-home-btn')
 
 // Gradient dialog/modal control elements
@@ -76,12 +76,14 @@ dialogPreviewFrameBtn.addEventListener('click', (event) => {
 })
 
 let gradientHeader = document.querySelector('.gradient-color-header');
-gradientWrapper.addEventListener('scroll', (event) => {
-      if (gradientWrapper.scrollTop > 20) {
-            gradientHeader.classList.add('small-gradient-color-header');
+gradientScrollContainer.addEventListener('scroll', (event) => {
+      if (gradientScrollContainer.scrollTop > 20) {
+            console.log('scrolled');
+
+            gradientHeader.classList.remove('small-gradient-color-header');
       }
       else {
-            gradientHeader.classList.remove('small-gradient-color-header');
+            gradientHeader.classList.add('small-gradient-color-header');
       }
 })
 
@@ -348,12 +350,6 @@ gradientColorsOption.addEventListener("click", () => {
       openGradientMode();
 })
 
-// Close gradient mode when logo is clicked
-gradientLogo.addEventListener('click', () => {
-      return; // turn off this feature for now
-      closeGradientMode();
-})
-
 /**
  * Opens the gradient mode interface with smooth transition
  * Hides main app and shows gradient tools
@@ -375,7 +371,7 @@ function openGradientMode() {
             AppWrapper.style.transform = "scale(0.8)";
             AppWrapper.style.opacity = "0";
             gradientWrapper.style.opacity = "1";
-            document.querySelector('head title').textContent = "Gradient - ShadeSphare"
+            document.querySelector('head title').textContent = "Gradient | ShadeSphare"
             gradientWrapper.style.transform = "scale(1)";
       }, 100);
 }
@@ -396,7 +392,7 @@ function closeGradientMode() {
       AppWrapper.style.opacity = ""
       gradientWrapper.style.opacity = "0"
       gradientWrapper.style.transform = "";
-      document.querySelector('head title').textContent = "ShadeSphare"
+      document.querySelector('head title').textContent = "ShadeSphare - All Colors One Sphare"
       AppWrapper.style.transform = "";
 
       setTimeout(() => {

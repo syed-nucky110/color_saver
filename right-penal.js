@@ -13,7 +13,11 @@ const openRightPenalBtn = document.querySelector("#open-right-penal-btn");
 const multishadesBtn = document.querySelector(".multishades-btn");
 const mobileBackBtns = document.querySelectorAll(".mobile-back-btn");
 
+const multishadesActionBtn = document.getElementById("search-selected-clr-or-save");
+const multishadesActionIcon = multishadesActionBtn ? multishadesActionBtn.querySelector("ion-icon") : null;
+
 let activeFrame = null;
+
 let previousFrame = null;
 
 mobileOpenCloseBtn.forEach(btn => {
@@ -62,7 +66,30 @@ mobileBackBtns.forEach(btn => {
     });
 });
 
+if (multishadesActionBtn) {
+    multishadesActionBtn.addEventListener("click", () => {
+        const colorInput = document.getElementById("multishades-text-input");
+        if (!colorInput) return;
+
+        const color = colorInput.value.trim().toUpperCase();
+        if (!color || colorInput.value === "") return;
+
+        if (!isColorValid(color)) return;
+
+        if (isColorAvailableInStorage(color)) {
+            highlightSavedColor(color);
+        } else {
+            colorListCreator(color);
+            // After saving, update the button state
+            multishadesActionIcon.setAttribute("name", "eye-outline");
+            let colorBox = document.querySelector(`.saved-clr[data-id="${color}"]`);
+            colorBox.classList.add('multishades-selected-clr');
+        }
+    });
+}
+
 function openMultishadesFrameOnly() {
+
     rightPenalWrapper.classList.remove("closed");
     openMultishades();
     showMultishadesPlaceholder();
@@ -379,9 +406,14 @@ multishadesFrameContent.addEventListener("click", async (e) => {
     const color = box.dataset.color;
     const saveBtn = e.target.closest(".save-clr-btn");
     const copyBtn = e.target.closest(".copy-clr-btn");
+    const showOrgColorBtn = e.target.closest(".show-org-color-btn");
 
     if (saveBtn) await handleSaveAction(color, saveBtn);
     if (copyBtn) handleCopyAction(color);
+    if (showOrgColorBtn) {
+        let orgColorShades = box.querySelector(".org-color-shade");
+        orgColorShades.classList.toggle("show");
+    };
 });
 
 async function handleSaveAction(color, btn) {
@@ -435,7 +467,7 @@ function saveBtnToDefaultState(btn) {
     btn.innerHTML = '<ion-icon name="download-outline"></ion-icon>';
 }
 
-function multishadesColorBoxLayout(color, number, size = "box-height-90") {
+function multishadesColorBoxLayout(color, number, orgColor, size = "box-height-90") {
     let textColor = getContrastColor(color);
 
     const layout = document.createElement("div");
@@ -446,9 +478,14 @@ function multishadesColorBoxLayout(color, number, size = "box-height-90") {
     const isSaved = isColorAvailableInStorage(color);
 
     let innnerLayout = `
-        ${number !== undefined ? ` <span class="multishades-clr-number absolute" style="color: ${textColor};">${number + 1}</span>` : ""}
+    ${number !== undefined ? `
+        <span class="multishades-clr-number absolute" style="color: ${textColor};">${number + 1}</span>` : ""}
         <span class="multishades-clr-name" style="color: ${textColor};">${color}</span>
+        <span class="org-color-shade" style="background-color: ${orgColor};"></span>
         <div class="buttons-box">
+            <button class="show-org-color-btn">
+                <ion-icon name="contrast-outline"></ion-icon>
+            </button>
             <button class="save-clr-btn" style="color: ${isSaved ? "#00ff00" : ""};">
                 <ion-icon name="${isSaved ? "checkmark-circle-outline" : "download-outline"}"></ion-icon>
             </button>
@@ -490,10 +527,18 @@ function loadMultishades(color) {
     if (colorInput && color) colorInput.value = color;
     if (textInput && color) textInput.value = color.toUpperCase();
 
+    // Update the action button icon based on color existence
+    if (multishadesActionIcon && color) {
+        const exists = isColorAvailableInStorage(color.toUpperCase());
+        multishadesActionIcon.setAttribute("name", exists ? "eye-outline" : "download-outline");
+    }
+
     const basicShades = getMutlishadesInOneArray(color);
+
     basicShades.forEach((shade, index) => {
-        multishadesFrameContent.appendChild(multishadesColorBoxLayout(shade, index, "box-height-90"));
+        multishadesFrameContent.appendChild(multishadesColorBoxLayout(shade, index, color, "box-height-90"));
     });
+
 
     // Create and append the "Get All Shades" link button
     const getAllBtn = document.createElement("button");
@@ -526,9 +571,10 @@ function loadMultishades(color) {
 function renderCompleteShades(color) {
     const allViewShades = getAllShades(color);
     let firstElement = null;
+    let orgColor = color;
 
     allViewShades.allShades.forEach((shade, index) => {
-        const layout = multishadesColorBoxLayout(shade.hex, index, "box-height-50");
+        const layout = multishadesColorBoxLayout(shade.hex, index, orgColor, "box-height-50");
         if (index === 0) firstElement = layout;
         multishadesFrameContent.appendChild(layout);
     });

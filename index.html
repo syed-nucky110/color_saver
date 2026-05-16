@@ -4,7 +4,7 @@
 <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>ShadeSphare</title>
+      <title>ShadeSphare - All Colors One Sphare</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="gradient-color.css">
       <link rel="stylesheet" href="tailwind-class.css">
@@ -781,9 +781,9 @@
                         <div class="gradient-scroll-container"> <!-- New Scrollable Layer -->
                               <div class="gradient-color-container" id="gradient-color-container">
                                     <div class="gradient-color-section">
-                                          <div class="gradient-color-header">
+                                          <div class="gradient-color-header small-gradient-color-header">
                                                 <div class="gradient-color-logo">
-                                                      <h1>ShadeSphare</h1>
+                                                      <!-- <h1>ShadeSphare</h1> -->
                                                 </div>
                                                 <div class="options-area">
                                                       <button class="merge-section-btn">
@@ -1019,6 +1019,7 @@
                               </div>
                         </div>
                   </div>
+
             </div>
 
             <div class="right-penal-wrapper closed relative flex flex-grow flex-shrink-0 p-10">
@@ -1077,6 +1078,10 @@
                                           <input type="color" id="multishades-color-input" title="Pick a color">
                                           <input type="text" id="multishades-text-input" placeholder="Enter color..."
                                                 spellcheck="false" autocomplete="off" autosuggest="off">
+                                          <span id="divider"></span>
+                                          <button id="search-selected-clr-or-save">
+                                                <ion-icon id="icon" name="eye-outline"></ion-icon>
+                                          </button>
                                     </div>
                                     <div class="overflow-shadow h-full">
                                           <div class="multishades-frame-content">
