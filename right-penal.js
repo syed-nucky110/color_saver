@@ -403,17 +403,53 @@ multishadesFrameContent.addEventListener("click", async (e) => {
     const box = e.target.closest(".multishades-clr-box");
     if (!box) return;
 
+    const boxIndex = parseInt(box.dataset.index);
+    const boxType = box.dataset.colorsType;
+
+    const upppBox = document.querySelector(`.multishades-clr-box[data-colors-type="${boxType}"][data-index="${boxIndex - 1}"]`);
+    const lowerBox = document.querySelector(`.multishades-clr-box[data-colors-type="${boxType}"][data-index="${boxIndex + 1}"]`);
+
     const color = box.dataset.color;
     const saveBtn = e.target.closest(".save-clr-btn");
     const copyBtn = e.target.closest(".copy-clr-btn");
     const showOrgColorBtn = e.target.closest(".show-org-color-btn");
+    const getSubMultishadesBtn = e.target.closest('.get-sub-multishades-btn');
+    const baseColorBox = e.target.closest('.base-color-box');
+    const subColorItem = e.target.closest('.sub-shade-item');
+    const swapVerticalBtn = e.target.closest('.swap-vertical-btn');
+    const compareUpperColorBtn = e.target.closest('.compare-with-upper-color-btn');
+    const compareLowerColorBtn = e.target.closest('.compare-with-lower-color-btn');
 
     if (saveBtn) await handleSaveAction(color, saveBtn);
     if (copyBtn) handleCopyAction(color);
     if (showOrgColorBtn) {
-        let orgColorShades = box.querySelector(".org-color-shade");
-        orgColorShades.classList.toggle("show");
+        let orgColorShade = box.querySelector(".org-color-shade");
+        orgColorShade.classList.toggle("show");
     };
+    if (getSubMultishadesBtn) {
+        let subMultishadesBox = box.querySelector('.sub-multishades-box')
+        subMultishadesBox.classList.toggle('show');
+
+        // For All shades list
+        if (box.getAttribute('data-colors-type') == 'all') {
+            box.classList.toggle('box-height-50')
+            box.classList.toggle('box-height-90')
+        }
+    };
+    if (subColorItem) copyText(subColorItem.dataset.colorHex);
+    if (baseColorBox && !e.target.closest('.swap-vertical-btn')) copyText(baseColorBox.dataset.colorHex);
+    if (swapVerticalBtn) {
+        let subMultishadesBox = box.querySelector('.sub-multishades-box');
+        subMultishadesBox.classList.toggle('flex-col-rev');
+    }
+    if (compareUpperColorBtn) {
+        box.classList.toggle('upper-radius-none');
+        upppBox.classList.toggle('lower-radius-none');
+    }
+    if (compareLowerColorBtn) {
+        box.classList.toggle('lower-radius-none');
+        lowerBox.classList.toggle('upper-radius-none');
+    }
 });
 
 async function handleSaveAction(color, btn) {
@@ -438,6 +474,42 @@ async function handleSaveAction(color, btn) {
     }
 }
 
+function subMultishadesLayout(color, shadesCount) {
+    const subMultishadesBox = document.createElement('div');
+    subMultishadesBox.classList.add("sub-multishades-box");
+
+    let swapBtnBgColor = getContrastColor(color);
+    let swapBtnIconColor = (getContrastColor(color) === 'black') ? 'white' : 'black';
+
+    subMultishadesBox.innerHTML =
+        `<div data-color-hex='${color}' class="base-color-box" style="background-color: ${color}; color: ${getContrastColor(color)}">
+            <button class="swap-vertical-btn" style="background-color: ${swapBtnBgColor}; color: ${swapBtnIconColor}">
+                <ion-icon name="swap-vertical-outline"></ion-icon>
+            </button>
+            ${color}
+        </div>
+        <div class="sub-multishades-holder">
+            ${getSubShades()}
+        </div>
+    `;
+
+    function getSubShades() {
+        const subShades = getMoreShades(color, shadesCount);
+        const allShades = [];
+
+        allShades.push(...subShades.dark, ...subShades.light);
+
+        return allShades.map((shade, index) => {
+            return `<span data-color-hex='${shade}' class="sub-shade-item" style="background-color: ${shade}; color: ${getContrastColor(shade)}">
+                <span>${shade}</span>
+            </span>`
+        }).join('');
+
+    }
+
+    return subMultishadesBox;
+}
+
 function handleCopyAction(color) {
     copyText(color);
 }
@@ -460,11 +532,13 @@ multishadesFrameContent.addEventListener("mouseover", (e) => {
 function saveBtnToSavedState(btn) {
     btn.style.color = "#00ff00";
     btn.innerHTML = '<ion-icon name="checkmark-circle-outline"></ion-icon>';
+    btn.setAttribute('title', 'find')
 }
 
 function saveBtnToDefaultState(btn) {
     btn.style.color = "";
     btn.innerHTML = '<ion-icon name="download-outline"></ion-icon>';
+    btn.setAttribute('title', 'save color')
 }
 
 function multishadesColorBoxLayout(color, number, orgColor, size = "box-height-90") {
@@ -472,6 +546,7 @@ function multishadesColorBoxLayout(color, number, orgColor, size = "box-height-9
 
     const layout = document.createElement("div");
     layout.classList.add("multishades-clr-box", "relative", size);
+    layout.setAttribute('data-index', number + 1);
     layout.dataset.color = color;
     layout.style.backgroundColor = color;
 
@@ -483,18 +558,33 @@ function multishadesColorBoxLayout(color, number, orgColor, size = "box-height-9
         <span class="multishades-clr-name" style="color: ${textColor};">${color}</span>
         <span class="org-color-shade" style="background-color: ${orgColor};"></span>
         <div class="buttons-box">
-            <button class="show-org-color-btn">
+            <button class="hide-at-sub-shades show-org-color-btn" title="compare with selected color">
                 <ion-icon name="contrast-outline"></ion-icon>
             </button>
-            <button class="save-clr-btn" style="color: ${isSaved ? "#00ff00" : ""};">
+            <button class="hide-at-sub-shades save-clr-btn" style="color: ${isSaved ? "#00ff00" : ""};" title="save color">
                 <ion-icon name="${isSaved ? "checkmark-circle-outline" : "download-outline"}"></ion-icon>
             </button>
-            <button class="copy-clr-btn">
+            <button class="hide-at-sub-shades copy-clr-btn" title="copy color">
                 <ion-icon name="copy-outline"></ion-icon>
             </button>
+            <div class="compare-color-buttons">
+                <button class="compare-color-placeholder-btn">
+                    <i class="ph ph-arrows-in-line-vertical"></i>
+                </button>
+                <button class="compare-with-upper-color-btn">
+                    <i class="ph ph-arrow-line-up"></i>
+                </button>
+                <button class="compare-with-lower-color-btn">
+                    <i class="ph ph-arrow-line-down"></i>
+                </button>
+            </div>
+            <button class="get-sub-multishades-btn" title="get shades of this color">
+                <ion-icon name="layers-outline"></ion-icon>
+            </button>
         </div>
-    `;
+        `;
     layout.innerHTML = innnerLayout;
+    layout.append(subMultishadesLayout(color, 5))
 
     return layout;
 }
@@ -531,12 +621,17 @@ function loadMultishades(color) {
     if (multishadesActionIcon && color) {
         const exists = isColorAvailableInStorage(color.toUpperCase());
         multishadesActionIcon.setAttribute("name", exists ? "eye-outline" : "download-outline");
+        multishadesActionBtn.setAttribute('title', exists ? 'view color' : 'save color');
     }
 
     const basicShades = getMutlishadesInOneArray(color);
 
     basicShades.forEach((shade, index) => {
-        multishadesFrameContent.appendChild(multishadesColorBoxLayout(shade, index, color, "box-height-90"));
+        let multishadesLayout = multishadesColorBoxLayout(shade, index, color, "box-height-90")
+        multishadesLayout.dataset.colorsType = "basic";
+        if (index === 0) multishadesLayout.classList.add("first-shade-box");
+        if (index === basicShades.length - 1) multishadesLayout.classList.add("last-shade-box");
+        multishadesFrameContent.appendChild(multishadesLayout);
     });
 
 
@@ -575,7 +670,12 @@ function renderCompleteShades(color) {
 
     allViewShades.allShades.forEach((shade, index) => {
         const layout = multishadesColorBoxLayout(shade.hex, index, orgColor, "box-height-50");
-        if (index === 0) firstElement = layout;
+        layout.dataset.colorsType = "all";
+        if (index === 0) {
+            firstElement = layout;
+            layout.classList.add("first-shade-box");
+        }
+        if (index === allViewShades.allShades.length - 1) layout.classList.add("last-shade-box");
         multishadesFrameContent.appendChild(layout);
     });
 
@@ -617,6 +717,10 @@ if (mColorInput && mTextInput) {
         const val = e.target.value;
         mTextInput.value = val.toUpperCase();
         loadMultishades(val);
+
+        if (isColorAvailableInStorage(val.toUpperCase())) {
+            highlightSavedColor(val.toUpperCase(), false);
+        }
     });
 
     mTextInput.addEventListener("keydown", (e) => {
@@ -632,6 +736,10 @@ if (mColorInput && mTextInput) {
                 loadMultishades(hex);
                 e.target.value = hex.toUpperCase();
                 e.target.blur(); // Optional: remove focus after enter
+
+                if (isColorAvailableInStorage(val.toUpperCase())) {
+                    highlightSavedColor(val.toUpperCase(), false);
+                }
             }
         }
     });

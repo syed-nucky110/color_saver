@@ -2002,7 +2002,7 @@ addColorBtn.addEventListener("click", async () => {
 });
 
 
-function highlightSavedColor(colorValue) {
+function highlightSavedColor(colorValue, zoomEffect = true) {
       const savedColors = document.querySelectorAll(".saved-clr");
 
       for (let box of savedColors) {
@@ -2022,11 +2022,12 @@ function highlightSavedColor(colorValue) {
                   // }, 400);
 
                   // Highlight
-                  box.classList.add("highlight-outline");
-
-                  setTimeout(() => {
-                        box.classList.remove("highlight-outline");
-                  }, 1200);
+                  if (zoomEffect) {
+                        box.classList.add("highlight-outline");
+                        setTimeout(() => {
+                              box.classList.remove("highlight-outline");
+                        }, 1200);
+                  }
 
                   break;
             }

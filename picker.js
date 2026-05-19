@@ -117,7 +117,7 @@
         // 2. Shades via getMoreShades(color, 10)
         let shadesHtml = "";
         if (window.getMoreShades) {
-            const shadesObj = getMoreShades(hex, 10);
+            const shadesObj = getMoreShades(hex, 20);
             const allShades = [...shadesObj.dark, ...shadesObj.light];
 
             shadesHtml = allShades.map((s, index) => `
@@ -132,21 +132,29 @@
         const hsl = color.toHsl();
         const rgbStr = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
         const hslStr = `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%)`;
+        const textRec = (getContrastColor(hex) == 'white') ? 'White' : 'Black'; // Transform in capitalize
 
         content.innerHTML = `
-            <!-- 4. Re-select Button (Moved to top) -->
+            <!-- Re-select Button -->
             <button class="picker-reselect-btn" onclick="launchEyeDropper()">
                 <ion-icon name="eyedrop-outline"></ion-icon>
                 Pick Another Color
             </button>
 
-            <!-- 1. Color Naming Box -->
+            <!-- Color Naming Box -->
             <div class="picker-name-box" style="background-color: ${hex}; color: ${getContrastColor(hex)}">
-                <h2>${colorName}</h2>
-                <span style="opacity: 0.7; font-weight: 600;">${hex.toUpperCase()}</span>
+                <span style="color: #fff">White Text</span>
+                <span style="color: #fff; filter: drop-shadow(1px 1px 0 #444);">Text with Shadow</span>
+                <span style="color: #000">Black Text</span>
+                <span style="color: #000; filter: drop-shadow(1px 1px 0 #444);">Text with Shadow</span>
+
+                <span class="picker-hex-value">${hex.toUpperCase()}</span>
             </div>
 
-            <!-- 2. Shades Section -->
+
+            <div class="text-rec-box">${textRec} Text Recommended</div>
+
+            <!-- Shades Section -->
             <div class="picker-section">
                 <div class="picker-section-title">Shades Palette</div>
                 <div class="picker-shades-container">
@@ -164,7 +172,7 @@
                 </div>
             </div>
 
-            <!-- 3. Formats Section -->
+            <!-- Formats Section -->
             <div class="picker-section">
                 <div class="picker-section-title">Formats & Actions</div>
                 <div class="picker-formats-list">
