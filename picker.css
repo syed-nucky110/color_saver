@@ -28,6 +28,10 @@
     overflow: hidden;
 }
 
+body.dark-theme.deep-dark .picker-name-box {
+    box-shadow: 0 0 0 1px var(--deep-dark-bordering-clr) !important;
+}
+
 .picker-hex-value {
     position: absolute;
     top: 10px;
@@ -35,6 +39,12 @@
     font-size: 14px;
     opacity: 0.6;
     font-weight: 700;
+    transition: all .5s ease;
+    text-decoration: underline 2px transparent;
+}
+
+.picker-hex-value:hover {
+    text-decoration: underline 2px; /* Automatically got actual color for underline */
 }
 
 .text-rec-box {
@@ -96,7 +106,7 @@
     flex-grow: 1;
     overflow: hidden;
     position: relative;
-    border-radius: 20px;
+    /* border-radius: 20px; */
 }
 
 .shades-slider-wrapper::after,

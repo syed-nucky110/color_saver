@@ -3,6 +3,31 @@ let logo = document.querySelector(".logo");
 
 let isMergeModeOn = false;
 
+let previousColors = JSON.parse(localStorage.getItem('saveColor'));
+
+// window.addEventListener("focus", () => {
+
+//       const currentColors = JSON.parse(localStorage.getItem('saveColor'));
+
+//       if (!isArrayEqual(currentColors, previousColors)) {
+//             previousColors = currentColors;
+//             renderColors();
+//       }
+
+// });
+
+// window.addEventListener("storage", (e) => {
+
+//       if (e.key === "saveColor") {
+//             renderColors();
+//       }
+
+// });
+
+function isArrayEqual(arr1, arr2) {
+      return arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index]);
+}
+
 let sharpSound = document.getElementById('sharp-sound')
 let popupSound = document.getElementById('popup-sound')
 let menuSound = document.getElementById('menu-sound')
@@ -737,6 +762,8 @@ function lockNavbar() {
 
       (localStorage.getItem("screen-size") == "full") ? arrangeDispalycontainerSize() : disarrangeDispalycontainerSize();
       menuIsLocked = true;
+
+      arrangeDispalycontainerSize();
 }
 
 function unlockNavbar() {
@@ -753,6 +780,8 @@ function unlockNavbar() {
 
       disarrangeDispalycontainerSize();
       menuIsLocked = false;
+
+      disarrangeDispalycontainerSize();
 }
 
 menuOptionsBox.addEventListener("click", (event) => {
@@ -842,7 +871,7 @@ function removeFullScreen() {
       screenSizeText.innerText = "Full screen";
       localStorage.setItem("screen-size", "normal");
 
-      disarrangeDispalycontainerSize();
+      // disarrangeDispalycontainerSize();
       restoreContainerSize(); // Restore saved size when exiting fullscreen
 }
 
@@ -3568,10 +3597,14 @@ observer.observe(favColorListContainer);
 let brightnessSlider = document.getElementById("brightness-slider");
 
 brightnessSlider.addEventListener("input", () => {
+      adjustBrightness();
+});
+
+function adjustBrightness() {
       let brightness = brightnessSlider.value;
       document.body.style.filter = `brightness(${brightness}%)`;
       localStorage.setItem("brightness", brightness);
-});
+}
 
 function setBrightness() {
       let brightness = localStorage.getItem("brightness") || 100;
@@ -3751,3 +3784,42 @@ document.addEventListener('DOMContentLoaded', initializeSplashScreen);
 //             }
 //       }
 // });
+
+// ============================================================
+// Deep Dark Mode Toggle — simple body class + settings toggle
+// ============================================================
+const deepDarkModeBtn = document.getElementById('deep-dark-mode-btn');
+const deepDarkModeBtnThumb = deepDarkModeBtn?.querySelector('.thumb');
+const DEEP_DARK_STORAGE_KEY = 'deepDarkMode';
+
+function setDeepDarkMode(enabled, saveState = true) {
+      document.body.classList.toggle('deep-dark', enabled);
+      if (!deepDarkModeBtn) return;
+      deepDarkModeBtnThumb?.classList.toggle('switch-on', enabled);
+      deepDarkModeBtn.style.backgroundColor = enabled ? $accentColor : '';
+      if (saveState) {
+            localStorage.setItem(DEEP_DARK_STORAGE_KEY, enabled ? 'on' : 'off');
+      }
+}
+
+function enableDeepDarkMode(saveState = true) {
+      setDeepDarkMode(true, saveState);
+}
+
+function disableDeepDarkMode(saveState = true) {
+      setDeepDarkMode(false, saveState);
+}
+
+function toggleDeepDarkMode() {
+      setDeepDarkMode(!document.body.classList.contains('deep-dark'));
+}
+
+function initializeDeepDarkMode() {
+      setDeepDarkMode(localStorage.getItem(DEEP_DARK_STORAGE_KEY) === 'on', false);
+}
+
+if (deepDarkModeBtn) {
+      deepDarkModeBtn.addEventListener('click', toggleDeepDarkMode);
+}
+
+document.addEventListener('DOMContentLoaded', initializeDeepDarkMode);

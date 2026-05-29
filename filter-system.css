@@ -23,6 +23,12 @@
     --filter-item-hover: #292929;
 }
 
+body.dark-theme.deep-dark {
+    --filter-frame-bg: #000000;
+    --filter-header-bg: #000000;
+    --filter-sidebar-bg: #000000;
+}
+
 #filter-container {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
@@ -80,6 +86,10 @@
     overflow: hidden;
     box-shadow: 0 0 5px #000;
     transition: all .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body.dark-theme .filter-close-btn {
+    box-shadow: 0 0 0 1px var(--deep-dark-bordering-clr);
 }
 
 .filter-close-btn .close-txt {
@@ -309,6 +319,12 @@
     color: #ffffff;
     border-color: #000000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .filter-chip.active {
+    box-shadow: 0 0 0 1px var(--deep-dark-bordering-clr);
+    /* box-shadow: 0 0 0 1px var(--accent-color);
+    color: var(--accent-color); */
 }
 
 .filter-footer {

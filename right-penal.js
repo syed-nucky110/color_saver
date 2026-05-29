@@ -34,6 +34,13 @@ closeRightPenalBtn.forEach(btn => {
 
 if (openRightPenalBtn) {
     openRightPenalBtn.addEventListener("click", () => {
+        if(!rightPenalWrapper.classList.contains("closed")) {
+            rightPenalWrapper.style.animation = "highlight-1-right-penal 0.5s ease";
+            rightPenalWrapper.addEventListener("animationend", () => {
+                rightPenalWrapper.style.animation = "";
+            }, { once: true });
+            return;    
+        }
         openRightPenal();
     });
 }
@@ -629,8 +636,10 @@ function loadMultishades(color) {
     basicShades.forEach((shade, index) => {
         let multishadesLayout = multishadesColorBoxLayout(shade, index, color, "box-height-90")
         multishadesLayout.dataset.colorsType = "basic";
+
         if (index === 0) multishadesLayout.classList.add("first-shade-box");
         if (index === basicShades.length - 1) multishadesLayout.classList.add("last-shade-box");
+
         multishadesFrameContent.appendChild(multishadesLayout);
     });
 

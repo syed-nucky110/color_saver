@@ -890,6 +890,10 @@ colorInput.addEventListener("input", () => {
 
             const text = document.createElement("span");
 
+            const icon = document.createElement('ion-icon');
+            icon.setAttribute('name', 'download-outline');
+            icon.classList.add('save-clr-icon');
+
             // FORMAT-BASED OUTPUT
             if (isHex) {
                   text.textContent = `#${color.hex.toUpperCase()}`;
@@ -903,6 +907,7 @@ colorInput.addEventListener("input", () => {
 
             item.appendChild(preview);
             item.appendChild(text);
+            item.append(icon);
 
             //     let color = text.textContent.tou
             item.addEventListener("click", () => {

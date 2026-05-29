@@ -148,7 +148,7 @@
                 <span style="color: #000">Black Text</span>
                 <span style="color: #000; filter: drop-shadow(1px 1px 0 #444);">Text with Shadow</span>
 
-                <span class="picker-hex-value">${hex.toUpperCase()}</span>
+                <span class="picker-hex-value" onClick="copyText('${hex.toUpperCase()}')" title="copy" data-underline-clr="${getContrastColor(hex)}">${hex.toUpperCase()}</span>
             </div>
 
 
@@ -181,6 +181,9 @@
                     ${renderFormatRow("HSL", hslStr)}
                 </div>
             </div>
+
+            <!-- Demo preview section using the picked color -->
+            <!-- <div class="demo-preview-section"> -->
         `;
     }
 

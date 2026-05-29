@@ -17,6 +17,11 @@
       container: wrapper/inline-size;
 }
 
+body.dark-theme.deep-dark {
+      --gradient-form-bg-clr: #181818;
+      --gradient-bg: linear-gradient(to bottom, black 70%, #181818);
+}
+
 .gradient-scroll-container {
       height: 100%;
       width: 100%;
@@ -74,7 +79,7 @@
 }
 
 .gradient-color-header {
-      /* background-color: #00000053; */
+      background-color: #00000053;
       backdrop-filter: blur(3px);
       position: sticky;
       top: 0;

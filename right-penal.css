@@ -38,12 +38,33 @@
         background-color var(--theme-mode-transition) ease,
         color var(--theme-mode-transition) ease,
         border-left var(--theme-mode-transition) ease,
-        width .5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        /* width .5s cubic-bezier(0.175, 0.885, 0.32, 1.275), */
+        width .5s ease,
         padding .5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
         border-left-width .5s ease,
         transform .5s ease;
     overflow: hidden;
     /* Critically important for collapsing width */
+}
+
+@keyframes highlight-1-right-penal {
+    0%, 100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(0);
+    }
+}
+
+@keyframes highlight-2-right-penal {
+    0%, 50%, 100% {
+        filter: brightness(1);
+    }
+
+    25%, 75% {
+        filter: brightness(0);
+    }
 }
 
 /* Close state for desktop (shrinking width) */
