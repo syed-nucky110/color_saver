@@ -120,6 +120,7 @@
                                                                   class="ph ph-square-half sidebar-option-icon no-shrink"></i>
                                                             <span title="Tools Panel" class="option-name">Sphare Tools
                                                             </span>
+                                                            <span class="shortcut-tag" style="color: #ffffff !important;">Alt + T</span>
                                                       </div>
                                                 </div>
                                                 <div class="gradient-color-options">
@@ -129,7 +130,7 @@
                                                                   class="no-shrink sidebar-option-icon"></ion-icon>
                                                             <span title="Gradient colors" class="option-name">Gradient
                                                                   Colors</span>
-                                                            <!-- <span class="shortcut-tag">Alt + G</span> -->
+                                                            <span class="shortcut-tag" style="color: #ffffff !important;">Alt + G</span>
                                                       </div>
                                                 </div>
                                                 <div class="delete-color-options">
@@ -372,8 +373,8 @@
 
                         <div class="trash-color-container option-container imp-absolute" id="trash-color-container">
                               <div class="trash-color-box option-box">
-                                    <div class="trash-box-header">
-                                          <div id="trash-heading">
+                                    <div class="trash-box-header option-box-header">
+                                          <div id="trash-heading" class="option-header-heading">
                                                 <ion-icon name="trash-outline"></ion-icon>
                                                 <p>Trash Bin</p>
                                           </div>
@@ -535,6 +536,9 @@
                                           <li><span class="operation">Toggle Gradient colors</span><span class="key">alt
                                                       +
                                                       G</span></li>
+                                          <li><span class="operation">Show Sphare tools</span><span class="key">alt
+                                                      +
+                                                      T</span></li>
                                           <li><span class="operation">Search Color</span><span class="key">shift + alt +
                                                       E</span>
                                           </li>
@@ -667,7 +671,8 @@
                                           <li class="settings-list-item" id="deep-dark-settings-item">
                                                 <div class="setting-text">
                                                       <span class="setting-title">Deep Dark Mode</span>
-                                                      <span class="setting-decs">Dark Pro theme activates in dark mode</span>
+                                                      <span class="setting-decs">Dark Pro theme activates in dark
+                                                            mode</span>
                                                 </div>
                                                 <button class="settings-option-switch" id="deep-dark-mode-btn">
                                                       <span class="thumb"></span>
@@ -1266,22 +1271,22 @@
                   </div>
 
                   <!-- Message container for toast notifications -->
-                  <div id="message-container">
-                        <!-- <div class="message-layout">
-                              <ion-icon name="warning" class="msg-icon"></ion-icon>
-                              <div class="msg-text-area">
-                                    <div class="msg-title">Demo text</div>
-                                    <p class="msg-desc">This is demo notification</p>
-                              </div>
-                              <div class="msg-close-btn">
-                                    <ion-icon name="close-outline"></ion-icon>
+                  <div id="message-container" class="hidden">
+                        <!-- <div class="message-layout-wrapper">
+                              <div class="message-layout">
+                                    <ion-icon name="warning" class="msg-icon"></ion-icon>
+                                    <div class="msg-text-area">
+                                          <div class="msg-title">Demo text</div>
+                                          <p class="msg-desc">This is demo notification</p>
+                                    </div>
+                                    <div class="msg-close-btn">
+                                          <ion-icon name="close-outline"></ion-icon>
+                                    </div>
                               </div>
                         </div> -->
                   </div>
 
-                  <!-- <div class="gradient-selected-color-popup">
-            
-      </div> -->
+                  <!-- <div class="gradient-selected-color-popup"></div> -->
 
                   <audio src="assets/sound/menu.mp3" id="menu-sound" preload="auto"></audio>
                   <audio src="assets/sound/pop-up.mp3" id="popup-sound" preload="auto"></audio>

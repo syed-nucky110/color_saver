@@ -166,7 +166,8 @@ function stopAutoThemeMode() {
       // Only notify and process if it was actually enabled
       if (localStorage.getItem(AUTO_MODE_KEY) === "enable") {
             if (typeof throwMessage === 'function') {
-                  throwMessage("Auto Theme Mode Disabled", "#ffffffff", "moon-outline");
+                  // throwMessage("Auto Theme Mode Disabled", "#ffffffff", "moon-outline");
+                  throwMessage("Theme Updated", "#ffffffff", "moon-outline", "Auto Theme Mode Disabled");
             }
 
             localStorage.setItem(AUTO_MODE_KEY, "disable");

@@ -35,14 +35,18 @@ closeRightPenalBtn.forEach(btn => {
 if (openRightPenalBtn) {
     openRightPenalBtn.addEventListener("click", () => {
         if(!rightPenalWrapper.classList.contains("closed")) {
-            rightPenalWrapper.style.animation = "highlight-1-right-penal 0.5s ease";
-            rightPenalWrapper.addEventListener("animationend", () => {
-                rightPenalWrapper.style.animation = "";
-            }, { once: true });
+            blinkRightPenal();
             return;    
         }
         openRightPenal();
     });
+}
+
+function blinkRightPenal() {
+    rightPenalWrapper.style.animation = "highlight-1-right-penal 0.5s ease";
+    rightPenalWrapper.addEventListener("animationend", () => {
+        rightPenalWrapper.style.animation = "";
+    }, { once: true });
 }
 
 if (multishadesBtn) {
@@ -461,7 +465,7 @@ multishadesFrameContent.addEventListener("click", async (e) => {
 
 async function handleSaveAction(color, btn) {
     if (isColorAvailableInStorage(color)) {
-        throwMessage("Already Saved", "#00ff00", "checkmark-circle-outline");
+        throwMessage("Already Saved", "#00ff00", "alert-circle", "Gradient is already saved")
         saveBtnToSavedState(btn);
         highlightSavedColor(color);
     }

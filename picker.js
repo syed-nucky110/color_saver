@@ -44,6 +44,7 @@
         if (!eyeDropper) {
             if (!window.EyeDropper) {
                 alert("Your browser doesn't support the EyeDropper API. Please use Chrome or Edge.");
+                throwMessage("Unsupported Browser", "#ff0000", "alert-circle", "Please use Chrome or Edge.");
             }
             return;
         }

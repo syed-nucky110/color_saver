@@ -445,7 +445,7 @@ saveGradientBtn.addEventListener("click", () => {
 
       // Check if gradient is already saved to prevent duplicates
       if (isAlreadySavedGradient(schema)) {
-            return throwMessage("Already Saved");
+            return throwMessage("Already Saved", "#00ff00", "alert-circle", "Gradient is already saved");
       }
       saveGradientProcess(schema);
 })
@@ -526,16 +526,16 @@ const processQuickSave = () => {
       const newSchema = createGradientSchema(userInput);
       if (newSchema) {
             if (isAlreadySavedGradient(newSchema)) {
-                  return throwMessage("Already Saved");
+                  return throwMessage("Already Saved", "#00ff00", "alert-circle", "Gradient is already saved");
             }
             saveGradientProcess(newSchema);
             playSound(popupSound);
-            throwMessage("Gradient Saved!", "var(--accent-color)", "checkmark-circle-outline");
+            throwMessage("Gradient Saved!", "var(--accent-color)", "checkmark-circle-outline", "Gradient color saved successfully");
 
             // Reset and close UI fully
             toggleMagicMode(true);
       } else {
-            throwMessage("Invalid Format", "red");
+            throwMessage("Invalid Format", "red", "alert-circle", "Use actual format to save gradient");
       }
 };
 
@@ -551,7 +551,7 @@ quickPasteBtn.addEventListener('click', async () => {
             playSound(typingClickSound);
       } catch (err) {
             console.error('Failed to read clipboard', err);
-            throwMessage("Clipboard Access Denied", "red");
+            throwMessage("Access Denied", "#ff0000", "alert-circle", "You Don't have Clipboard Access");
       }
 });
 

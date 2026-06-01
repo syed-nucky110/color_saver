@@ -237,7 +237,7 @@ muteSoundBtn.addEventListener("click", () => {
 
             // Show feedback
             if (typeof throwMessage === 'function') {
-                  throwMessage("Sound Effects Enabled", "#00ff00", "volume-high-outline");
+                  throwMessage("Unmuted", "#00ff00", "volume-high-outline", "Sound Effects Enabled");
             }
       }
       else {
@@ -249,7 +249,7 @@ muteSoundBtn.addEventListener("click", () => {
 
             // Show feedback
             if (typeof throwMessage === 'function') {
-                  throwMessage("Sound Effects Disabled", "#ff6b35", "volume-mute-outline");
+                  throwMessage("Muted", "#ff6b35", "volume-mute-outline", "Sound Effects Disabled");
             }
       }
 });
@@ -310,18 +310,30 @@ document.addEventListener('keyup', (e) => {
       e.preventDefault();
 
       if (key === 'm') {
-            const mBtn = document.querySelector('.multishades-btn');
+
             return; // stop the function from running
+
+            const mBtn = document.querySelector('.multishades-btn');
             if (mBtn) mBtn.click();
       } else if (key === 's') {
+
+            return; // stop the function from running
+
             if (typeof startSmartPicker === 'function') {
-                  return; // stop the function from running
                   startSmartPicker();
             }
       }
       else if (key === "/") {
             addColorInput.focus();
       }
+      else if(e.altKey && key === 't') {
+            if(!rightPenalWrapper.classList.contains('closed')) {
+                  blinkRightPenal();
+            }
+            else openRightPenal();
+      }
+
+
 });
 
 
@@ -532,7 +544,7 @@ function toggleLayoutOption(layoutType) {
       // Check if Auto Grid View is enabled - if so, disable toggle
       if (localStorage.getItem("autoGridView") === "enable") {
             layoutToggleContainer.classList.add("disabled");
-            throwMessage("First, turn off Auto Grid View")
+            throwMessage("Unable to Use","#ffffff", "alert-circle", "First, turn off Auto Grid View")
             return;
       }
 
@@ -1723,7 +1735,7 @@ function colorSavingProcess(method) {
       }
 
       if (newColor === "") {
-            throwMessage("Please Fill Color First",)
+            throwMessage("Empty", "#ffffff", "alert-circle","Please Fill Color First",)
             return;
       }
 
@@ -1852,7 +1864,7 @@ addColorInput.addEventListener("blur", hideGradientBorder);
 eyeDropperClrPicker.addEventListener("click", async () => {
       // 1. Check if browser supports the API
       if (!window.EyeDropper) {
-            throwMessage("EyeDropper is not supported in this browser.", "#ff4747", "warning-outline");
+            throwMessage("Unable to Use", "#ff4747", "warning-outline", "EyeDropper is not supported in this browser");
             return;
       }
 
@@ -2570,7 +2582,7 @@ function resetFavColorBoxSize() {
       favColorListContainer.style.height = "";
 
       // Show confirmation message
-      throwMessage("Box Size Reset", "#ff6b35", "refresh-outline");
+      throwMessage("Reset", "#ff6b35", "refresh-outline", "Box set at actual size");
 }
 
 let msgBox, textTag;
@@ -2643,7 +2655,7 @@ function OffResizer() {
       localStorage.setItem("favColorBoxH", currentHeight);
 
       // Show confirmation that size was saved
-      throwMessage("Box Size Saved", "#00ff00", "checkmark-circle-outline");
+      throwMessage("Saved", "#00ff00", "checkmark-circle-outline", "New Box size is saved");
 
       showLogo();
 
@@ -2753,6 +2765,7 @@ if (quickPreviewToggleThumb) {
 }
 
 // throwMessage("Error message handling");
+let messageContainer = document.querySelector("#message-container");
 function throwMessage(text, color, icon = "alert-circle-outline", description = undefined) {
 
       playSound(alertSound);
@@ -2762,6 +2775,9 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
             icon = icon.replace("-outline", "");
       }
 
+      let boxWrapper = document.createElement("div");
+      boxWrapper.classList.add("message-layout-wrapper");
+      messageContainer.append(boxWrapper);
       let box = document.createElement("div");
       let textBox = document.createElement("div");
       let msgTitle = document.createElement('div');
@@ -2790,7 +2806,11 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
             box.style.animation = "swipeRight .3s ease";
 
             box.addEventListener("animationend", () => {
-                  box.remove();
+                  // if (box) box.remove();
+                  if (boxWrapper)boxWrapper.remove();
+                  if (messageContainer.children.length === 0) {
+                        messageContainer.classList.add("hidden");
+                  }
             })
       })
 
@@ -2819,18 +2839,30 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
       box.append(setIcon);
       box.append(textBox);
       box.append(closeBtn);
-      document.body.append(box);
-
+      // document.body.append(box);
+      boxWrapper.append(box);
+      if (messageContainer.classList.contains("hidden")) {
+            messageContainer.classList.remove("hidden");
+      }
+      setTimeout(() => {
+            messageContainer.prepend(boxWrapper);
+      }, 20);
+      
       box.style.animation = "swipeDown .3s ease";
 
       let timeoutId;
       let startTime = Date.now();
-      let remainingTime = 5000;
+      let remainingTime = 10000;
 
       const removeMessage = () => {
             box.style.animation = "swipeRight .3s ease";
             box.addEventListener("animationend", () => {
-                  if (box) box.remove();
+                  // if (box) box.remove();
+                  if (boxWrapper) boxWrapper.remove();
+                  if (messageContainer.children.length === 0) {
+                  // if (!messageContainer.contains(boxWrapper)) {
+                        messageContainer.classList.add("hidden");
+                  }
             });
       };
 
@@ -2893,10 +2925,10 @@ async function pasteToInput(inputElement) {
                   showColorIndicator(inputElement.value);
                   return cleanText;
             } else {
-                  throwMessage("No text found in clipboard", "red");
+                  throwMessage("Text not found", "#ff0000", "alert-circle", "No text found in clipboard");
             }
       } catch (err) {
-            throwMessage("Failed to paste from clipboard", "red");
+            throwMessage("Failed", "#ff0000", "alert-circle", "Failed to paste from clipboard");
       }
 }
 
@@ -3016,7 +3048,7 @@ if (emptyTrashBtn) {
       emptyTrashBtn.addEventListener('click', () => {
             const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
             if (trashColors.length === 0) {
-                  throwMessage("Trash is already empty", "#ff6b35");
+                  throwMessage("Empty", "#ff6b35", "alert-circle", "Trash is already empty");
                   trashDropdownMenu.classList.remove('show');
                   return;
             }
@@ -3024,7 +3056,7 @@ if (emptyTrashBtn) {
             localStorage.setItem("trashColors", JSON.stringify([]));
             renderTrashColors();
             isTrashFull();
-            throwMessage("Trash emptied successfully", "#00ff00", "trash-outline");
+            throwMessage("Emptied", "#00ff00", "trash-outline", "Trash emptied successfully");
             trashDropdownMenu.classList.remove('show');
       });
 }
@@ -3033,7 +3065,7 @@ if (restoreAllTrashBtn) {
       restoreAllTrashBtn.addEventListener('click', () => {
             const trashColors = JSON.parse(localStorage.getItem("trashColors")) || [];
             if (trashColors.length === 0) {
-                  throwMessage("No colors to restore", "#ff6b35");
+                  throwMessage("Colors not available", "#ff6b35", "alert-circle", "No any color available to restore");
                   trashDropdownMenu.classList.remove('show');
                   return;
             }
@@ -3059,7 +3091,7 @@ if (restoreAllTrashBtn) {
             if (duplicateCount > 0) {
                   throwMessage(`Restored ${restoredCount} colors (${duplicateCount} were duplicates)`, "#00ff00", "refresh-outline");
             } else {
-                  throwMessage("All colors restored successfully", "#00ff00", "refresh-outline");
+                  throwMessage("Restored", "#00ff00", "refresh-outline", "All colors are restored successfully");
             }
 
             trashDropdownMenu.classList.remove('show');
@@ -3222,7 +3254,7 @@ trashColorsList.addEventListener("click", (event) => {
 
       if (event.target.closest(".revert-color-btn")) {
             if (isColorAvailableInStorage(color)) {
-                  return throwMessage(`${color} is already saved in your storage`);
+                  return throwMessage('Already saved', "#00ff00", 'alert-circle', `${color} Color is already saved in your storage`);
             }
             showSuccessMessage("Restore Successfully!")
             colorMoveToStorageFromTrash(color);
