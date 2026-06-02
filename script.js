@@ -594,6 +594,23 @@ function setSelectedLayoutOption() {
 
 colorPicker.addEventListener("input", (event) => {
       addColorInput.value = colorPicker.value.toUpperCase();
+
+      let res = isColorSaved(addColorInput.value);
+
+      showColorIndicator(addColorInput.value);
+
+      if (res === 'saved color') {
+            showErrorMessage('saved color');
+      }
+      else if (isColorAvailableInTrash(addColorInput.value)) {
+            showErrorMessage('in trash');
+      }
+      else hideErrorMessage();
+
+      const quickPreviewMode = localStorage.getItem("quickPreviewMode") || "off";
+      if (quickPreviewMode === "on") {
+            highlightSavedColor(addColorInput.value);
+      }
 })
 
 window.addEventListener("keyup", (event) => {
