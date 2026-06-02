@@ -3891,6 +3891,14 @@ body.dark-theme.deep-dark ::selection {
 
 .message-layout-wrapper {
       flex-grow: 1;
+      height: 0px;
+      transition: all .3s ease;
+}
+
+.message-layout-wrapper.show {
+      /* min-height: fit-content; */
+      height: 70px;
+      max-height: fit-content;
 }
 
 .message-layout {

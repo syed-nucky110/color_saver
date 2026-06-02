@@ -326,8 +326,8 @@ document.addEventListener('keyup', (e) => {
       else if (key === "/") {
             addColorInput.focus();
       }
-      else if(e.altKey && key === 't') {
-            if(!rightPenalWrapper.classList.contains('closed')) {
+      else if (e.altKey && key === 't') {
+            if (!rightPenalWrapper.classList.contains('closed')) {
                   blinkRightPenal();
             }
             else openRightPenal();
@@ -544,7 +544,7 @@ function toggleLayoutOption(layoutType) {
       // Check if Auto Grid View is enabled - if so, disable toggle
       if (localStorage.getItem("autoGridView") === "enable") {
             layoutToggleContainer.classList.add("disabled");
-            throwMessage("Unable to Use","#ffffff", "alert-circle", "First, turn off Auto Grid View")
+            throwMessage("Unable to Use", "#ffffff", "alert-circle", "First, turn off Auto Grid View")
             return;
       }
 
@@ -1735,7 +1735,7 @@ function colorSavingProcess(method) {
       }
 
       if (newColor === "") {
-            throwMessage("Empty", "#ffffff", "alert-circle","Please Fill Color First",)
+            throwMessage("Empty", "#ffffff", "alert-circle", "Please Fill Color First",)
             return;
       }
 
@@ -2806,8 +2806,12 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
             box.style.animation = "swipeRight .3s ease";
 
             box.addEventListener("animationend", () => {
-                  // if (box) box.remove();
-                  if (boxWrapper)boxWrapper.remove();
+                  if (box) box.remove();
+                  // if (boxWrapper) boxWrapper.remove();
+                  boxWrapper.classList.remove('show');
+                  setTimeout(() => {
+                        if (boxWrapper) boxWrapper.remove();
+                  }, 300);
                   if (messageContainer.children.length === 0) {
                         messageContainer.classList.add("hidden");
                   }
@@ -2840,27 +2844,37 @@ function throwMessage(text, color, icon = "alert-circle-outline", description = 
       box.append(textBox);
       box.append(closeBtn);
       // document.body.append(box);
-      boxWrapper.append(box);
       if (messageContainer.classList.contains("hidden")) {
             messageContainer.classList.remove("hidden");
       }
       setTimeout(() => {
             messageContainer.prepend(boxWrapper);
+            requestAnimationFrame(() => {
+                  boxWrapper.classList.add('show');
+            });
+            setTimeout(() => {
+                  boxWrapper.append(box);
+            }, 50);
       }, 20);
-      
+
       box.style.animation = "swipeDown .3s ease";
 
       let timeoutId;
       let startTime = Date.now();
       let remainingTime = 10000;
 
+      // return;
       const removeMessage = () => {
             box.style.animation = "swipeRight .3s ease";
             box.addEventListener("animationend", () => {
-                  // if (box) box.remove();
-                  if (boxWrapper) boxWrapper.remove();
+                  if (box) box.remove();
+                  // if (boxWrapper) boxWrapper.remove();
+                  boxWrapper.classList.remove('show');
+                  setTimeout(() => {
+                        if (boxWrapper) boxWrapper.remove();
+                  }, 300);
                   if (messageContainer.children.length === 0) {
-                  // if (!messageContainer.contains(boxWrapper)) {
+                        // if (!messageContainer.contains(boxWrapper)) {
                         messageContainer.classList.add("hidden");
                   }
             });
